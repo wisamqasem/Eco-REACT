@@ -224,6 +224,10 @@
     background: $product-card-badge-hot-bg;
     color: $product-card-badge-hot-color;
 }
+.product-card__badge--used {
+    background: $product-card-badge-used-bg;
+    color: $product-card-badge-used-color;
+}
 
 
 .product-card--layout--horizontal {

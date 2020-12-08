@@ -140,6 +140,7 @@ export default [
         children: [
             { type: 'button', label: 'English', data: { type: 'language', locale: 'en' } },
             { type: 'button', label: 'Russian', data: { type: 'language', locale: 'ru' } },
+            { type: 'button', label: 'ARABIC', data: { type: 'language', locale: 'ar' } }
         ],
     },
 ];

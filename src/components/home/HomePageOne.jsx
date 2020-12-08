@@ -106,7 +106,7 @@ function HomePageOne() {
                     title="Bestsellers"
                     layout="large-first"
                     featuredProduct={bestsellers.data[0]}
-                    products={bestsellers.data.slice(1, 7)}
+                   // products={bestsellers.data.slice(1, 7)}
                 />
             ), [bestsellers.data])}
 

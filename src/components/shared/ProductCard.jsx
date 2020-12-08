@@ -49,6 +49,9 @@ function ProductCard(props) {
     if (product.badges.includes('new')) {
         badges.push(<div key="new" className="product-card__badge product-card__badge--new">New</div>);
     }
+    if (product.badges.includes('used')) {
+        badges.push(<div key="used" className="product-card__badge product-card__badge--used">Used</div>);
+    }
 
     badges = badges.length ? <div className="product-card__badges-list">{badges}</div> : null;
 

@@ -9,5 +9,42 @@
   "topbar.language": "Language",
 
   "header.phoneLabel": "Customer Service",
-  "header.phone": "(800) 060-0730"
+  "header.phone": "(800) 060-0730",
+
+  "navbar.home" : "Home",
+  "navbar.megamenu":"megamenu",
+  "navbar.pages":"Pages",
+  "navbar.plogs":"Blogs",
+  "navbar.account":"Account",
+  "navbar.shop":"Shop",
+
+  "sectionName.FeaturedProducts":"Featured Products",
+  "sectionName.Bestsellers":"Bestsellers",
+  "sectionName.PopularCategories":"Popular Categories",
+  "sectionName.NewArrivals":"New Arrivals",
+  "sectionName.LatestNews":"Latest News",
+  "sectionName.TopRatedProducts":"Top Rated Products",
+  "sectionName.SpecialOffers":"Special Offers",
+
+  "footer.Newsletter":"Newsletter",
+  "footer.Information":"Information",
+
+
+
+  "powertools":"Power Tools",
+  "Hand Tools":"Hand Tools",
+  "Machine Tools":"Machine Tools",
+  "Instruments":"Instruments",
+  "Garden Equipment":"Garden Equipment",
+  "Building Supplies":"Building Supplies",
+  "Electrical":"Electrical",
+  "Power Machinery":"Power Machinery",
+  "Measurement":"Measurement",
+  "Clothes & PPE":"Clothes & PPE",
+  "Plumbing":"Plumbing",
+  "Storage & Organization":"Storage & Organization",
+  "Welding & Soldering":"Welding & Soldering"
+
+
+
 }

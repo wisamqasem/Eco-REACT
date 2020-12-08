@@ -5,7 +5,11 @@ import thunk from 'redux-thunk';
 // reducer
 import rootReducer from './rootReducer';
 import version from './version';
-
+import { reduxFirestore, getFirestore, createFirestoreInstance } from 'redux-firestore';
+import { ReactReduxFirebaseProvider, getFirebase } from 'react-redux-firebase';
+import fbConfig from '../fbConfig';
+import firebase from 'firebase/app';
+import { isLoaded } from 'react-redux-firebase';
 function load() {
     let state;
 
@@ -28,7 +32,8 @@ function load() {
 }
 
 const store = createStore(rootReducer, load(), compose(
-    applyMiddleware(thunk),
+    applyMiddleware(thunk.withExtraArgument({ getFirestore, getFirebase })),
+    reduxFirestore(firebase, fbConfig , {attachAuthIsReady: true} )
     // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 ));
 

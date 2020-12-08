@@ -1,6 +1,8 @@
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
 export default [
     {
-        title: 'Home',
+        title:<FormattedMessage id="navbar.home" defaultMessage="Home" />,
         url: '',
         submenu: {
             type: 'menu',
@@ -11,7 +13,7 @@ export default [
         },
     },
     {
-        title: 'Megamenu',
+        title: <FormattedMessage id="navbar.megamenu" defaultMessage="megameu" />,
         url: '',
         submenu: {
             type: 'megamenu',
@@ -77,7 +79,7 @@ export default [
         },
     },
     {
-        title: 'Shop',
+        title: <FormattedMessage id="navbar.shop" defaultMessage="Shop" />,
         url: '/shop/category-grid-3-columns-sidebar',
         submenu: {
             type: 'menu',
@@ -112,7 +114,7 @@ export default [
         },
     },
     {
-        title: 'Account',
+        title: <FormattedMessage id="navbar.account" defaultMessage="Account" />,
         url: '/account',
         submenu: {
             type: 'menu',
@@ -129,7 +131,7 @@ export default [
         },
     },
     {
-        title: 'Blog',
+        title: <FormattedMessage id="navbar.blogs" defaultMessage="Blog" />,
         url: '/blog/category-classic',
         submenu: {
             type: 'menu',
@@ -144,7 +146,7 @@ export default [
         },
     },
     {
-        title: 'Pages',
+        title: <FormattedMessage id="navbar.pages" defaultMessage="Pages" />,
         url: '/site/about-us',
         submenu: {
             type: 'menu',
@@ -159,13 +161,13 @@ export default [
                 { title: 'Typography', url: '/site/typography' },
             ],
         },
-    },
-    {
-        title: 'Buy Theme',
-        url: 'https://themeforest.net/item/stroyka-tools-store-react-ecommerce-template/23909258',
-        props: {
-            external: true,
-            target: '_blank',
-        },
-    },
+    }
+    // {
+    //     title: 'Buy Theme',
+    //     url: 'https://themeforest.net/item/stroyka-tools-store-react-ecommerce-template/23909258',
+    //     props: {
+    //         external: true,
+    //         target: '_blank',
+    //     },
+    // },
 ];

@@ -70,6 +70,29 @@ const attributesDef = [
 
 const productsDef = [
     {
+        slug: 'wisam',
+        name: 'wisam qasem product',
+        price: 1000,
+        images: [
+            'https://lallahoriye.com.tirzee.com/wp-content/uploads/2019/04/Product_Lg_Type.jpg',
+            'https://hbr.org/resources/images/article_assets/2019/11/Nov19_14_sb10067951dd-001.jpg',
+        ],
+        badges: 'new',
+        rating: 4,
+        reviews: 12,
+        availability: 'in-stock',
+        brand: 'brandix',
+        categories: ['screwdrivers'],
+        attributes: [
+            { slug: 'color', values: 'yellow' },
+            { slug: 'speed', values: '750-rpm', featured: true },
+            { slug: 'power-source', values: 'cordless-electric', featured: true },
+            { slug: 'battery-cell-type', values: 'lithium', featured: true },
+            { slug: 'voltage', values: '20-volts', featured: true },
+            { slug: 'battery-capacity', values: '2-Ah', featured: true },
+        ],
+    },
+    {
         slug: 'electric-planer-brandix-kl370090g-300-watts',
         name: 'Electric Planer Brandix KL370090G 300 Watts',
         price: 749,

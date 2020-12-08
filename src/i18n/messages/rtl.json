@@ -1,13 +1,19 @@
 {
   "topbar.aboutUs": "من نحن",
-  "topbar.contacts": "Contacts",
-  "topbar.storeLocation": "Store Location",
-  "topbar.trackOrder": "Track Order",
-  "topbar.blog": "Blog",
-  "topbar.myAccount": "My Account",
-  "topbar.currency": "Currency",
-  "topbar.language": "Language",
+  "topbar.contacts": "تواصل معنا",
+  "topbar.storeLocation": "الموقع",
+  "topbar.trackOrder": "تعقب المنتج",
+  "topbar.blog": "المدونه",
+  "topbar.myAccount": "حسابي",
+  "topbar.currency": "العمله",
+  "topbar.language": "اللغه",
 
-  "header.phoneLabel": "Customer Service",
-  "header.phone": "02.531.9999"
+  "header.phoneLabel": "خدمة العملاء",
+  "header.phone": "02.531.9999",
+  "navbar.home":"الصفحه الرئيسيه",
+  "navbar.megamenu":"megamenu",
+  "navbar.pages":"الصفاحات",
+  "navbar.blogs":"المدوانات",
+  "navbar.account":"حسابي",
+  "navbar.shop":"المتجر"
 }

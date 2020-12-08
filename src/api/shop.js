@@ -97,7 +97,7 @@ const shopApi = {
         /**
          * This is what your API endpoint might look like:
          *
-         * https://example.com/api/shop/products/screwdriver-a2017/related.json&limit=3
+         * https://example.com/api/screwdriver-a2017/related.json&limit=3
          *
          * where:
          * - screwdriver-a2017 = slug

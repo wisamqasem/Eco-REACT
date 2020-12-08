@@ -8,6 +8,12 @@
   "topbar.currency": "Валюта",
   "topbar.language": "Язык",
 
-  "header.phoneLabel": "Звонок бесплатный",
-  "header.phone": "(800) 060-0730"
+  "header.phoneLabel": "Customer Service",
+  "header.phone": "(800) 060-0730",
+  "navbar.home" : "Home",
+  "navbar.megamenu":"megamenu",
+  "navbar.pages":"Pages",
+  "navbar.plogs":"Blogs",
+  "navbar.account":"Account",
+  "navbar.shop":"Shop"
 }

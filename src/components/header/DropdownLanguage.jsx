@@ -28,9 +28,9 @@ function DropdownLanguage(props) {
             icon_srcset: 'images/languages/language-2.png 1x, images/languages/language-2@2x.png 2x',
         },
         {
-            title: 'RTL',
+            title: 'ARABIC',
             locale: 'ar',
-            code: 'RTL',
+            code: 'AR',
             icon: 'images/languages/language-3.png',
             icon_srcset: 'images/languages/language-3.png 1x, images/languages/language-3@2x.png 2x',
         },

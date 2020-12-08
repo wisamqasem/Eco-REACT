@@ -20,7 +20,7 @@ function Header(props) {
         bannerSection = (
             <div className="site-header__middle container">
                 <div className="site-header__logo">
-                    <Link to="/"><LogoSvg /></Link>
+                    <Link to="/">Wisam Qasem<LogoSvg /></Link>
                 </div>
                 <div className="site-header__search">
                     <Search context="header" />

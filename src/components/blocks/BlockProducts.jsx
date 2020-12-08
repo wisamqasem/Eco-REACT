@@ -7,6 +7,9 @@ import PropTypes from 'prop-types';
 // application
 import BlockHeader from '../shared/BlockHeader';
 import ProductCard from '../shared/ProductCard';
+import { connect } from 'react-redux'
+import { firestoreConnect } from 'react-redux-firebase'
+import { compose } from 'redux'
 
 export default function BlockProducts(props) {
     const {
@@ -16,6 +19,8 @@ export default function BlockProducts(props) {
         products,
     } = props;
 
+   // const { products} = props;
+   console.log("product : ",products);
     let large;
     let smalls;
 
@@ -29,6 +34,7 @@ export default function BlockProducts(props) {
         );
     }
 
+    // here pro ~~~~~
     if (products.length > 0) {
         const productsList = products.slice(0, 6).map((product, index) => (
             <div key={index} className="block-products__list-item">
@@ -57,6 +63,31 @@ export default function BlockProducts(props) {
         </div>
     );
 }
+
+
+
+
+// get the data from firebase -------------------------------
+const mapStateToProps = (state) => {
+     console.log(state);
+    return {
+      products: state.firestore.ordered.products
+      //auth: state.firebase.auth
+    }
+  }
+
+   compose(
+    connect(mapStateToProps),
+    firestoreConnect([
+      { collection: 'products' }
+    ])
+  )(BlockProducts)
+
+
+
+
+//------------------------------------------------------------
+
 
 BlockProducts.propTypes = {
     title: PropTypes.string.isRequired,

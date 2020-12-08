@@ -9,7 +9,7 @@ export default [
                 size: 'xl',
                 image: {
                    // ltr: 'images/megamenu/megamenu-1-ltr.jpg',
-                    rtl: 'images/megamenu/megamenu-1-rtl.jpg',
+                  //  rtl: 'images/megamenu/megamenu-1-rtl.jpg',
                 },
                 columns: [
                     {
@@ -106,7 +106,7 @@ export default [
                 size: 'lg',
                 image: {
                  //   ltr: 'images/megamenu/megamenu-2-ltr.jpg',
-                    rtl: 'images/megamenu/megamenu-2-rtl.jpg',
+                  //  rtl: 'images/megamenu/megamenu-2-rtl.jpg',
                 },
                 columns: [
                     {
@@ -181,7 +181,7 @@ export default [
                 size: 'nl',
                 image: {
                    // ltr: 'images/megamenu/megamenu-3-ltr.jpg', // machine tools - shop by catogriy
-                    rtl: 'images/megamenu/megamenu-3-rtl.jpg',
+                   // rtl: 'images/megamenu/megamenu-3-rtl.jpg',
                 },
                 columns: [
                     {
