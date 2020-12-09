@@ -10,6 +10,15 @@ import * as serviceWorker from './serviceWorker';
 import Root from './components/Root';
 import store from './store';
 
+
+import firebase from 'firebase/app'
+import fbConfig from './fbConfig'
+import { reduxFirestore, getFirestore, createFirestoreInstance } from 'redux-firestore'
+import { ReactReduxFirebaseProvider, getFirebase } from 'react-redux-firebase'
+
+
+import Dashboard from './fake-server/database/Dashboard'
+
 // styles
 import 'slick-carousel/slick/slick.css';
 import 'react-toastify/dist/ReactToastify.min.css';
@@ -17,10 +26,29 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'react-input-range/lib/css/index.css';
 import './scss/style.scss';
 
+
+
+
+const rrfProps = {
+    firebase,
+    config: fbConfig,
+    dispatch: store.dispatch,
+    createFirestoreInstance,
+    userProfile: 'users', // where profiles are stored in database
+    presence: 'presence', // where list of online users is stored in database
+    sessions: 'sessions'
+  };
+
+
+
 ReactDOM.render((
     // eslint-disable-next-line react/jsx-filename-extension
     <Provider store={store}>
-        <Root />
+    <ReactReduxFirebaseProvider {...rrfProps}>
+<Dashboard/>
+    <Root />
+    </ReactReduxFirebaseProvider>
+
     </Provider>
 ), document.getElementById('root'));
 

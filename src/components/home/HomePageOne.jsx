@@ -19,12 +19,19 @@ import BlockProducts from '../blocks/BlockProducts';
 import BlockProductsCarousel from '../blocks/BlockProductsCarousel';
 import BlockSlideShow from '../blocks/BlockSlideShow';
 
+//import Dashboard from '../../fake-server/database/Dashboard'
 // data stubs
 import categories from '../../data/shopBlockCategories';
 import posts from '../../data/blogPosts';
 import theme from '../../data/theme';
 
 function HomePageOne() {
+
+
+
+
+
+
     /**
      * Featured products.
      */
@@ -101,12 +108,15 @@ function HomePageOne() {
 
             {useMemo(() => <BlockBanner />, [])}
 
+
+
             {useMemo(() => (
+
                 <BlockProducts
                     title="Bestsellers"
                     layout="large-first"
                     featuredProduct={bestsellers.data[0]}
-                   // products={bestsellers.data.slice(1, 7)}
+                    products={bestsellers.data.slice(1, 7)}
                 />
             ), [bestsellers.data])}
 

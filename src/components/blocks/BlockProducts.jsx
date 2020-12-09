@@ -11,7 +11,9 @@ import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 
+
 export default function BlockProducts(props) {
+
     const {
         title,
         layout,
@@ -20,7 +22,7 @@ export default function BlockProducts(props) {
     } = props;
 
    // const { products} = props;
-   console.log("product : ",products);
+  // console.log("product : ",products);
     let large;
     let smalls;
 
@@ -67,21 +69,6 @@ export default function BlockProducts(props) {
 
 
 
-// get the data from firebase -------------------------------
-const mapStateToProps = (state) => {
-     console.log(state);
-    return {
-      products: state.firestore.ordered.products
-      //auth: state.firebase.auth
-    }
-  }
-
-   compose(
-    connect(mapStateToProps),
-    firestoreConnect([
-      { collection: 'products' }
-    ])
-  )(BlockProducts)
 
 
 

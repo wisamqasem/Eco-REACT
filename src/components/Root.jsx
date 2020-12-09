@@ -90,6 +90,7 @@ Root.propTypes = {
 
 const mapStateToProps = (state) => ({
     locale: state.locale,
+
 });
 
 const mapDispatchToProps = {

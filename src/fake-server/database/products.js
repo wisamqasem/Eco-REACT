@@ -1,6 +1,8 @@
+import React from 'react';
 import { makeIdGenerator } from '../utils';
 import brandsData from './brands';
 import { categoriesListData, prepareCategory } from './categories';
+//import Dashboard from './Dashboard';
 
 const getId = makeIdGenerator();
 
@@ -68,7 +70,30 @@ const attributesDef = [
     },
 ];
 
-const productsDef = [
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var productsDef = [
     {
         slug: 'wisam',
         name: 'wisam qasem product',
@@ -453,8 +478,12 @@ const productsDef = [
     },
 ];
 
+//console.log("all products : ",productsDef);
+
 const productsData = productsDef.map((productDef) => {
     let badges = [];
+
+
 
     if (productDef.badges) {
         badges = typeof productDef.badges === 'string' ? [productDef.badges] : productDef.badges;
@@ -523,5 +552,8 @@ const productsData = productsDef.map((productDef) => {
         customFields: {},
     };
 });
+
+
+
 
 export default productsData;
