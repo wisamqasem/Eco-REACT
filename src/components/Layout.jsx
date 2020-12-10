@@ -38,6 +38,9 @@ import SitePageTypography from './site/SitePageTypography';
 
 // data stubs
 import theme from '../data/theme';
+import createProduct from './createProduct';
+
+
 
 const categoryLayouts = [
     ['/shop/category-grid-3-columns-sidebar', { columns: 3, viewMode: 'grid', sidebarPosition: 'start' }],
@@ -98,6 +101,9 @@ function Layout(props) {
                         // Home
                         */}
                         <Route exact path={`${match.path}`} component={homeComponent} />
+
+                        {/* create product */}
+                        <Route  path='/createProduct' component={createProduct} />
 
                         {/*
                         // Shop

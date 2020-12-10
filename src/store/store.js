@@ -7,7 +7,7 @@ import rootReducer from './rootReducer';
 import version from './version';
 import { reduxFirestore, getFirestore, createFirestoreInstance } from 'redux-firestore';
 import { ReactReduxFirebaseProvider, getFirebase } from 'react-redux-firebase';
-import fbConfig from '../fbConfig';
+import fbConfig from '../config/fbConfig';
 import firebase from 'firebase/app';
 import { isLoaded } from 'react-redux-firebase';
 function load() {

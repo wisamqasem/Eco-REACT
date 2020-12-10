@@ -12,7 +12,7 @@ import store from './store';
 
 
 import firebase from 'firebase/app'
-import fbConfig from './fbConfig'
+import fbConfig from './config/fbConfig'
 import { reduxFirestore, getFirestore, createFirestoreInstance } from 'redux-firestore'
 import { ReactReduxFirebaseProvider, getFirebase } from 'react-redux-firebase'
 
@@ -45,7 +45,7 @@ ReactDOM.render((
     // eslint-disable-next-line react/jsx-filename-extension
     <Provider store={store}>
     <ReactReduxFirebaseProvider {...rrfProps}>
-<Dashboard/>
+    <Dashboard/>
     <Root />
     </ReactReduxFirebaseProvider>
 

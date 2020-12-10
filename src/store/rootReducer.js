@@ -13,7 +13,7 @@ import wishlistReducer from './wishlist';
 import productReducer from './products/productReducer';
 import { firestoreReducer } from 'redux-firestore';
 import { firebaseReducer } from 'react-redux-firebase';
-
+import uploadImagesReducer from './images/uploadImagesReducer'
 export default combineReducers({
     version: (state = version) => state,
     cart: cartReducer,
@@ -26,5 +26,6 @@ export default combineReducers({
     wishlist: wishlistReducer,
     product:productReducer,
     firestore: firestoreReducer,
-    firebase: firebaseReducer
+    firebase: firebaseReducer,
+    image: uploadImagesReducer,
 });
