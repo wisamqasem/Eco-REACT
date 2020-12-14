@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { uploadImage, getData } from "../store/images/uploadImagesAction";
+import createProduct from '../store/products/productAction'
 //import Spinner from "../helpers/Spinner";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
@@ -9,8 +10,8 @@ class MainComponent extends Component {
     super();
     this.state = {
       error: null,
-      percent: 0,
-      showProgress: null,
+    //   percent: 0,
+    //   showProgress: null,
       image: null
     };
   }
@@ -50,6 +51,13 @@ class MainComponent extends Component {
       this.state.file.type === "image/png" ||
       this.state.file.type === "image/jpg"
     ) {
+
+
+
+
+
+
+this.props.createProduct();
       this.props.uploadImage(this.state.file);
     } else {
       alert("Please provide a valid image. (JPG, JPEG or PNG)");
@@ -128,6 +136,7 @@ class MainComponent extends Component {
                               />
                </div>
 </div>
+
       );
 
   }
@@ -144,12 +153,13 @@ const mapStateToProps = ({ image }) => ({
 //    image: null
 });
 
-const mapDispatchToProps = {
-  uploadImage,
-  getData
-};
+// const mapDispatchToProps = {
+//   uploadImage,
+//   getData,
+
+// };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+ // mapDispatchToProps
 )(withRouter(MainComponent));

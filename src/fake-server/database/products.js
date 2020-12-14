@@ -105,7 +105,7 @@ var productsDef = [
         badges: 'new',
         rating: 4,
         reviews: 12,
-        availability: 'in-stock',
+        availability: 'in-stockkoko',
         brand: 'brandix',
         categories: ['screwdrivers'],
         attributes: [

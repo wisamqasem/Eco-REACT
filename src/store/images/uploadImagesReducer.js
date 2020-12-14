@@ -37,8 +37,7 @@ export default function(state = initialState, action) {
     case UPLOADING:
       return {
         ...state,
-        percent: action.payload,
-        showProgress: true
+
       };
 
     case GET_DATA:
