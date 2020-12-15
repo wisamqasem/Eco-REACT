@@ -4,6 +4,7 @@ import { createProduct } from '../store/products/productAction'
 import { Redirect } from 'react-router-dom'
 import MainComponent from './MainComponent'
 import { uploadImage, getData } from "../store/images/uploadImagesAction";
+import ReactDOM from 'react-dom';
 
 
 class CreateProduct extends Component {
@@ -21,8 +22,9 @@ class CreateProduct extends Component {
   rating:null,
   reviews:null,
   slug:null,
-  images:[]
-
+  images:[],
+  imagesUploaded: [],
+  selectImageBtn:"select image"
 
   }
   componentDidMount() {
@@ -31,6 +33,7 @@ class CreateProduct extends Component {
 
   fileInputRef = React.createRef();
 
+    changeText = (text) => this.state.selectImageBtn="add more images";
   onFormSubmit = e => {
     e.preventDefault(); // Stop form submit
 
@@ -96,6 +99,25 @@ console.log("images : ",this.state.images);
       };
       imageObject.src = localImageUrl;
     }
+const imageUploadedIcon = ( <div  className={`alert alert-success `}
+><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="green" className="bi bi-check2-circle green-text" viewBox="0 0 16 16">
+<path fillRule="evenodd" d="M15.354 2.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L8 9.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+<path fillRule="evenodd" d="M8 2.5A5.5 5.5 0 1 0 13.5 8a.5.5 0 0 1 1 0 6.5 6.5 0 1 1-3.25-5.63.5.5 0 1 1-.5.865A5.472 5.472 0 0 0 8 2.5z"/>
+</svg></div>);
+
+this.state.imagesUploaded.push(imageUploadedIcon);
+
+
+
+
+
+
+
+
+
+
+
+
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -132,6 +154,7 @@ console.log("images : ",this.state.images);
   render() {
 
     const { image} = this.state;
+
   //  console.log("image : ",image);
 
 
@@ -224,23 +247,13 @@ console.log("images : ",this.state.images);
          <img id="myImg" src="#" alt="your image" height='200' width='100'></img> */}
          <div >
               <div className="form-group">
-              <div className="form-group">
-              <button type="button" className={`btn btn-primary btn-lg`}  onClick={() =>
-                                  this.fileInputRef.current.click()
-                                }>Select Image</button>
-                                {' '}
-              <button type="button" className={`btn btn-primary btn-lg`}  onClick={() =>
-                                  this.fileInputRef.current.click()
-                                }>Select Image</button></div>
-                                 <div className="form-group"></div>
-                                 <div className="form-group">
-              <button type="button" className={`btn btn-primary btn-lg`}  onClick={() =>
-                                  this.fileInputRef.current.click()
-                                }>Select Image</button>
-                                {' '}
-                              <button type="button" className={`btn btn-primary btn-lg`}  onClick={() =>
-                                  this.fileInputRef.current.click()
-                                }>Select Image</button></div>
+
+                                 <div className="form-group" >
+<div className={"row-reverse "}>
+                                 {this.state.imagesUploaded.map((icon,i)=>{return <div  key={i}>{icon}</div>})}</div>
+                              <button type="button" id="selctImageBtn" className={`btn btn-primary btn-lg`}  onClick={() =>{
+                                  this.fileInputRef.current.click();this.changeText("add more images")}
+                                }>{this.state.selectImageBtn}</button></div>
                                 {' '}
                               <button type="button" className={`btn btn-primary btn-lg`}  onClick={this.onFormSubmit}>Upload</button>
                               <input
