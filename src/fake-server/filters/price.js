@@ -1,5 +1,6 @@
 import AbstractFilterBuilder from './abstract';
 import productsData from '../database/products';
+//import productsData from '../database/Dashboard';
 
 export default class RangeFilterBuilder extends AbstractFilterBuilder {
     min;

@@ -1,6 +1,7 @@
+import React, { Component } from 'react'
 import { storageRef } from "../../config/fbConfig";
 import { connect } from 'react-redux';
-import CreateProduct from '../../components/createProduct'
+import { Redirect } from 'react-router-dom'
 import {
     UPLOADING_START,
     UPLOADING_SUCCESS,
@@ -55,6 +56,7 @@ if(imagesNum==count){ resolve(imagesUrl);}
 
                     dispatch({ type: UPLOADING_SUCCESS });
 
+
                 }
               )
             }
@@ -108,7 +110,7 @@ if(imagesNum==count){ resolve(imagesUrl);}
         compareAtPrice:product.compareAtPrice,
         rating:product.rating,
         reviews:product.reviews,
-        slug:product.slug,
+        slug:product.name,
         categories:product.categories,
         images:value
     }).then(() => {

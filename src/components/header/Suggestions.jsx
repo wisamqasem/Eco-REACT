@@ -23,7 +23,7 @@ function Suggestions(props) {
     const rootClasses = classNames(`suggestions suggestions--location--${context}`, className);
 
     const list = (products && products.map((product) => (
-        <li key={product.id} className="suggestions__item">
+        <li key={ product.createTime} className="suggestions__item">
             {product.images && product.images.length > 0 && (
                 <div className="suggestions__item-image product-image">
                     <div className="product-image__body">

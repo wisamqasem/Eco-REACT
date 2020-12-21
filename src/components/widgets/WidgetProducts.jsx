@@ -40,7 +40,7 @@ function WidgetProducts(props) {
         }
 
         return (
-            <div key={product.id} className="widget-products__item">
+            <div key={ product.createTime} className="widget-products__item">
                 {image}
                 <div className="widget-products__info">
                     <div className="widget-products__name">

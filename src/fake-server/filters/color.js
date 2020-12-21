@@ -1,5 +1,6 @@
 import AbstractFilterBuilder from './abstract';
 import productsData from '../database/products';
+//import productsData from '../database/Dashboard';
 
 const colors = [
     { slug: 'white', color: '#fff' },

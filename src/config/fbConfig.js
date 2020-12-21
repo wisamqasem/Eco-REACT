@@ -17,7 +17,7 @@ import 'firebase/storage';
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
-  firebase.firestore();
+//   firebase.firestore();
   //firebase.firestore().settings({ timestampsInSnapshots: true });
 
 

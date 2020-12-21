@@ -13,7 +13,7 @@ export default function BlockProductColumns(props) {
 
     const columnsList = columns.map((column, index) => {
         const products = column.products.map((product) => (
-            <div key={product.id} className="block-product-columns__item">
+            <div key={product.createTime} className="block-product-columns__item">
                 <ProductCard product={product} layout="horizontal" />
             </div>
         ));

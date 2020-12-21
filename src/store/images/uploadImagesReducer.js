@@ -17,22 +17,20 @@ export default function(state = initialState, action) {
   switch (action.type) {
     case UPLOADING_START:
       return {
-        ...state,
-        percent: 0,
-        showProgress: true
+        ...state
+
       };
     case UPLOADING_SUCCESS:
       return {
         ...state,
-        error: false,
-        percent: null,
-        showProgress: false
+        error: false
+
       };
     case UPLOADING_FAIL:
       return {
         ...state,
-        error: action.payload,
-        showProgress: false
+        error: action.payload
+
       };
     case UPLOADING:
       return {

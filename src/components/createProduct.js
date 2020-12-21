@@ -26,6 +26,7 @@ class CreateProduct extends Component {
   imagesUploaded: [],
   selectImageBtn:"select image"
 
+
   }
   componentDidMount() {
     this.props.getData();
@@ -36,6 +37,8 @@ class CreateProduct extends Component {
     changeText = (text) => this.state.selectImageBtn="add more images";
   onFormSubmit = e => {
     e.preventDefault(); // Stop form submit
+
+
 
     //validating the file
     //check if the file is exists
@@ -57,6 +60,7 @@ class CreateProduct extends Component {
     // }
 
     //check if the file is an image
+    try{
     if (
       this.state.file.type === "image/jpeg" ||
       this.state.file.type === "image/png" ||
@@ -66,17 +70,13 @@ class CreateProduct extends Component {
 
 
 
-
-
-
-
-
-
 this.props.createProduct(this.state);
+this.props.history.push('/')
      // this.props.uploadImage(this.state.file);
     } else {
       alert("Please provide a valid image. (JPG, JPEG or PNG)");
     }
+}catch(e){      alert("No image is selected!"); return;}
   };
 
 
@@ -154,7 +154,7 @@ this.state.imagesUploaded.push(imageUploadedIcon);
   render() {
 
     const { image} = this.state;
-
+    const { loading } = this.state;
   //  console.log("image : ",image);
 
 
@@ -222,11 +222,7 @@ this.state.imagesUploaded.push(imageUploadedIcon);
         <label htmlFor="input-default">Reviews</label>
         <input  type="text" className="form-control" placeholder="Placeholder" id='reviews' onChange={this.handleChange}/>
 </div>
-<div className="form-group">
-        <label htmlFor="input-default">Slug</label>
-        <input  type="text" className="form-control" placeholder="Placeholder" id='slug' onChange={this.handleChange}/>
 
-    </div>
     <div className="form-group">
          <label htmlFor="select-default">Categories</label>
          <select id="categories" className="form-control"  onChange={this.handleChange}>
@@ -254,8 +250,8 @@ this.state.imagesUploaded.push(imageUploadedIcon);
                               <button type="button" id="selctImageBtn" className={`btn btn-primary btn-lg`}  onClick={() =>{
                                   this.fileInputRef.current.click();this.changeText("add more images")}
                                 }>{this.state.selectImageBtn}</button></div>
-                                {' '}
-                              <button type="button" className={`btn btn-primary btn-lg`}  onClick={this.onFormSubmit}>Upload</button>
+                                {' '} <button type="button" className={"btn btn-primary  btn-lg"}  onClick={this.onFormSubmit} >Upload</button>
+
                               <input
                                 type="file"
                                 ref={this.fileInputRef}

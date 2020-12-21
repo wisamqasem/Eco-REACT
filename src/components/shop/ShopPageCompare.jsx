@@ -59,7 +59,7 @@ function ShopPageCompare(props) {
             }
 
             return (
-                <td key={product.id}>
+                <td key={ product.createTime}>
                     <Link to={url.product(product)} className="compare-table__product-link">
                         {image}
                         <div className="compare-table__product-name">{product.name}</div>
@@ -69,7 +69,7 @@ function ShopPageCompare(props) {
         });
 
         const ratingRow = products.map((product) => (
-            <td key={product.id}>
+            <td key={ product.createTime}>
                 <div className="compare-table__product-rating">
                     <Rating value={product.rating} />
                 </div>
@@ -86,11 +86,11 @@ function ShopPageCompare(props) {
                 badge = <span className="compare-table__product-badge badge badge-success">In Stock</span>;
             }
 
-            return <td key={product.id}>{badge}</td>;
+            return <td key={ product.createTime}>{badge}</td>;
         });
 
         const priceRow = products.map((product) => (
-            <td key={product.id}>
+            <td key={ product.createTime}>
                 <Currency value={product.price} />
             </td>
         ));
@@ -105,7 +105,7 @@ function ShopPageCompare(props) {
             };
 
             return (
-                <td key={product.id}>
+                <td key={ product.createTime}>
                     <AsyncAction
                         action={() => cartAddItem(product)}
                         render={renderButton}
@@ -116,7 +116,7 @@ function ShopPageCompare(props) {
 
         const attributeRows = attributes.map((feature, index) => {
             const rows = products.map((product) => (
-                <td key={product.id}>{feature.values[product.id]}</td>
+                <td key={ product.createTime}>{feature.values[product.id]}</td>
             ));
 
             return (
@@ -137,7 +137,7 @@ function ShopPageCompare(props) {
             };
 
             return (
-                <td key={product.id}>
+                <td key={ product.createTime}>
                     <AsyncAction
                         action={() => compareRemoveItem(product.id)}
                         render={renderButton}

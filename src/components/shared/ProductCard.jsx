@@ -20,13 +20,14 @@ import { wishlistAddItem } from '../../store/wishlist';
 
 function ProductCard(props) {
     const {
-        product,
+
         layout,
         quickviewOpen,
         cartAddItem,
         wishlistAddItem,
         compareAddItem,
     } = props;
+    const product = props.product.fields;
     const containerClasses = classNames('product-card', {
         'product-card--layout--grid product-card--size--sm': layout === 'grid-sm',
         'product-card--layout--grid product-card--size--nl': layout === 'grid-nl',
@@ -40,26 +41,32 @@ function ProductCard(props) {
     let price;
     let features;
 
-    if (product.badges.includes('sale')) {
+try {
+    if (product.badges['stringValue'].includes('sale')) {
         badges.push(<div key="sale" className="product-card__badge product-card__badge--sale">Sale</div>);
     }
-    if (product.badges.includes('hot')) {
+
+} catch (error) {
+    console.log("the product : ",product);
+}
+
+    if (product.badges['stringValue'].includes('hot')) {
         badges.push(<div key="hot" className="product-card__badge product-card__badge--hot">Hot</div>);
     }
-    if (product.badges.includes('new')) {
+    if (product.badges['stringValue'].includes('new')) {
         badges.push(<div key="new" className="product-card__badge product-card__badge--new">New</div>);
     }
-    if (product.badges.includes('used')) {
+    if (product.badges['stringValue'].includes('used')) {
         badges.push(<div key="used" className="product-card__badge product-card__badge--used">Used</div>);
     }
 
     badges = badges.length ? <div className="product-card__badges-list">{badges}</div> : null;
 
-    if (product.images && product.images.length > 0) {
+    if (product.images.arrayValue.values && product.images.arrayValue.values.length > 0) {
         image = (
             <div className="product-card__image product-image">
                 <Link to={url.product(product)} className="product-image__body">
-                    <img className="product-image__img" src={product.images[0]} alt="" />
+                    <img className="product-image__img" src={product.images.arrayValue.values[0].stringValue} alt="" />
                 </Link>
             </div>
         );
@@ -68,9 +75,9 @@ function ProductCard(props) {
     if (product.compareAtPrice) {
         price = (
             <div className="product-card__prices">
-                <span className="product-card__new-price"><Currency value={product.price} /></span>
+                <span className="product-card__new-price"><Currency value={parseInt(product.price['stringValue'])} /></span>
                 {' '}
-                <span className="product-card__old-price"><Currency value={product.compareAtPrice} /></span>
+                <span className="product-card__old-price"><Currency value={parseInt(product.compareAtPrice['stringValue'])} /></span>
             </div>
         );
     } else {
@@ -94,7 +101,7 @@ function ProductCard(props) {
     return (
         <div className={containerClasses}>
             <AsyncAction
-                action={() => quickviewOpen(product.slug)}
+                action={() => quickviewOpen(product.slug.stringValue)}
                 render={({ run, loading }) => (
                     <button
                         type="button"
@@ -111,11 +118,11 @@ function ProductCard(props) {
             {image}
             <div className="product-card__info">
                 <div className="product-card__name">
-                    <Link to={url.product(product)}>{product.name}</Link>
+                    <Link to={url.product(product)}>{product.name['stringValue']}</Link>
                 </div>
                 <div className="product-card__rating">
-                    <Rating value={product.rating} />
-                    <div className=" product-card__rating-legend">{`${product.reviews} Reviews`}</div>
+                    <Rating value={parseInt(product.rating['stringValue'])} />
+                    <div className=" product-card__rating-legend">{`${product.reviews['stringValue']} Reviews`}</div>
                 </div>
                 {features}
             </div>

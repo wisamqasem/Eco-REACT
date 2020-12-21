@@ -77,7 +77,7 @@ function ProductsView(props) {
     });
 
     const productsListItems = productsList.items.map((product) => (
-        <div key={product.id} className="products-list__item">
+        <div key={ product.createTime} className="products-list__item">
             <ProductCard product={product} />
         </div>
     ));

@@ -2,6 +2,13 @@ import React from 'react';
 import { makeIdGenerator } from '../utils';
 import brandsData from './brands';
 import { categoriesListData, prepareCategory } from './categories';
+import { connect } from 'react-redux';
+import { useSelector } from 'react-redux'
+import { useFirestoreConnect } from 'react-redux-firebase'
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
+import Dashboard from './Dashboard'
+import firebase from '../../config/fbConfig'
 //import Dashboard from './Dashboard';
 
 const getId = makeIdGenerator();
@@ -69,27 +76,6 @@ const attributesDef = [
         ],
     },
 ];
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -478,82 +464,127 @@ var productsDef = [
     },
 ];
 
-//console.log("all products : ",productsDef);
-
-const productsData = productsDef.map((productDef) => {
-    let badges = [];
+console.log("productsDef : ", productsDef);
 
 
 
-    if (productDef.badges) {
-        badges = typeof productDef.badges === 'string' ? [productDef.badges] : productDef.badges;
-    }
 
-    const categories = categoriesListData
-        .filter((category) => productDef.categories.includes(category.slug))
-        .map((category) => prepareCategory(category));
 
-    const attributes = (productDef.attributes || []).map((productAttributeDef) => {
-        const attributeDef = attributesDef.find((x) => x.slug === productAttributeDef.slug);
+    const productsData= productsDef.map((productDef) => {
+        let badges = [];
 
-        if (!attributeDef) {
-            return null;
+
+
+        if (productDef.badges) {
+
+            badges = typeof productDef.badges === 'string' ? [productDef.badges] : productDef.badges;
         }
 
-        let valuesDef = [];
+        const categories = categoriesListData
+            .filter((category) => productDef.categories.includes(category.slug))
+            .map((category) => prepareCategory(category));
 
-        if (typeof productAttributeDef.values === 'string') {
-            valuesDef = [productAttributeDef.values];
-        } else if (productAttributeDef.values) {
-            valuesDef = productAttributeDef.values;
-        }
+        const attributes = (productDef.attributes || []).map((productAttributeDef) => {
+            const attributeDef = attributesDef.find((x) => x.slug === productAttributeDef.slug);
 
-        const values = valuesDef.map((valueSlug) => {
-            const valueDef = attributeDef.values.find((x) => x.slug === valueSlug);
+            if (!attributeDef) {
+                return null;
+            }
 
-            if (!valueDef) {
+            let valuesDef = [];
+
+            if (typeof productAttributeDef.values === 'string') {
+                valuesDef = [productAttributeDef.values];
+            } else if (productAttributeDef.values) {
+                valuesDef = productAttributeDef.values;
+            }
+
+            const values = valuesDef.map((valueSlug) => {
+                const valueDef = attributeDef.values.find((x) => x.slug === valueSlug);
+
+                if (!valueDef) {
+                    return null;
+                }
+
+                return {
+                    ...valueDef,
+                    customFields: {},
+                };
+            }).filter((x) => x !== null);
+
+            if (!values.length) {
                 return null;
             }
 
             return {
-                ...valueDef,
+                name: attributeDef.name,
+                slug: attributeDef.slug,
+                featured: !!productAttributeDef.featured,
+                values,
                 customFields: {},
             };
         }).filter((x) => x !== null);
 
-        if (!values.length) {
-            return null;
-        }
-
         return {
-            name: attributeDef.name,
-            slug: attributeDef.slug,
-            featured: !!productAttributeDef.featured,
-            values,
+            id: getId(),
+            name: productDef.name,
+            sku: '83690/32',
+            slug: productDef.slug,
+            price: productDef.price,
+            compareAtPrice: productDef.compareAtPrice || null,
+            images: productDef.images.slice(),
+            badges: badges.slice(),
+            rating: productDef.rating,
+            reviews: productDef.reviews,
+            availability: productDef.availability,
+            brand: brandsData.find((x) => x.slug === productDef.brand) || null,
+            categories,
+            attributes,
             customFields: {},
         };
-    }).filter((x) => x !== null);
-
-    return {
-        id: getId(),
-        name: productDef.name,
-        sku: '83690/32',
-        slug: productDef.slug,
-        price: productDef.price,
-        compareAtPrice: productDef.compareAtPrice || null,
-        images: productDef.images.slice(),
-        badges: badges.slice(),
-        rating: productDef.rating,
-        reviews: productDef.reviews,
-        availability: productDef.availability,
-        brand: brandsData.find((x) => x.slug === productDef.brand) || null,
-        categories,
-        attributes,
-        customFields: {},
-    };
-});
+    });
 
 
 
 
-export default productsData;
+    export default productsData;
+//console.log("all products : ",productsDef);
+
+
+//const arr = Dashboard();
+//productsDef.push(...arr);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const mapStateToProps = (state) => {
+//     // console.log(state);
+//     return {
+//       products: state.firestore.ordered.products,
+
+//     //  auth: state.firebase.auth
+//     }
+//   }
+
+
+
+//   export default  compose(
+//     connect(mapStateToProps),
+//     firestoreConnect([
+//       { collection: 'products' }
+//     ])
+//   )(productsData);
+

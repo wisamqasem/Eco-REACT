@@ -38,6 +38,7 @@ function ShopPageProduct(props) {
         setIsLoading(true);
 
         shopApi.getProductBySlug(productSlug).then((product) => {
+            console.log("the slug pro : ",productSlug);
             if (canceled) {
                 return;
             }
@@ -96,7 +97,7 @@ function ShopPageProduct(props) {
     const breadcrumb = [
         { title: 'Home', url: url.home() },
         { title: 'Shop', url: url.catalog() },
-        { title: product.name, url: url.product(product) },
+        { title: product.name.stringValue, url: url.product(product) },
     ];
 
     let content;

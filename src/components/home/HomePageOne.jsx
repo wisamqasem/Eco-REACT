@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet-async';
 
 // application
 import shopApi from '../../api/shop';
+import getPopularProductsNew from '../../api/shop';
 import { useDeferredData, useProductColumns, useProductTabs } from '../../services/hooks';
 
 // blocks
@@ -35,14 +36,14 @@ function HomePageOne() {
     /**
      * Featured products.
      */
-    const featuredProducts = useProductTabs(
+    const featuredProducts =  useProductTabs(
         useMemo(() => [
             { id: 1, name: 'All', categorySlug: undefined },
             { id: 2, name: 'Power Tools', categorySlug: 'power-tools' },
             { id: 3, name: 'Hand Tools', categorySlug: 'hand-tools' },
             { id: 4, name: 'Plumbing', categorySlug: 'plumbing' },
         ], []),
-        (tab) => shopApi.getPopularProducts({ limit: 8, category: tab.categorySlug }),
+        (tab) =>  shopApi.getPopularProducts({ limit: 8, category: tab.categorySlug }),
     );
 
     /**

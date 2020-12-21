@@ -12,8 +12,79 @@ import {
     getRelatedProducts,
     getSuggestions, getTopRatedProducts,
 } from '../fake-server/endpoints/products';
+import { connect } from 'react-redux'
+import { firestoreConnect } from 'react-redux-firebase'
+import { compose } from 'redux'
+import { useSelector } from 'react-redux'
+import { useFirestoreConnect } from 'react-redux-firebase'
+import firebase from '../config/fbConfig'
+import axios from 'axios'
+
+// useFirestoreConnect(['products']);
+// const products = useSelector((state) => state.firestore.data.products)
+
+
+
+
+
+
+
+
+
+
 
 const shopApi = {
+
+
+    getPopularProducts: (options = {}) => {
+
+
+
+
+
+        /**
+         * This is what your API endpoint might look like:
+         *
+         * https://example.com/api/shop/popular-products.json?limit=3&category=power-tools
+         *
+         * where:
+         * - 3           = options.limit
+         * - power-tools = options.category
+         */
+       //  return fetch(`https://example.com/api/popular-products.json?${qs.stringify(options)}`)
+          //   .then((response) => response.json());
+
+        return   axios.get('https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents/products/')
+           .then(res => {
+             console.log(res);
+              return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve(res.data.documents);
+                }, 500);
+            });
+           })
+
+
+
+
+        //     return fetch(`https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents/products/`)
+           //  .then((response) => {response.json();console.log("here pro : ",response)});
+
+        // This is for demonstration purposes only. Remove it and use the code above.
+      //  console.log("here pro : ", getPopularProducts(options));
+
+      //  return getPopularProducts(options);
+
+
+
+
+
+
+
+
+    },
+
+
     /**
      * Returns array of categories.
      *
@@ -23,6 +94,7 @@ const shopApi = {
      * @return {Promise<Array<object>>}
      */
     getCategories: (options = {}) => {
+
         /**
          * This is what your API endpoint might look like:
          *
@@ -70,6 +142,23 @@ const shopApi = {
      * @return {Promise<object>}
      */
     getProductBySlug: (slug) => {
+        return   axios.get('https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents/products/')
+        .then(res => {
+
+                const product = res.data.documents.find((x) => x.fields.slug.stringValue === slug);
+                if(product){
+                    console.log(" slug : ",slug);
+                    return new Promise((resolve) => {
+                      setTimeout(() => {
+                          resolve(product.fields);
+                      }, 500);
+                  });
+
+
+                }else{ console.log("can't find the slug baby.... ");}
+
+        })
+
         /**
          * This is what your API endpoint might look like:
          *
@@ -82,7 +171,7 @@ const shopApi = {
         //     .then((response) => response.json());
 
         // This is for demonstration purposes only. Remove it and use the code above.
-        return getProductBySlug(slug);
+     //   return getProductBySlug(slug);
     },
     /**
      * Returns array of related products.
@@ -94,6 +183,19 @@ const shopApi = {
      * @return {Promise<Array<object>>}
      */
     getRelatedProducts: (slug, options = {}) => {
+        return   axios.get('https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents/products/')
+        .then(res => {
+          console.log(res);
+           return new Promise((resolve) => {
+             setTimeout(() => {
+                 resolve(res.data.documents);
+             }, 500);
+         });
+        })
+
+
+
+
         /**
          * This is what your API endpoint might look like:
          *
@@ -107,7 +209,7 @@ const shopApi = {
         //     .then((response) => response.json());
 
         // This is for demonstration purposes only. Remove it and use the code above.
-        return getRelatedProducts(slug, options);
+       // return getRelatedProducts(slug, options);
     },
     /**
      * Return products list.
@@ -121,6 +223,16 @@ const shopApi = {
      * @return {Promise<object>}
      */
     getProductsList: (options = {}, filters = {}) => {
+        return   axios.get('https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents/products/')
+        .then(res => {
+          console.log(res);
+           return new Promise((resolve) => {
+             setTimeout(() => {
+                 resolve(res.data.documents);
+             }, 500);
+         });
+        })
+
         /**
          * This is what your API endpoint might look like:
          *
@@ -136,6 +248,7 @@ const shopApi = {
         // const params = { ...options };
         //
         // Object.keys(filters).forEach((slug) => {
+
         //     params[`filter_${slug}`] = filters[slug];
         // });
         //
@@ -143,7 +256,7 @@ const shopApi = {
         //     .then((response) => response.json());
 
         // This is for demonstration purposes only. Remove it and use the code above.
-        return getProductsList(options, filters);
+       // return getProductsList(options, filters);
     },
     /**
      * Returns array of featured products.
@@ -155,6 +268,16 @@ const shopApi = {
      * @return {Promise<Array<object>>}
      */
     getFeaturedProducts: (options = {}) => {
+        return   axios.get('https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents/products/')
+        .then(res => {
+          console.log(res);
+           return new Promise((resolve) => {
+             setTimeout(() => {
+                 resolve(res.data.documents);
+             }, 500);
+         });
+        })
+
         /**
          * This is what your API endpoint might look like:
          *
@@ -168,7 +291,7 @@ const shopApi = {
         //     .then((response) => response.json());
 
         // This is for demonstration purposes only. Remove it and use the code above.
-        return getFeaturedProducts(options);
+      //  return getFeaturedProducts(options);
     },
     /**
      * Returns array of latest products.
@@ -180,6 +303,16 @@ const shopApi = {
      * @return {Promise<Array<object>>}
      */
     getLatestProducts: (options = {}) => {
+        return   axios.get('https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents/products/')
+        .then(res => {
+          console.log(res);
+           return new Promise((resolve) => {
+             setTimeout(() => {
+                 resolve(res.data.documents);
+             }, 500);
+         });
+        })
+
         /**
          * This is what your API endpoint might look like:
          *
@@ -193,7 +326,7 @@ const shopApi = {
         //     .then((response) => response.json());
 
         // This is for demonstration purposes only. Remove it and use the code above.
-        return getLatestProducts(options);
+       // return getLatestProducts(options);
     },
     /**
      * Returns an array of top rated products.
@@ -205,6 +338,25 @@ const shopApi = {
      * @return {Promise<Array<object>>}
      */
     getTopRatedProducts: (options = {}) => {
+
+        return   axios.get('https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents/products/')
+        .then(res => {
+          console.log(res);
+
+           return new Promise((resolve) => {
+             setTimeout(() => {
+                 resolve(res.data.documents);
+             }, 500);
+         });
+
+        })
+
+
+
+
+
+
+
         /**
          * This is what your API endpoint might look like:
          *
@@ -218,7 +370,7 @@ const shopApi = {
         //     .then((response) => response.json());
 
         // This is for demonstration purposes only. Remove it and use the code above.
-        return getTopRatedProducts(options);
+      //  return getTopRatedProducts(options);
     },
     /**
      * Returns an array of discounted products.
@@ -230,6 +382,18 @@ const shopApi = {
      * @return {Promise<Array<object>>}
      */
     getDiscountedProducts: (options = {}) => {
+        return   axios.get('https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents/products/')
+        .then(res => {
+          console.log(res);
+
+           return new Promise((resolve) => {
+             setTimeout(() => {
+                 resolve(res.data.documents);
+             }, 500);
+         });
+
+        })
+
         /**
          * This is what your API endpoint might look like:
          *
@@ -243,7 +407,7 @@ const shopApi = {
         //     .then((response) => response.json());
 
         // This is for demonstration purposes only. Remove it and use the code above.
-        return getDiscountedProducts(options);
+      //  return getDiscountedProducts(options);
     },
     /**
      * Returns an array of most popular products.
@@ -254,22 +418,12 @@ const shopApi = {
      *
      * @return {Promise<Array<object>>}
      */
-    getPopularProducts: (options = {}) => {
-        /**
-         * This is what your API endpoint might look like:
-         *
-         * https://example.com/api/shop/popular-products.json?limit=3&category=power-tools
-         *
-         * where:
-         * - 3           = options.limit
-         * - power-tools = options.category
-         */
-        // return fetch(`https://example.com/api/popular-products.json?${qs.stringify(options)}`)
-        //     .then((response) => response.json());
 
-        // This is for demonstration purposes only. Remove it and use the code above.
-        return getPopularProducts(options);
-    },
+
+
+
+
+
     /**
      * Returns search suggestions.
      *
@@ -300,3 +454,6 @@ const shopApi = {
 };
 
 export default shopApi;
+
+
+

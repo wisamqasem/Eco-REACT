@@ -42,22 +42,22 @@ class Product extends Component {
         const { quantity } = this.state;
         let prices;
 
-        if (product.compareAtPrice) {
+        if (product.compareAtPrice.stringValue) {
             prices = (
                 <React.Fragment>
-                    <span className="product__new-price"><Currency value={product.price} /></span>
+                    <span className="product__new-price"><Currency value={parseInt(product.price.stringValue)} /></span>
                     {' '}
-                    <span className="product__old-price"><Currency value={product.compareAtPrice} /></span>
+                    <span className="product__old-price"><Currency value={parseInt(product.compareAtPrice.stringValue)} /></span>
                 </React.Fragment>
             );
         } else {
-            prices = <Currency value={product.price} />;
+            prices = <Currency value={parseInt(product.price.stringValue)} />;
         }
 
         return (
             <div className={`product product--layout--${layout}`}>
                 <div className="product__content">
-                    <ProductGallery layout={layout} images={product.images} />
+                    <ProductGallery layout={layout} images={product.images.arrayValue.values} />
 
                     <div className="product__info">
                         <div className="product__wishlist-compare">
@@ -96,13 +96,13 @@ class Product extends Component {
                                 )}
                             />
                         </div>
-                        <h1 className="product__name">{product.name}</h1>
+                        <h1 className="product__name">{product.name.stringValue}</h1>
                         <div className="product__rating">
                             <div className="product__rating-stars">
-                                <Rating value={product.rating} />
+                                <Rating value={parseInt(product.rating.stringValue)} />
                             </div>
                             <div className="product__rating-legend">
-                                <Link to="/">{`${product.reviews} Reviews`}</Link>
+                                <Link to="/">{`${product.reviews.stringValue} Reviews`}</Link>
                                 <span>/</span>
                                 <Link to="/">Write A Review</Link>
                             </div>
