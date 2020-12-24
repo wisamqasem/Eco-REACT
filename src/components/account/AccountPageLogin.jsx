@@ -1,5 +1,5 @@
 // react
-import React from 'react';
+import React, { Component } from 'react'
 
 // third-party
 import { Helmet } from 'react-helmet-async';
@@ -12,19 +12,52 @@ import { Check9x7Svg } from '../../svg';
 // data stubs
 import theme from '../../data/theme';
 
-export default function AccountPageLogin() {
-    const breadcrumb = [
-        { title: 'Home', url: '' },
-        { title: 'My Account', url: '' },
-    ];
+import { connect } from 'react-redux'
+import { signIn } from '../../store/auth/authActions'
+import { signUp } from '../../store/auth/authActions'
+import { Redirect } from 'react-router-dom'
 
+
+class AccountPageLogin extends Component {
+
+
+    state = {
+        breadcrumb : [
+            { title: 'Home', url: '' },
+            { title: 'My Account', url: '' },
+        ],
+        login_email: '',
+        login_password: '',
+        register_confirm:'',
+        register_email:'',
+        register_password:'',
+        authError : null
+      }
+      handleChange = (e) => {
+        this.setState({
+          [e.target.id]: e.target.value
+        })
+      }
+    handleSubmitLogin = (e) => {
+        e.preventDefault();
+        this.props.signIn(this.state)
+      }
+      handleSubmitRegister = (e) => {
+        e.preventDefault();
+        this.props.signUp(this.state);
+
+      }
+
+      render() {
+        const { authError,auth } = this.props;
+        if (auth.uid) return <Redirect to='/' />
     return (
         <React.Fragment>
             <Helmet>
                 <title>{`Login — ${theme.name}`}</title>
             </Helmet>
 
-            <PageHeader header="My Account" breadcrumb={breadcrumb} />
+            <PageHeader header="My Account" breadcrumb={this.state.breadcrumb} />
 
             <div className="block">
                 <div className="container">
@@ -37,19 +70,21 @@ export default function AccountPageLogin() {
                                         <div className="form-group">
                                             <label htmlFor="login-email">Email address</label>
                                             <input
-                                                id="login-email"
+                                                id="login_email"
                                                 type="email"
                                                 className="form-control"
                                                 placeholder="Enter email"
+                                                onChange={this.handleChange}
                                             />
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="login-password">Password</label>
                                             <input
-                                                id="login-password"
+                                                id="login_password"
                                                 type="password"
                                                 className="form-control"
                                                 placeholder="Password"
+                                                onChange={this.handleChange}
                                             />
                                             <small className="form-text text-muted">
                                                 <Link to="/">Forgotten Password</Link>
@@ -73,7 +108,7 @@ export default function AccountPageLogin() {
                                                 </label>
                                             </div>
                                         </div>
-                                        <button type="submit" className="btn btn-primary mt-2 mt-md-3 mt-lg-4">
+                                        <button type="submit" className="btn btn-primary mt-2 mt-md-3 mt-lg-4" onClick={this.handleSubmitLogin} >
                                             Login
                                         </button>
                                     </form>
@@ -88,33 +123,39 @@ export default function AccountPageLogin() {
                                         <div className="form-group">
                                             <label htmlFor="register-email">Email address</label>
                                             <input
-                                                id="register-email"
+                                                id="register_email"
                                                 type="email"
                                                 className="form-control"
                                                 placeholder="Enter email"
+                                                onChange={this.handleChange}
                                             />
                                         </div>
-                                        <div className="form-group">
+                                        <div className="form_group">
                                             <label htmlFor="register-password">Password</label>
                                             <input
-                                                id="register-password"
+                                                id="register_password"
                                                 type="password"
                                                 className="form-control"
                                                 placeholder="Password"
+                                                onChange={this.handleChange}
                                             />
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="register-confirm">Repeat Password</label>
                                             <input
-                                                id="register-confirm"
+                                                id="register_confirm"
                                                 type="password"
                                                 className="form-control"
                                                 placeholder="Password"
+                                                onChange={this.handleChange}
                                             />
                                         </div>
-                                        <button type="submit" className="btn btn-primary mt-2 mt-md-3 mt-lg-4">
+                                        <button type="submit" className="btn btn-primary mt-2 mt-md-3 mt-lg-4" onClick={this.handleSubmitRegister}>
                                             Register
-                                        </button>
+                                        </button>{" "}
+                                       { authError ? <div   className='alert alert-danger mb-3'>
+                                        <label >{authError}</label>
+                                        </div> : null}
                                     </form>
                                 </div>
                             </div>
@@ -124,4 +165,22 @@ export default function AccountPageLogin() {
             </div>
         </React.Fragment>
     );
+      }
 }
+
+
+const mapStateToProps = (state) => {
+    return{
+      authError: state.auth.authError,
+      auth: state.firebase.auth
+    }
+  }
+
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      signIn: (creds) => dispatch(signIn(creds)),
+      signUp: (creds) => dispatch(signUp(creds))
+    }
+  }
+
+  export default connect(mapStateToProps, mapDispatchToProps)(AccountPageLogin)

@@ -14,6 +14,7 @@ import productReducer from './products/productReducer';
 import { firestoreReducer } from 'redux-firestore';
 import { firebaseReducer } from 'react-redux-firebase';
 import uploadImagesReducer from './images/uploadImagesReducer'
+import authReducer from './auth/authReducer'
 export default combineReducers({
     version: (state = version) => state,
     cart: cartReducer,
@@ -28,4 +29,5 @@ export default combineReducers({
     firestore: firestoreReducer,
     firebase: firebaseReducer,
     image: uploadImagesReducer,
+    auth : authReducer
 });
