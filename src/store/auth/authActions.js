@@ -16,7 +16,21 @@ export const signIn = (credentials) => {
   }
 }
 
+export const checkUserLoged = () => {
+    return (dispatch, getState, {getFirebase}) => {
+        const firebase = getFirebase();
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                dispatch({ type: 'LOGIN_SUCCESS' });
 
+            } else {
+              // No user is signed in.
+            }
+            });
+
+        }
+
+}
 
 
 

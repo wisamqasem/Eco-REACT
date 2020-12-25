@@ -10,7 +10,12 @@ import Dropdown from './Dropdown';
 import DropdownCurrency from './DropdownCurrency';
 import DropdownLanguage from './DropdownLanguage';
 
-function Topbar() {
+//import firebase from '../../config/fbConfig'
+import firebase from 'firebase/app';
+import {checkUserLoged} from '../../store/auth/authActions'
+import { connect } from 'react-redux'
+
+function Topbar(props) {
     const links = [
         { title: <FormattedMessage id="topbar.aboutUs" defaultMessage="About Us" />, url: '/site/about-us' },
         { title: <FormattedMessage id="topbar.contacts" defaultMessage="Contacts" />, url: '/site/contact-us' },
@@ -34,6 +39,7 @@ function Topbar() {
         </div>
     ));
 
+const {auth} = props
     return (
         <div className="site-header__topbar topbar">
             <div className="topbar__container container">
@@ -41,10 +47,14 @@ function Topbar() {
                     {linksList}
                     <div className="topbar__spring" />
                     <div className="topbar__item">
-                        <Dropdown
-                            title={<FormattedMessage id="topbar.myAccount" defaultMessage="My Account" />}
-                            items={accountLinks}
-                        />
+                    {auth.uid ?   <Dropdown
+            title={<FormattedMessage id="topbar.myAccount" defaultMessage="My Account" />}
+            items={accountLinks}
+        />
+        :  <div><Link to = '/account/login'>Login</Link></div> }
+
+
+
                     </div>
                     <div className="topbar__item">
                         <DropdownCurrency />
@@ -58,4 +68,20 @@ function Topbar() {
     );
 }
 
-export default Topbar;
+
+
+const mapStateToProps = (state) => {
+    return{
+      authError: state.auth.authError,
+      auth: state.firebase.auth
+    }
+  }
+
+  const mapDispatchToProps = (dispatch) => {
+    return {
+        checkUserLoged: () => dispatch(checkUserLoged()),
+
+    }
+  }
+
+  export default connect(mapStateToProps, mapDispatchToProps)(Topbar) ;
