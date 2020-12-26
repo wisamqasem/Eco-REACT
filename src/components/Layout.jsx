@@ -103,7 +103,8 @@ function Layout(props) {
                         <Route exact path={`${match.path}`} component={homeComponent} />
 
                         {/* create product */}
-                        <Route  path='/createProduct' component={createProduct} />
+                        <Route  path='/account/createProduct' component={createProduct} />
+
 
                         {/*
                         // Shop

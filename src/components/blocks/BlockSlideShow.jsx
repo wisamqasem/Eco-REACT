@@ -31,12 +31,15 @@ class BlockSlideShow extends Component {
             title: 'Big choice of<br>Plumbing products',
             text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br>Etiam pharetra laoreet dui quis molestie.',
             image_classic: {
-                ltr: 'images/slides/slide-1-ltr.jpg',
-                rtl: 'images/slides/slide-1-rtl.jpg',
+              //  ltr: 'images/slides/slide-1-ltr.jpg',
+             //   rtl: 'images/slides/slide-1-rtl.jpg',
+             ltr: 'images/slides/slider1.jpg',
+                rtl: 'images/slides/slider1.jpg',
             },
             image_full: {
                 ltr: 'images/slides/slide-1-full-ltr.jpg',
                 rtl: 'images/slides/slide-1-full-rtl.jpg',
+
             },
             image_mobile: {
                 ltr: 'images/slides/slide-1-mobile.jpg',
@@ -47,8 +50,10 @@ class BlockSlideShow extends Component {
             title: 'Screwdrivers<br>Professional Tools',
             text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br>Etiam pharetra laoreet dui quis molestie.',
             image_classic: {
-                ltr: 'images/slides/slide-2-ltr.jpg',
-                rtl: 'images/slides/slide-2-rtl.jpg',
+                // ltr: 'images/slides/slide-2-ltr.jpg',
+                // rtl: 'images/slides/slide-2-rtl.jpg',
+                ltr: 'images/slides/slider2.jpg',
+                rtl: 'images/slides/slider2.jpg',
             },
             image_full: {
                 ltr: 'images/slides/slide-2-full-ltr.jpg',
@@ -63,8 +68,10 @@ class BlockSlideShow extends Component {
             title: 'One more<br>Unique header',
             text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br>Etiam pharetra laoreet dui quis molestie.',
             image_classic: {
-                ltr: 'images/slides/slide-3-ltr.jpg',
-                rtl: 'images/slides/slide-3-rtl.jpg',
+                // ltr: 'images/slides/slide-3-ltr.jpg',
+                // rtl: 'images/slides/slide-3-rtl.jpg',
+                ltr: 'images/slides/slider3.jpg',
+                rtl: 'images/slides/slider3.jpg',
             },
             image_full: {
                 ltr: 'images/slides/slide-3-full-ltr.jpg',

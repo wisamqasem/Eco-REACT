@@ -30,7 +30,9 @@ function Topbar(props) {
         { title: 'Order History', url: '/account/orders' },
         { title: 'Addresses', url: '/account/addresses' },
         { title: 'Password', url: '/account/password' },
+        { title: 'create product', url: '/account/createProduct' },
         { title: 'Logout', url: '/account/login' },
+
     ];
 
     const linksList = links.map((item, index) => (
