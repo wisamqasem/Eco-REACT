@@ -435,6 +435,19 @@ const shopApi = {
      * @return {Promise<Array<object>>}
      */
     getSuggestions: (query, options = {}) => {
+
+        return   axios.get('https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents/products/')
+        .then(res => {
+          console.log(res);
+
+           return new Promise((resolve) => {
+             setTimeout(() => {
+                 resolve(res.data.documents);
+             }, 500);
+         });
+
+        })
+
         /**
          * This is what your API endpoint might look like:
          *
@@ -449,7 +462,7 @@ const shopApi = {
         //     .then((response) => response.json());
 
         // This is for demonstration purposes only. Remove it and use the code above.
-        return getSuggestions(query, options);
+     //   return getSuggestions(query, options);
     },
 };
 

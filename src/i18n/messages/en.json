@@ -43,8 +43,11 @@
   "Clothes & PPE":"Clothes & PPE",
   "Plumbing":"Plumbing",
   "Storage & Organization":"Storage & Organization",
-  "Welding & Soldering":"Welding & Soldering"
+  "Welding & Soldering":"Welding & Soldering",
 
+  "Description": "Description",
+  "Specification":"Specification",
+  "Reviews":"Reviews"
 
 
 }

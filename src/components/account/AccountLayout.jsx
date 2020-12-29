@@ -23,8 +23,12 @@ import AccountPageOrders from './AccountPageOrders';
 import AccountPagePassword from './AccountPagePassword';
 import AccountPageProfile from './AccountPageProfile';
 
-export default function AccountLayout(props) {
-    const { match, location } = props;
+import {signOut} from '../../store/auth/authActions'
+import { connect } from 'react-redux'
+import Logout from '../logout'
+
+ function AccountLayout(props) {
+    const { match, location} = props;
 
     const breadcrumb = [
         { title: 'Home', url: '' },
@@ -38,8 +42,8 @@ export default function AccountLayout(props) {
         { title: 'Order Details', url: 'orders/5' },
         { title: 'Addresses', url: 'addresses' },
         { title: 'Edit Address', url: 'addresses/5' },
-        { title: 'Password', url: 'password' },
-        { title: 'Logout', url: 'login' },
+        { title: 'Password', url: 'password'},
+        { title: 'Logout', url: 'logout' },
     ].map((link) => {
         const url = `${match.url}/${link.url}`;
         const isActive = matchPath(location.pathname, { path: url, exact: true });
@@ -49,7 +53,7 @@ export default function AccountLayout(props) {
 
         return (
             <li key={link.url} className={classes}>
-                <Link to={url}>{link.title}</Link>
+                <Link to={url} >{link.title}</Link>
             </li>
         );
     });
@@ -77,6 +81,7 @@ export default function AccountLayout(props) {
                                 <Route exact path={`${match.path}/addresses`} component={AccountPageAddresses} />
                                 <Route exact path={`${match.path}/addresses/:addressId`} component={AccountPageEditAddress} />
                                 <Route exact path={`${match.path}/password`} component={AccountPagePassword} />
+                                <Route exact path={`${match.path}/logout`} component={Logout} />
                             </Switch>
                         </div>
                     </div>
@@ -85,3 +90,14 @@ export default function AccountLayout(props) {
         </React.Fragment>
     );
 }
+
+
+
+  const mapDispatchToProps = (dispatch) => {
+    return {
+        signOut: () => dispatch(signOut()),
+
+    }
+  }
+
+  export default connect(null, mapDispatchToProps)(AccountLayout) ;

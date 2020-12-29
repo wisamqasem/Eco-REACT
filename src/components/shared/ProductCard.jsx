@@ -53,6 +53,7 @@ try {
     if (product.badges['stringValue'].includes('hot')) {
         badges.push(<div key="hot" className="product-card__badge product-card__badge--hot">Hot</div>);
     }
+
     if (product.badges['stringValue'].includes('new')) {
         badges.push(<div key="new" className="product-card__badge product-card__badge--new">New</div>);
     }
@@ -121,8 +122,8 @@ try {
                     <Link to={url.product(product)}>{product.name['stringValue']}</Link>
                 </div>
                 <div className="product-card__rating">
-                    <Rating value={parseInt(product.rating['stringValue'])} />
-                    <div className=" product-card__rating-legend">{`${product.reviews['stringValue']} Reviews`}</div>
+                    <Rating value={parseInt('5')} />
+                    <div className=" product-card__rating-legend">{`${'3'} Reviews`}</div>
                 </div>
                 {features}
             </div>

@@ -20,25 +20,27 @@ function Suggestions(props) {
         products,
         cartAddItem,
     } = props;
+
+  //  const products = props.products.
     const rootClasses = classNames(`suggestions suggestions--location--${context}`, className);
 
     const list = (products && products.map((product) => (
         <li key={ product.createTime} className="suggestions__item">
-            {product.images && product.images.length > 0 && (
+            {product.fields.images.arrayValue.values && product.fields.images.arrayValue.values.length > 0 && (
                 <div className="suggestions__item-image product-image">
                     <div className="product-image__body">
-                        <img className="product-image__img" src={product.images[0]} alt="" />
+                        <img className="product-image__img" src={product.fields.images.arrayValue.values[0].stringValue} alt="" />
                     </div>
                 </div>
             )}
             <div className="suggestions__item-info">
-                <Link className="suggestions__item-name" to={url.product(product)}>
-                    {product.name}
+                <Link className="suggestions__item-name" to={url.product(product.fields)}>
+                    {product.fields.name.stringValue}
                 </Link>
                 <div className="suggestions__item-meta">SKU: 83690/32</div>
             </div>
             <div className="suggestions__item-price">
-                <Currency value={product.price} />
+                <Currency value={parseInt(product.fields.price.stringValue)} />
             </div>
             {context === 'header' && (
                 <div className="suggestions__item-actions">

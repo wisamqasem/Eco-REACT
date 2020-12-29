@@ -99,7 +99,7 @@ class Product extends Component {
                         <h1 className="product__name">{product.name.stringValue}</h1>
                         <div className="product__rating">
                             <div className="product__rating-stars">
-                                <Rating value={parseInt(product.rating.stringValue)} />
+                                <Rating value={parseInt('3')} />
                             </div>
                             <div className="product__rating-legend">
                                 <Link to="/">{`${product.reviews.stringValue} Reviews`}</Link>
@@ -123,7 +123,20 @@ class Product extends Component {
                             <li className="product__meta-availability">
                                 Availability:
                                 {' '}
-                                <span className="text-success">In Stock</span>
+
+
+  {product.availability.stringValue == 'In stock' ?  <span className="text-success">In Stock</span> : null}
+  {product.availability.stringValue == 'Sold out' ?  <span className="text-danger">Sold Out</span> : null}
+  {product.availability.stringValue == 'Out of order' ?  <span className="text-danger">Out of order</span> : null}
+
+
+
+
+
+
+
+
+                                {/* <span className="text-success">In Stock</span> */}
                             </li>
                             <li>
                                 Brand:

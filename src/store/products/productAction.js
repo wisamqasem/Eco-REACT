@@ -63,37 +63,16 @@ if(imagesNum==count){ resolve(imagesUrl);}
               )
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
           }
 
           )
-
 
         }
 
     uploadimages(product.images.length);
 
 
-
-
       });
-
-
-
-
-
 
 
  // uploadimages();
@@ -106,10 +85,11 @@ if(imagesNum==count){ resolve(imagesUrl);}
         price:product.price ,
         availability:product.availability ,
         badges:product.badges ,
-        brand:product.brand ,
+        description:product.description ,
+       // brand:product.brand ,
         compareAtPrice:product.compareAtPrice,
-        rating:product.rating,
-        reviews:product.reviews,
+       // rating:product.rating,
+        reviews:'12',
         slug:product.name,
         categories:product.categories,
         images:value
@@ -121,44 +101,11 @@ if(imagesNum==count){ resolve(imagesUrl);}
 
   })
 
-
       // dispatch
     //  var imagesUrl = [];
      ////////upload task event
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
 const mapStateToProps = (product) => ({

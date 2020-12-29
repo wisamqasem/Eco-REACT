@@ -15,5 +15,15 @@
   "navbar.pages":"الصفاحات",
   "navbar.blogs":"المدوانات",
   "navbar.account":"حسابي",
-  "navbar.shop":"المتجر"
+  "navbar.shop":"المتجر",
+
+
+  "Description": "الوصف",
+  "Specification":"الخصائص",
+  "Reviews":"المراجعات"
+
+
+
+
+
 }

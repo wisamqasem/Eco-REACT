@@ -10,6 +10,8 @@ import ProductTabDescription from './ProductTabDescription';
 import ProductTabSpecification from './ProductTabSpecification';
 import ProductTabReviews from './ProductTabReviews';
 
+import { FormattedMessage } from 'react-intl';
+
 class ProductTabs extends Component {
     constructor(props) {
         super(props);
@@ -31,9 +33,9 @@ class ProductTabs extends Component {
         });
 
         const tabs = [
-            { key: 'description', title: 'Description', content: <ProductTabDescription /> },
-            { key: 'specification', title: 'Specification', content: <ProductTabSpecification /> },
-            { key: 'reviews', title: 'Reviews', content: <ProductTabReviews /> },
+            { key: 'description', title: <FormattedMessage id="Description" defaultMessage="Description" />, content: <ProductTabDescription /> },
+            { key: 'specification', title: <FormattedMessage id="Specification" defaultMessage="Specification" />, content: <ProductTabSpecification /> },
+            { key: 'reviews', title: <FormattedMessage id="Reviews" defaultMessage="Reviews" />, content: <ProductTabReviews /> },
         ];
 
         const tabsButtons = tabs.map((tab) => {

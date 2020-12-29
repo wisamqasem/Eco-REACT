@@ -12,14 +12,15 @@ class CreateProduct extends Component {
   state = {
    // error: null,
   //  image: null,
-  availability: null,
-  badges: null,
-  brand:null,
-  categories: null,
-  compareAtPrice: null,
+  availability: 'In stock',
+  badges: '....',
+  //brand:null,
+  categories: '....',
+  compareAtPrice: '0',
   name:null,
   price:null,
-  rating:null,
+  description:null,
+  //rating:null,
   reviews:null,
   slug:null,
   images:[],
@@ -181,23 +182,30 @@ this.state.imagesUploaded.push(imageUploadedIcon);
 <div className="col-lg-4 ">
         <div className="form-group">
         <label htmlFor="input-default">Name</label>
-        <input  type="text" className="form-control" placeholder="Placeholder" id='name' onChange={this.handleChange}/>
+        <input  type="text" className="form-control" placeholder="Enter product name " id='name' onChange={this.handleChange}/>
 </div>
 <div className="form-group">
         <label htmlFor="input-default">Price</label>
-        <input  type="text" className="form-control" placeholder="Placeholder" id='price' onChange={this.handleChange}/>
+        <input  type="text" className="form-control" placeholder="Enter product price" id='price' onChange={this.handleChange}/>
 </div>
 <div className="form-group">
         <label htmlFor="input-default">Availability</label>
-        <input  type="text" className="form-control" placeholder="Placeholder" id='availability' onChange={this.handleChange}/>
+        <select id='availability' className="form-control"  onChange={this.handleChange}>
+         <option>In stock</option>
+         <option>Sold out</option>
+         <option>Out of order</option>
+         </select>
+        {/* <input  type="text" className="form-control" placeholder="Placeholder" id='availability' onChange={this.handleChange}/> */}
 </div>
 <div className="form-group">
 <label htmlFor="input-default">Badges</label>
 <select id='badges' className="form-control"  onChange={this.handleChange}>
+         <option>....</option>
          <option>new</option>
          <option>used</option>
          <option>hot</option>
          <option>sale</option>
+
 
          </select>
 
@@ -206,33 +214,44 @@ this.state.imagesUploaded.push(imageUploadedIcon);
         {/* <label htmlFor="input-default">Badges</label>
         <input id="input-default" type="text" className="form-control" placeholder="Placeholder" id='badges' onChange={this.handleChange}/> */}
 </div>
-<div className="form-group">
+ <div className="form-group">
+        <label htmlFor="input-default">Description</label>
+        <textarea  type="text" className="form-control" placeholder="Enter the Description of the product" id='description' onChange={this.handleChange}></textarea>
+</div>
+{/* <div className="form-group">
         <label htmlFor="input-default">Brand</label>
         <input  type="text" className="form-control" placeholder="Placeholder" id='brand' onChange={this.handleChange}/>
-</div>
+</div> */}
 <div className="form-group">
         <label htmlFor="input-default">CompareAtPrice</label>
         <input  type="text" className="form-control" placeholder="Placeholder" id='compareAtPrice' onChange={this.handleChange}/>
 </div>
-<div className="form-group">
+{/* <div className="form-group">
         <label htmlFor="input-default">Rating</label>
         <input  type="text" className="form-control" placeholder="Placeholder" id='rating' onChange={this.handleChange}/>
-</div>
-<div className="form-group">
+</div> */}
+{/* <div className="form-group">
         <label htmlFor="input-default">Reviews</label>
         <input  type="text" className="form-control" placeholder="Placeholder" id='reviews' onChange={this.handleChange}/>
-</div>
+</div> */}
 
     <div className="form-group">
          <label htmlFor="select-default">Categories</label>
          <select id="categories" className="form-control"  onChange={this.handleChange}>
-         <option>Select value...</option>
-         <option>Select value...</option>
-         <option>Select value...</option>
-         <option>Select value...</option>
-         <option>Select value...</option>
-         <option>Select value...</option>
-         <option>Select value...</option>
+         <option>....</option>
+         <option>Pet Supplies</option>
+         <option>Office Product</option>
+         <option>Grocery & Gourmet Food</option>
+         <option>Toys & Games</option>
+         <option>Movies & TV</option>
+         <option>Sports & Outdoors</option>
+         <option>Tools & Home</option>
+         <option>Clothing & Accessories</option>
+         <option>Software & Mobile Apps</option>
+         <option>Books</option>
+         <option>Health & Beauty</option>
+         <option>Electronics & Accessories</option>
+         <option>Home & Kitchen</option>
          </select>
      </div>
 
