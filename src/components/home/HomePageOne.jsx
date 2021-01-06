@@ -43,7 +43,7 @@ function HomePageOne() {
             { id: 3, name: 'Hand Tools', categorySlug: 'hand-tools' },
             { id: 4, name: 'Plumbing', categorySlug: 'plumbing' },
         ], []),
-        (tab) =>  shopApi.getPopularProducts({ limit: 8, category: tab.categorySlug }),
+        (tab) =>  shopApi.getFeaturedProducts({ limit: 20, category: tab.categorySlug }),
     );
 
     /**
@@ -73,15 +73,15 @@ function HomePageOne() {
         useMemo(() => [
             {
                 title: 'Top Rated Products',
-                source: () => shopApi.getTopRatedProducts({ limit: 3 }),
+                source: () => shopApi.getTopRatedProducts({ limit: 5 }),
             },
             {
                 title: 'Special Offers',
-                source: () => shopApi.getDiscountedProducts({ limit: 3 }),
+                source: () => shopApi.getDiscountedProducts({ limit: 5 }),
             },
             {
                 title: 'Bestsellers',
-                source: () => shopApi.getPopularProducts({ limit: 3 }),
+                source: () => shopApi.getPopularProducts({ limit: 5 }),
             },
         ], []),
     );
@@ -116,6 +116,7 @@ function HomePageOne() {
                 <BlockProducts
                     title="Bestsellers"
                     layout="large-first"
+                    limit={6}
                     featuredProduct={bestsellers.data[0]}
                     products={bestsellers.data.slice(1, 7)}
                 />

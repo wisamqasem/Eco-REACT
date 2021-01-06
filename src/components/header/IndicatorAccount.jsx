@@ -86,7 +86,8 @@ state = {
             <li><Link to="/account/orders">Order History</Link></li>
             <li><Link to="/account/addresses">Addresses</Link></li>
             <li><Link to="/account/password">Password</Link></li>
-            <li><Link to="/account/createProduct">create product</Link></li>
+            <li><Link to="/account/createProduct">Create Product</Link></li>
+            <li><Link to="/account/myProducts">My Products</Link></li>
         </ul>
         <div className="account-menu__divider" />
         <ul className="account-menu__links">

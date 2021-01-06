@@ -1,7 +1,9 @@
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
 export default [
     {
         type: 'link',
-        label: 'Home',
+        label: <FormattedMessage id="navbar.home" defaultMessage="Home" />,
         url: '/',
         children: [
             { type: 'link', label: 'Home 1', url: '/' },
@@ -11,7 +13,7 @@ export default [
 
     {
         type: 'link',
-        label: 'Categories',
+        label: <FormattedMessage id="navbar.Categories" defaultMessage='Categories' />,
         url: '',
         children: [
             {
@@ -43,7 +45,7 @@ export default [
 
     {
         type: 'link',
-        label: 'Shop',
+        label: <FormattedMessage id="navbar.shop" defaultMessage="Shop" />,
         url: '/shop/category-grid-3-columns-sidebar',
         children: [
             {
@@ -76,13 +78,20 @@ export default [
             { type: 'link', label: 'Track Order', url: '/shop/track-order' },
         ],
     },
-
     {
         type: 'link',
-        label: 'Account',
+        label: <FormattedMessage id="navbar.login" defaultMessage="Login" />,
+        url: '/account/login',
+
+    },
+    {
+        type: 'link',
+        label: <FormattedMessage id="navbar.account" defaultMessage="Account" />,
         url: '/account',
         children: [
-            { type: 'link', label: 'Login', url: '/account/login' },
+
+            { type: 'link', label: 'Create Product', url: '/account/createProduct' },
+            { type: 'link', label: 'My Products', url: '/account/myProducts' },
             { type: 'link', label: 'Dashboard', url: '/account/dashboard' },
             { type: 'link', label: 'Edit Profile', url: '/account/profile' },
             { type: 'link', label: 'Order History', url: '/account/orders' },
@@ -95,7 +104,7 @@ export default [
 
     {
         type: 'link',
-        label: 'Blog',
+        label:  <FormattedMessage id="navbar.blogs" defaultMessage="Blog" />,
         url: '/blog/category-classic',
         children: [
             { type: 'link', label: 'Blog Classic', url: '/blog/category-classic' },
@@ -109,7 +118,7 @@ export default [
 
     {
         type: 'link',
-        label: 'Pages',
+        label: <FormattedMessage id="navbar.pages" defaultMessage="Pages" />,
         url: '/site/about-us',
         children: [
             { type: 'link', label: 'About Us', url: '/site/about-us' },
@@ -125,7 +134,7 @@ export default [
 
     {
         type: 'button',
-        label: 'Currency',
+        label:<FormattedMessage id="navbar.Currency" defaultMessage='Currency' /> ,
         children: [
             { type: 'button', label: '€ Euro', data: { type: 'currency', code: 'EUR' } },
             { type: 'button', label: '£ Pound Sterling', data: { type: 'currency', code: 'GBP' } },
@@ -136,7 +145,7 @@ export default [
 
     {
         type: 'button',
-        label: 'Language',
+        label: <FormattedMessage id="navbar.Language" defaultMessage='Language' />,
         children: [
             { type: 'button', label: 'English', data: { type: 'language', locale: 'en' } },
             { type: 'button', label: 'Russian', data: { type: 'language', locale: 'ru' } },

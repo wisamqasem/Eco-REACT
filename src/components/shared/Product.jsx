@@ -39,6 +39,7 @@ class Product extends Component {
             compareAddItem,
             cartAddItem,
         } = this.props;
+
         const { quantity } = this.state;
         let prices;
 
@@ -108,9 +109,7 @@ class Product extends Component {
                             </div>
                         </div>
                         <div className="product__description">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-                            ornare, mi in ornare elementum, libero nibh lacinia urna, quis
-                            convallis lorem erat at purus. Maecenas eu varius nisi.
+                           {product.description.stringValue}
                         </div>
                         <ul className="product__features">
                             <li>Speed: 750 RPM</li>

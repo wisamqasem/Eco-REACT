@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom'
 import MainComponent from './MainComponent'
 import { uploadImage, getData } from "../store/images/uploadImagesAction";
 import ReactDOM from 'react-dom';
+import {checkUserLoged}  from '../store/auth/authActions';
 
 
 class CreateProduct extends Component {
@@ -17,17 +18,20 @@ class CreateProduct extends Component {
   //brand:null,
   categories: '....',
   compareAtPrice: '0',
-  name:null,
-  price:null,
-  description:null,
+  name:'',
+  price:'',
+  description:'',
   //rating:null,
   reviews:null,
   slug:null,
+  userId:null,
   images:[],
   imagesUploaded: [],
-  selectImageBtn:"select image"
-
-
+  selectImageBtn:"select image",
+  errdescription: false,
+  errName:false,
+  errImage:false,
+  errPrice:false,
   }
   componentDidMount() {
     this.props.getData();
@@ -38,16 +42,15 @@ class CreateProduct extends Component {
     changeText = (text) => this.state.selectImageBtn="add more images";
   onFormSubmit = e => {
     e.preventDefault(); // Stop form submit
-
-
-
+    var {errName,errImage,errPrice,errdescription}=this.state;
+    var {description , name,price} = this.state;
     //validating the file
     //check if the file is exists
-    if (this.state.file === null) {
-      alert("No image is selected!");
-      return;
-    }
-
+    if (this.state.file === null) this.setState( {errImage: true });
+    if(description=='')this.setState( {errdescription: true });
+    if(name==='')this.setState( {errName: true });
+    if(price==='')this.setState( {errPrice: true });
+    if(description=='' || name=='' || price=='' ||  this.state.file === null){return;}
     //check if the image size is larger than 1MB
     // if (this.state.file.size > 1048576) {
     //   alert("Image size must be less than 1MB!");
@@ -65,7 +68,11 @@ class CreateProduct extends Component {
     if (
       this.state.file.type === "image/jpeg" ||
       this.state.file.type === "image/png" ||
-      this.state.file.type === "image/jpg"
+      this.state.file.type === "image/jpg" ||
+      this.state.description === null ||
+      this.state.name === null ||
+      this.state.price === null
+
     ) {
 
 
@@ -75,7 +82,7 @@ this.props.createProduct(this.state);
 this.props.history.push('/')
      // this.props.uploadImage(this.state.file);
     } else {
-      alert("Please provide a valid image. (JPG, JPEG or PNG)");
+      alert("Please provide a valid image. (JPG, JPEG or PNG) or there is some fields are empty");
     }
 }catch(e){      alert("No image is selected!"); return;}
   };
@@ -146,17 +153,27 @@ this.state.imagesUploaded.push(imageUploadedIcon);
       [e.target.id]: e.target.value
     })
   }
-  handleSubmit = (e) => {
-    e.preventDefault();
-    // console.log(this.state);
-    this.props.createProduct(this.state);
-    // this.props.history.push('/');// to back to home page
-  }
+//   handleSubmit = (e) => {
+//     e.preventDefault();
+//     // console.log(this.state);
+//     this.props.createProduct(this.state);
+//     // this.props.history.push('/');// to back to home page
+//   }
+
+
+
+
+
   render() {
 
-    const { image} = this.state;
-    const { loading } = this.state;
-  //  console.log("image : ",image);
+
+    const {auth} = this.props
+    const {errdescription,errPrice,errName,errImage} = this.state;
+    if (!auth.uid) return <Redirect to='/' />
+    this.state.userId = auth.uid;
+
+    console.log("userId",auth.uid);
+      //  console.log("image : ",image);
 
 
 
@@ -182,11 +199,11 @@ this.state.imagesUploaded.push(imageUploadedIcon);
 <div className="col-lg-4 ">
         <div className="form-group">
         <label htmlFor="input-default">Name</label>
-        <input  type="text" className="form-control" placeholder="Enter product name " id='name' onChange={this.handleChange}/>
+        <input  type="text" className={"form-control "+(errName ? 'is-invalid': '')}   placeholder="Enter product name " id='name' onChange={this.handleChange}/>
 </div>
 <div className="form-group">
         <label htmlFor="input-default">Price</label>
-        <input  type="text" className="form-control" placeholder="Enter product price" id='price' onChange={this.handleChange}/>
+        <input  type="text" className={"form-control "+(errPrice ? 'is-invalid': '')} placeholder="Enter product price" id='price' onChange={this.handleChange}/>
 </div>
 <div className="form-group">
         <label htmlFor="input-default">Availability</label>
@@ -216,7 +233,7 @@ this.state.imagesUploaded.push(imageUploadedIcon);
 </div>
  <div className="form-group">
         <label htmlFor="input-default">Description</label>
-        <textarea  type="text" className="form-control" placeholder="Enter the Description of the product" id='description' onChange={this.handleChange}></textarea>
+        <textarea  type="text" className={"form-control "+(this.state.errdescription ? 'is-invalid': '')}   placeholder="Enter the Description of the product" id='description' onChange={this.handleChange}></textarea>
 </div>
 {/* <div className="form-group">
         <label htmlFor="input-default">Brand</label>
@@ -269,7 +286,9 @@ this.state.imagesUploaded.push(imageUploadedIcon);
                               <button type="button" id="selctImageBtn" className={`btn btn-primary btn-lg`}  onClick={() =>{
                                   this.fileInputRef.current.click();this.changeText("add more images")}
                                 }>{this.state.selectImageBtn}</button></div>
-                                {' '} <button type="button" className={"btn btn-primary  btn-lg"}  onClick={this.onFormSubmit} >Upload</button>
+                                {' '} <button type="submit" className={"btn btn-primary  btn-lg"}  onClick={this.onFormSubmit} >Upload</button>
+
+
 
                               <input
                                 type="file"
@@ -277,6 +296,9 @@ this.state.imagesUploaded.push(imageUploadedIcon);
                                 onChange={event => this.fileChange(event)}
                                 hidden
                               />
+
+
+
                </div>
 </div>
 
@@ -318,24 +340,22 @@ this.state.imagesUploaded.push(imageUploadedIcon);
   }
 }
 
-const mapStateToProps = ({ image }) => ({
 
 
-
-});
-
-
-
-
-
-
+const mapStateToProps = (state) => {
+    return{
+      authError: state.auth.authError,
+      auth: state.firebase.auth
+    }
+  }
 
 
 const mapDispatchToProps = dispatch => {
   return {
     createProduct: (product) => dispatch(createProduct(product)),
     uploadImage,
-    getData
+    getData,
+   // getUserId : () => dispatch(checkUserLoged()),
 
   }
 }

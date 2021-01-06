@@ -35,6 +35,8 @@ import SitePageFaq from './site/SitePageFaq';
 import SitePageNotFound from './site/SitePageNotFound';
 import SitePageTerms from './site/SitePageTerms';
 import SitePageTypography from './site/SitePageTypography';
+import Myproductsfun from './account/MyProducts';
+
 
 // data stubs
 import theme from '../data/theme';
@@ -104,6 +106,9 @@ function Layout(props) {
 
                         {/* create product */}
                         <Route  path='/account/createProduct' component={createProduct} />
+                         {/* my products  */}
+                         <Route  path='/account/myProducts' component={Myproductsfun} />
+
 
 
                         {/*
@@ -137,6 +142,7 @@ function Layout(props) {
                             exact
                             path="/shop/products/:productSlug"
                             render={(props) => (
+
                                 <ShopPageProduct
                                     {...props}
                                     layout="standard"

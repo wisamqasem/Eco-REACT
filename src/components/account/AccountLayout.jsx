@@ -28,7 +28,7 @@ import { connect } from 'react-redux'
 import Logout from '../logout'
 
  function AccountLayout(props) {
-    const { match, location} = props;
+    const { match, location,auth} = props;
 
     const breadcrumb = [
         { title: 'Home', url: '' },
@@ -43,7 +43,9 @@ import Logout from '../logout'
         { title: 'Addresses', url: 'addresses' },
         { title: 'Edit Address', url: 'addresses/5' },
         { title: 'Password', url: 'password'},
-        { title: 'Logout', url: 'logout' },
+        { title: auth.uid ? 'Logout' : 'login', url: auth.uid ? 'Logout' : 'login' },
+
+
     ].map((link) => {
         const url = `${match.url}/${link.url}`;
         const isActive = matchPath(location.pathname, { path: url, exact: true });
@@ -91,7 +93,12 @@ import Logout from '../logout'
     );
 }
 
-
+const mapStateToProps = (state) => {
+    return{
+      authError: state.auth.authError,
+      auth: state.firebase.auth
+    }
+  }
 
   const mapDispatchToProps = (dispatch) => {
     return {
@@ -100,4 +107,4 @@ import Logout from '../logout'
     }
   }
 
-  export default connect(null, mapDispatchToProps)(AccountLayout) ;
+  export default connect( mapStateToProps, mapDispatchToProps)(AccountLayout) ;

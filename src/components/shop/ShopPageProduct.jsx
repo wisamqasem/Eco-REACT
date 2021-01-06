@@ -37,13 +37,14 @@ function ShopPageProduct(props) {
 
         setIsLoading(true);
 
-        shopApi.getProductBySlug(productSlug).then((product) => {
-            console.log("the slug pro : ",productSlug);
+        shopApi.getProductBySlug(productSlug).then((product) => {//the product have {createTime,fields,name}
+            console.log("the slug pro : ",product);
             if (canceled) {
                 return;
             }
 
             setProduct(product);
+            console.log("the fckong product name : ",product.name.toString());
             setIsLoading(false);
         });
 
@@ -97,7 +98,7 @@ function ShopPageProduct(props) {
     const breadcrumb = [
         { title: 'Home', url: url.home() },
         { title: 'Shop', url: url.catalog() },
-        { title: product.name.stringValue, url: url.product(product) },
+        { title: product.fields.name.stringValue, url: url.product(product.fields) },
     ];
 
     let content;
@@ -122,7 +123,7 @@ function ShopPageProduct(props) {
                     {sidebarPosition === 'start' && sidebar}
                     <div className=" shop-layout__content">
                         <div className=" block">
-                            <Product product={product} layout={layout} />
+                            <Product product={product.fields} layout={layout}  />
                             <ProductTabs withSidebar />
                         </div>
 
@@ -144,8 +145,8 @@ function ShopPageProduct(props) {
             <React.Fragment>
                 <div className="block">
                     <div className="container">
-                        <Product product={product} layout={layout} />
-                        <ProductTabs />
+                        <Product product={product.fields} layout={layout} />
+                        <ProductTabs  product={product.fields} productId={ product.name.toString().slice(product.name.length - 20)}/>
                     </div>
                 </div>
 

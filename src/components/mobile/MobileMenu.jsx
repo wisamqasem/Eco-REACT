@@ -22,6 +22,7 @@ function MobileMenu(props) {
         closeMobileMenu,
         changeLocale,
         changeCurrency,
+        auth
     } = props;
 
     const classes = classNames('mobilemenu', {
@@ -61,7 +62,7 @@ function MobileMenu(props) {
                     </button>
                 </div>
                 <div className="mobilemenu__content">
-                    <MobileLinks links={mobileMenuLinks} onItemClick={handleItemClick} />
+                    <MobileLinks links={auth.uid ?  mobileMenuLinks.filter((x)=>{return x.label.props.defaultMessage != "Login";}) : mobileMenuLinks.filter((x)=>{return x.label.props.defaultMessage != "Account";})  } onItemClick={handleItemClick} />
                 </div>
             </div>
         </div>
@@ -69,6 +70,7 @@ function MobileMenu(props) {
 }
 
 const mapStateToProps = (state) => ({
+    auth: state.firebase.auth,
     mobileMenuState: state.mobileMenu,
 });
 

@@ -36,12 +36,21 @@ import axios from 'axios'
 const shopApi = {
 
 
+
+
+    getMyProducts: (userId) => {
+        return   axios.get('https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents/products/')
+        .then(res => {
+       return Promise.resolve(
+                res.data.documents.filter((x)=>
+   x.fields.userId.stringValue.includes(userId)
+
+                   ) ); })
+
+    },
+
+
     getPopularProducts: (options = {}) => {
-
-
-
-
-
         /**
          * This is what your API endpoint might look like:
          *
@@ -56,17 +65,13 @@ const shopApi = {
 
         return   axios.get('https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents/products/')
            .then(res => {
-             console.log(res);
+            const limit = options.limit ;
               return new Promise((resolve) => {
                 setTimeout(() => {
-                    resolve(res.data.documents);
+                    resolve(res.data.documents.slice(0,limit));
                 }, 500);
             });
            })
-
-
-
-
         //     return fetch(`https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents/products/`)
            //  .then((response) => {response.json();console.log("here pro : ",response)});
 
@@ -74,13 +79,6 @@ const shopApi = {
       //  console.log("here pro : ", getPopularProducts(options));
 
       //  return getPopularProducts(options);
-
-
-
-
-
-
-
 
     },
 
@@ -147,10 +145,10 @@ const shopApi = {
 
                 const product = res.data.documents.find((x) => x.fields.slug.stringValue === slug);
                 if(product){
-                    console.log(" slug : ",slug);
+
                     return new Promise((resolve) => {
                       setTimeout(() => {
-                          resolve(product.fields);
+                          resolve(product);
                       }, 500);
                   });
 
@@ -185,12 +183,12 @@ const shopApi = {
     getRelatedProducts: (slug, options = {}) => {
         return   axios.get('https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents/products/')
         .then(res => {
-          console.log(res);
-           return new Promise((resolve) => {
-             setTimeout(() => {
-                 resolve(res.data.documents);
-             }, 500);
-         });
+            return Promise.resolve(res.data.documents);
+        //    return new Promise((resolve) => {
+        //      setTimeout(() => {
+        //          resolve(res.data.documents);
+        //      }, 500);
+        //  });
         })
 
 
@@ -270,10 +268,11 @@ const shopApi = {
     getFeaturedProducts: (options = {}) => {
         return   axios.get('https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents/products/')
         .then(res => {
-          console.log(res);
+            const limit = options.limit ;
+
            return new Promise((resolve) => {
              setTimeout(() => {
-                 resolve(res.data.documents);
+                 resolve(res.data.documents.slice(0,limit));
              }, 500);
          });
         })
@@ -345,7 +344,7 @@ const shopApi = {
 
            return new Promise((resolve) => {
              setTimeout(() => {
-                 resolve(res.data.documents);
+                 resolve(res.data.documents.slice(0, 5));
              }, 500);
          });
 
@@ -384,11 +383,11 @@ const shopApi = {
     getDiscountedProducts: (options = {}) => {
         return   axios.get('https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents/products/')
         .then(res => {
-          console.log(res);
+
 
            return new Promise((resolve) => {
              setTimeout(() => {
-                 resolve(res.data.documents);
+                 resolve(res.data.documents.slice(0,5));
              }, 500);
          });
 
@@ -438,13 +437,20 @@ const shopApi = {
 
         return   axios.get('https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents/products/')
         .then(res => {
-          console.log(res);
+        //  console.log(res);
+        const limit = options.limit || 5;
+        return Promise.resolve(
+            res.data.documents.filter(
+                (x) => x.fields.name.stringValue.toLowerCase().includes(query.toLowerCase()),
+            ).slice(0, limit),
+        );
 
-           return new Promise((resolve) => {
-             setTimeout(() => {
-                 resolve(res.data.documents);
-             }, 500);
-         });
+
+        //    return new Promise((resolve) => {
+        //      setTimeout(() => {
+        //          resolve(res.data.documents);
+        //      }, 500);
+        //  });
 
         })
 

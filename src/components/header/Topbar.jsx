@@ -31,6 +31,7 @@ function Topbar(props) {
         { title: 'Addresses', url: '/account/addresses' },
         { title: 'Password', url: '/account/password' },
         { title: 'create product', url: '/account/createProduct' },
+        { title: 'my products', url: '/account/myProducts' },
         { title: 'Logout', url: '/account/logout' },
 
     ];

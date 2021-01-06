@@ -19,6 +19,7 @@ export default function BlockProducts(props) {
         layout,
         featuredProduct,
         products,
+        limit
     } = props;
 
    // const { products} = props;
@@ -38,7 +39,7 @@ export default function BlockProducts(props) {
 
     // here pro ~~~~~
     if (products.length > 0) {
-        const productsList = products.slice(0, 6).map((product, index) => (
+        const productsList = products.slice(0, limit).map((product, index) => (
             <div key={index} className="block-products__list-item">
                 <ProductCard product={product} />
             </div>

@@ -15,8 +15,10 @@ import { ArrowRoundedDown9x6Svg } from '../../svg';
 
 // data stubs
 import navLinks from '../../data/headerNavigation';
+import { auth } from '../../config/fbConfig';
 
 function NavLinks(props) {
+    const {auth}=props;
     const handleMouseEnter = (event) => {
         const { locale } = props;
         const { direction } = languages[locale];
@@ -51,8 +53,13 @@ function NavLinks(props) {
             }
         }
     };
+    var navLinksfiltered;
 
-    const linksList = navLinks.map((item, index) => {
+    if(auth.uid  ){
+        navLinksfiltered = navLinks.filter((x) =>{ return x.title.props.defaultMessage != "Login"; });
+    }
+    else {   navLinksfiltered = navLinks.filter((x) => { return x.title.props.defaultMessage != "Account"; });  }
+    const linksList = navLinksfiltered.map((item, index) => {
         let arrow;
         let submenu;
 
@@ -76,6 +83,7 @@ function NavLinks(props) {
             );
         }
 
+
         const classes = classNames('nav-links__item', {
             'nav-links__item--with-submenu': item.submenu,
         });
@@ -83,10 +91,11 @@ function NavLinks(props) {
         return (
             <li key={index} className={classes} onMouseEnter={handleMouseEnter}>
                 <AppLink to={item.url} {...item.props}>
-                    <span>
+               <span>
                         {item.title}
                         {arrow}
                     </span>
+
                 </AppLink>
                 {submenu}
             </li>
@@ -105,8 +114,9 @@ NavLinks.propTypes = {
     locale: PropTypes.string,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => {return {
+    auth: state.firebase.auth,
     locale: state.locale,
-});
+}};
 
 export default connect(mapStateToProps)(NavLinks);

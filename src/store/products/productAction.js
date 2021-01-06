@@ -9,6 +9,7 @@ import {
     UPLOADING,
     GET_DATA
   } from "../images/types";
+  import firebase from '../../config/fbConfig'
 
  export const createProduct = (product) => {
 
@@ -19,6 +20,9 @@ import {
      var imagesUrl = [];
       const firestore = getFirestore();
       const metadata = {contentType: "image/jpeg" };
+      const userId  = firebase.auth().uid;
+      console.log("🚀 ~ file: productAction.js ~ line 24 ~ return ~ userId", userId)
+
 var count=0;
 
       const promise1 = new Promise((resolve, reject) => {
@@ -86,6 +90,7 @@ if(imagesNum==count){ resolve(imagesUrl);}
         availability:product.availability ,
         badges:product.badges ,
         description:product.description ,
+        userId:product.userId,
        // brand:product.brand ,
         compareAtPrice:product.compareAtPrice,
        // rating:product.rating,

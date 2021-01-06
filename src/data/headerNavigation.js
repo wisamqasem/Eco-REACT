@@ -114,12 +114,18 @@ export default [
         },
     },
     {
+        title: <FormattedMessage id="navbar.login" defaultMessage="Login" />,
+        url: '/account/login',
+
+    },
+    {
         title: <FormattedMessage id="navbar.account" defaultMessage="Account" />,
         url: '/account',
         submenu: {
             type: 'menu',
             menu: [
-                { title: 'Login', url: '/account/login' },
+
+                // { title: 'Login'  , url: '/account/login' },
                 { title: 'Dashboard', url: '/account/dashboard' },
                 { title: 'Edit Profile', url: '/account/profile' },
                 { title: 'Order History', url: '/account/orders' },
@@ -127,6 +133,8 @@ export default [
                 { title: 'Address Book', url: '/account/addresses' },
                 { title: 'Edit Address', url: '/account/addresses/5' },
                 { title: 'Change Password', url: '/account/password' },
+                { title: 'Create Product', url: '/account/createProduct' },
+                { title: 'My Products', url: '/account/myProducts' },
             ],
         },
     },

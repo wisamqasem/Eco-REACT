@@ -16,7 +16,8 @@ function Quickview(props) {
     let productView;
 
     if (product !== null) {
-        productView = <Product product={product} layout="quickview" />;
+
+        productView = <Product product={product.fields} layout="quickview" />;
     }
 
     return (

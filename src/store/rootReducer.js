@@ -11,6 +11,7 @@ import sidebarReducer from './sidebar';
 import version from './version';
 import wishlistReducer from './wishlist';
 import productReducer from './products/productReducer';
+import reviewReducer from './products/reviewReducer';
 import { firestoreReducer } from 'redux-firestore';
 import { firebaseReducer } from 'react-redux-firebase';
 import uploadImagesReducer from './images/uploadImagesReducer'
@@ -29,5 +30,6 @@ export default combineReducers({
     firestore: firestoreReducer,
     firebase: firebaseReducer,
     image: uploadImagesReducer,
-    auth : authReducer
+    auth : authReducer,
+    review: reviewReducer
 });

@@ -28,14 +28,16 @@ class ProductTabs extends Component {
     render() {
         const { currentTab } = this.state;
         const { withSidebar } = this.props;
+        const {productId}=this.props;
+        console.log("gggggggggg : ",productId);
         const classes = classNames('product-tabs', {
             'product-tabs--layout--sidebar': withSidebar,
         });
 
         const tabs = [
-            { key: 'description', title: <FormattedMessage id="Description" defaultMessage="Description" />, content: <ProductTabDescription /> },
+            { key: 'description', title: <FormattedMessage id="Description" defaultMessage="Description" />, content: <ProductTabDescription product= {this.props.product} /> },
             { key: 'specification', title: <FormattedMessage id="Specification" defaultMessage="Specification" />, content: <ProductTabSpecification /> },
-            { key: 'reviews', title: <FormattedMessage id="Reviews" defaultMessage="Reviews" />, content: <ProductTabReviews /> },
+            { key: 'reviews', title: <FormattedMessage id="Reviews" defaultMessage="Reviews" />, content: <ProductTabReviews product= {this.props.product} productId={this.props.productId} /> },
         ];
 
         const tabsButtons = tabs.map((tab) => {
