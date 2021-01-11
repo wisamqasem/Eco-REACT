@@ -28,6 +28,7 @@ function findItemIndex(items, product, options) {
 }
 
 function calcSubtotal(items) {
+    console.log("subtotle : ",items);
     return items.reduce((subtotal, item) => subtotal + item.total, 0);
 }
 
@@ -36,6 +37,7 @@ function calcQuantity(items) {
 }
 
 function calcTotal(subtotal, extraLines) {
+    console.log("totle : ",subtotal);
     return subtotal + extraLines.reduce((total, extraLine) => total + extraLine.price, 0);
 }
 
@@ -51,8 +53,8 @@ function addItem(state, product, options, quantity) {
             id: lastItemId,
             product: JSON.parse(JSON.stringify(product)),
             options: JSON.parse(JSON.stringify(options)),
-            price: product.price,
-            total: product.price * quantity,
+            price: parseInt(product.price.stringValue),
+            total: parseInt(product.price.stringValue) * quantity,
             quantity,
         }];
     } else {
@@ -63,7 +65,7 @@ function addItem(state, product, options, quantity) {
             {
                 ...item,
                 quantity: item.quantity + quantity,
-                total: (item.quantity + quantity) * item.price,
+                total: (item.quantity + quantity) * parseInt(item.price.stringValue),
             },
             ...state.items.slice(itemIndex + 1),
         ];
@@ -113,7 +115,7 @@ function updateQuantities(state, quantities) {
         return {
             ...item,
             quantity: quantity.value,
-            total: quantity.value * item.price,
+            total: quantity.value * parseInt(item.price.stringValue),
         };
     });
 

@@ -70,11 +70,11 @@ class ShopPageCart extends Component {
             let image;
             let options;
 
-            if (item.product.images.length > 0) {
+            if (item.product.images.arrayValue.values.length > 0) {
                 image = (
                     <div className="product-image">
                         <Link to={url.product(item.product)} className="product-image__body">
-                            <img className="product-image__img" src={item.product.images[0]} alt="" />
+                            <img className="product-image__img" src={item.product.images.arrayValue.values[0].stringValue} alt="" />
                         </Link>
                     </div>
                 );
@@ -114,12 +114,12 @@ class ShopPageCart extends Component {
                     </td>
                     <td className="cart-table__column cart-table__column--product">
                         <Link to={url.product(item.product)} className="cart-table__product-name">
-                            {item.product.name}
+                            {item.product.name.stringValue}
                         </Link>
                         {options}
                     </td>
                     <td className="cart-table__column cart-table__column--price" data-title="Price">
-                        <Currency value={item.price} />
+                        <Currency value={parseInt(item.price.stringValue)} />
                     </td>
                     <td className="cart-table__column cart-table__column--quantity" data-title="Quantity">
                         <InputNumber

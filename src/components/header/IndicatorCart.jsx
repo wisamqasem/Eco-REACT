@@ -18,7 +18,7 @@ function IndicatorCart(props) {
     const { cart, cartRemoveItem } = props;
     let dropdown;
     let totals;
-
+console.log("cart : ",cart);
     if (cart.extraLines.length > 0) {
         const extraLines = cart.extraLines.map((extraLine, index) => (
             <tr key={index}>
@@ -39,6 +39,7 @@ function IndicatorCart(props) {
     }
 
     const items = cart.items.map((item) => {
+        console.log("hi man : ",item)
         let options;
         let image;
 
@@ -84,13 +85,13 @@ function IndicatorCart(props) {
                 {image}
                 <div className="dropcart__product-info">
                     <div className="dropcart__product-name">
-                        <Link to={url.product(item.product)}>{item.product.name}</Link>
+                        <Link to={url.product(item.product)}>{item.product.name.stringValue}</Link>
                     </div>
                     {options}
                     <div className="dropcart__product-meta">
                         <span className="dropcart__product-quantity">{item.quantity}</span>
                         {' × '}
-                        <span className="dropcart__product-price"><Currency value={item.price} /></span>
+                        <span className="dropcart__product-price"><Currency value={parseInt(item.price.stringValue)} /></span>
                     </div>
                 </div>
                 {removeButton}

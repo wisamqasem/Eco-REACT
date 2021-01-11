@@ -10,7 +10,9 @@ import { firebaseConnect } from 'react-redux-firebase'
 
 
     return (dispatch, getState, {getFirestore}) => {
-       // console.log("review : ", review);
+        console.log("review rating : ", review.productRating);
+        console.log("review  people rated: ", review.productPeopleRated);
+
       // make async call to database
 
       const firestore = getFirestore();
@@ -27,7 +29,12 @@ import { firebaseConnect } from 'react-redux-firebase'
             review: review.review_text ,
                rating :  review.review_stars,
                 email :  review.review_email,
-            } )
+                avatar : 'images/avatars/avatar-2.jpg',
+                date : new Date().toString()
+            } ),
+
+            rating: (((review.productRating * review.productPeopleRated) +  parseFloat(review.review_stars)) / (review.productPeopleRated + 1)).toString(),
+            peopleRated : (review.productPeopleRated+1).toString()
 
 
     }).then(() => {

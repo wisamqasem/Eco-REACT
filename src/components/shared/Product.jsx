@@ -100,16 +100,17 @@ class Product extends Component {
                         <h1 className="product__name">{product.name.stringValue}</h1>
                         <div className="product__rating">
                             <div className="product__rating-stars">
-                                <Rating value={parseInt('3')} />
+                            {/* ((Overall Rating * Total people Rated) + new Rating) / (Total people Rated + 1) */}
+                                <Rating value={parseInt(product.rating.stringValue)} />
                             </div>
                             <div className="product__rating-legend">
-                                <Link to="/">{`${product.reviews.stringValue} Reviews`}</Link>
-                                <span>/</span>
-                                <Link to="/">Write A Review</Link>
+                                {/* <Link to="/">{`${product.reviews.arrayValue.length} Reviews`}</Link> */}
+                                {/* <span>/</span> */}
+                                {/* <Link to="/">Write A Review</Link> */}
                             </div>
                         </div>
                         <div className="product__description">
-                           {product.description.stringValue}
+                           {/* {product.description.stringValue} */}
                         </div>
                         <ul className="product__features">
                             <li>Speed: 750 RPM</li>

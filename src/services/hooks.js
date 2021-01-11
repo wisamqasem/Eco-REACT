@@ -14,6 +14,7 @@ export function useDeferredData(source, initialData, deps = []) {
 
         setState((curState) => {
             if (!curState.isLoading) {
+
                 return { ...curState, isLoading: true };
             }
 
@@ -22,6 +23,7 @@ export function useDeferredData(source, initialData, deps = []) {
 
         memoizedSource().then((data) => {
             if (canceled) {
+
                 return;
             }
 
@@ -29,6 +31,7 @@ export function useDeferredData(source, initialData, deps = []) {
         });
 
         return () => {
+            console.log("fck man")
             canceled = true;
         };
     }, [memoizedSource]);

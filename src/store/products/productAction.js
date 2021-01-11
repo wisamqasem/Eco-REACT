@@ -93,8 +93,9 @@ if(imagesNum==count){ resolve(imagesUrl);}
         userId:product.userId,
        // brand:product.brand ,
         compareAtPrice:product.compareAtPrice,
-       // rating:product.rating,
-        reviews:'12',
+        rating:'0',
+        peopleRated : '0',
+        reviews:[],
         slug:product.name,
         categories:product.categories,
         images:value

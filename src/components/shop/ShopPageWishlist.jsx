@@ -30,14 +30,15 @@ function ShopPageWishlist(props) {
     let content;
 
     if (wishlist.length) {
-        const itemsList = wishlist.map((item) => {
+        const itemsList = wishlist.map((item,index) => {
             let image;
-
-            if (item.images.length > 0) {
+console.log("wish lidt item : ",item);
+//item.images.arrayValue.values.length
+            if (item.images.arrayValue.values.length > 0) {
                 image = (
                     <div className="product-image">
                         <Link to={url.product(item)} className="product-image__body">
-                            <img className="product-image__img" src={item.images[0]} alt="" />
+                            <img className="product-image__img" src={item.images.arrayValue.values[0].stringValue} alt="" />
                         </Link>
                     </div>
                 );
@@ -60,21 +61,21 @@ function ShopPageWishlist(props) {
             };
 
             return (
-                <tr key={item.id} className="wishlist__row">
+                <tr key={index} className="wishlist__row">
                     <td className="wishlist__column wishlist__column--image">
                         {image}
                     </td>
                     <td className="wishlist__column wishlist__column--product">
-                        <Link to={url.product(item)} className="wishlist__product-name">{item.name}</Link>
+                        <Link to={url.product(item)} className="wishlist__product-name">{item.name.stringValue}</Link>
                         <div className="wishlist__product-rating">
-                            <Rating value={item.rating} />
+                            <Rating value={parseInt(item.rating)} />
                             <div className="wishlist__product-rating-legend">{`${item.reviews} Reviews`}</div>
                         </div>
                     </td>
                     <td className="wishlist__column wishlist__column--stock">
                         <div className="badge badge-success">In Stock</div>
                     </td>
-                    <td className="wishlist__column wishlist__column--price"><Currency value={item.price} /></td>
+                    <td className="wishlist__column wishlist__column--price"><Currency value={parseInt(item.price.stringValue)} /></td>
                     <td className="wishlist__column wishlist__column--tocart">
                         <AsyncAction
                             action={() => cartAddItem(item)}

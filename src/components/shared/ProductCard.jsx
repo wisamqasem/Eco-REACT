@@ -27,7 +27,7 @@ function ProductCard(props) {
         wishlistAddItem,
         compareAddItem,
     } = props;
-    const product = props.product.fields;
+    const product =  (props.product.fields ? props.product.fields : props.product.document.fields ) ;// i make that cuse if u come from the block of my products the form of data is deferent then if u come from onther page.
 
     const containerClasses = classNames('product-card', {
         'product-card--layout--grid product-card--size--sm': layout === 'grid-sm',
@@ -123,7 +123,7 @@ try {
                     <Link to={url.product(product)}>{product.name['stringValue']}</Link>
                 </div>
                 <div className="product-card__rating">
-                    <Rating value={parseInt('5')} />
+                    <Rating value={parseInt(product.rating.stringValue)} />
                     <div className=" product-card__rating-legend">{`${'3'} Reviews`}</div>
                 </div>
                 {features}

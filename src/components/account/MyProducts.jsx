@@ -12,6 +12,7 @@ class MyProducts extends Component {
 render(){
 
 const {myProducts} =  this.props;
+console.log("🚀 ~ file: MyProducts.jsx ~ line 15 ~ MyProducts ~ render ~ myProducts : ", myProducts)
 
 return(
 <div>
@@ -19,7 +20,7 @@ return(
     title="myProducts"
     layout="large-first"
     limit={myProducts.data.length}
-    products= {myProducts.data}
+    products= {myProducts.data.data}
 />
 </div>
 )
@@ -29,10 +30,13 @@ return(
 
 function Myproductsfun(props){
     const {auth} = props;
-
+    console.log("🚀 ~ file: MyProducts.jsx ~ line 33 ~ Myproductsfun ~ auth", auth.uid)
+//const myProducts = shopApi.getMyProducts(auth.uid).then((res)=>{return res;});
 const myProducts = useDeferredData(() => (
         shopApi.getMyProducts(auth.uid)
     ), []);
+console.log("🚀 ~ file: MyProducts.jsx ~ line 37 ~ Myproductsfun : ", myProducts)
+
     if (!auth.uid) return <Redirect to='/' />
   return <MyProducts myProducts={myProducts}/>
 

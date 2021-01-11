@@ -39,13 +39,60 @@ const shopApi = {
 
 
     getMyProducts: (userId) => {
-        return   axios.get('https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents/products/')
-        .then(res => {
-       return Promise.resolve(
-                res.data.documents.filter((x)=>
-   x.fields.userId.stringValue.includes(userId)
+        return   axios.post('https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents:runQuery',
+        { structuredQuery:
+        { from: [
+            { collectionId: 'products'
+        }
+    ],
+    select: { fields:
+        [
+            { fieldPath: 'name' },
+            { fieldPath: 'availability' },
+            { fieldPath: 'badges' },
+            { fieldPath: 'brand' },
+            { fieldPath: 'categories' },
+            { fieldPath: 'compareAtPrice' },
+            { fieldPath: 'description' },
+            { fieldPath: 'images' },
+            { fieldPath: 'price' },
+            { fieldPath: 'rating' },
+            { fieldPath: 'reviews' },
+            { fieldPath: 'slug' },
+            { fieldPath: 'userId' },
 
-                   ) ); })
+        ]
+    },
+    where: {
+        compositeFilter: {
+            filters: [
+                { fieldFilter: {
+                    field: {
+                        fieldPath: 'userId'
+                    },
+                        op: 'EQUAL',
+                        value: {
+                           // booleanValue: true
+                           stringValue : userId
+                        }
+                    }
+                }
+            ], op: 'AND'
+        }
+    },
+        //limit: 4
+        }
+    }
+    ).then(res => {
+            console.log("the data : ",res);
+      return Promise.resolve(
+        res
+//                 res.data.documents.filter((x)=>
+//    x.fields.userId.stringValue.includes(userId)
+
+//                    )
+                   );
+                 })
 
     },
 
@@ -140,20 +187,64 @@ const shopApi = {
      * @return {Promise<object>}
      */
     getProductBySlug: (slug) => {
-        return   axios.get('https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents/products/')
+        return   axios.post('https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents:runQuery',
+        { structuredQuery:
+            { from: [
+                { collectionId: 'products'
+            }
+        ],
+        select: { fields:
+            [
+                { fieldPath: 'name' },
+                { fieldPath: 'availability' },
+                { fieldPath: 'badges' },
+                { fieldPath: 'brand' },
+                { fieldPath: 'categories' },
+                { fieldPath: 'compareAtPrice' },
+                { fieldPath: 'description' },
+                { fieldPath: 'images' },
+                { fieldPath: 'price' },
+                { fieldPath: 'rating' },
+                { fieldPath: 'reviews' },
+                { fieldPath: 'slug' },
+                { fieldPath: 'userId' },
+                { fieldPath: 'peopleRated' },
+
+            ]
+        },
+        where: {
+            compositeFilter: {
+                filters: [
+                    { fieldFilter: {
+                        field: {
+                            fieldPath: 'slug'
+                        },
+                            op: 'EQUAL',
+                            value: {
+
+                               stringValue : slug
+                            }
+                        }
+                    }
+                ], op: 'AND'
+            }
+        },
+            //limit: 4
+            }
+        })
         .then(res => {
 
-                const product = res.data.documents.find((x) => x.fields.slug.stringValue === slug);
-                if(product){
-
+                //const product = res.data.documents.find((x) => x.fields.slug.stringValue === slug);
+               // if(product){
+console.log("het product by slug : ",res);
                     return new Promise((resolve) => {
                       setTimeout(() => {
-                          resolve(product);
+                          resolve(res);
                       }, 500);
                   });
 
 
-                }else{ console.log("can't find the slug baby.... ");}
+               // }else{ console.log("can't find the slug baby.... ");}
 
         })
 
@@ -433,7 +524,7 @@ const shopApi = {
      *
      * @return {Promise<Array<object>>}
      */
-    getSuggestions: (query, options = {}) => {
+    getSuggestions: (query, options = {}) => {// this one for searching........................................
 
         return   axios.get('https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents/products/')
         .then(res => {
@@ -452,7 +543,9 @@ const shopApi = {
         //      }, 500);
         //  });
 
-        })
+        }).catch(error => {
+            console.log("falid to get data for searching : ",error);
+        });
 
         /**
          * This is what your API endpoint might look like:

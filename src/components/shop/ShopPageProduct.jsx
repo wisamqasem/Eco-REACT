@@ -38,13 +38,13 @@ function ShopPageProduct(props) {
         setIsLoading(true);
 
         shopApi.getProductBySlug(productSlug).then((product) => {//the product have {createTime,fields,name}
-            console.log("the slug pro : ",product);
+            console.log("the slug pro : ",product.data[0].document);
             if (canceled) {
                 return;
             }
 
-            setProduct(product);
-            console.log("the fckong product name : ",product.name.toString());
+            setProduct(product.data[0].document);
+            console.log("the fckong product name : ",product.data[0].document.name.toString());
             setIsLoading(false);
         });
 
@@ -62,7 +62,7 @@ function ShopPageProduct(props) {
                 return;
             }
 
-            setRelatedProducts(products);
+            setRelatedProducts(products);//the products have {createTime,fields,name}
         });
 
         return () => {
