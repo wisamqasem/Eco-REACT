@@ -21,11 +21,11 @@ export default class RangeFilterBuilder extends AbstractFilterBuilder {
     }
 
     makeItems(products, value) {
-        this.max = productsData.reduce(
+        this.max = products.reduce(
             (acc, product) => Math.max(acc, this.extractValue(product)),
             0,
         );
-        this.min = productsData.reduce(
+        this.min = products.reduce(
             (acc, product) => Math.min(acc, this.extractValue(product)),
             this.max,
         );
@@ -48,8 +48,10 @@ export default class RangeFilterBuilder extends AbstractFilterBuilder {
     calc() { }
 
     extractValue(product) {
+    console.log("🚀 ~ file: price.js ~ line 51 ~ RangeFilterBuilder ~ extractValue ~ product : ", product)
+
         if (this.slug === 'price') {
-            return product.price;
+            return product.document.fields.price.stringValue;
         }
 
         throw Error();

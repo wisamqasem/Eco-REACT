@@ -30,7 +30,7 @@ export function quickviewOpen(productSlug) {
                     }
 
                     if (product) {
-                        dispatch(quickviewOpenSuccess(product));
+                        dispatch(quickviewOpenSuccess(product.data[0].document));
                     }
 
                     resolve();

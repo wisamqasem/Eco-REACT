@@ -11,6 +11,15 @@ import { colorType } from '../../services/color';
 
 function FilterColor(props) {
     const { data, value, onChangeValue } = props;
+    console.log("🚀 ~ file: FilterColor.jsx ~ line 14 ~ FilterColor ~ value", value)
+    console.log("🚀 ~ file: FilterColor.jsx ~ line 14 ~ FilterColor ~ data", data)
+
+
+
+
+
+
+
 
     const updateValue = (newValue) => {
         onChangeValue({ filter: data, value: newValue });
@@ -25,8 +34,11 @@ function FilterColor(props) {
         }
     };
 
-    const itemsList = data.items.map((item) => (
-        <div key={item.slug} className="filter-color__item">
+    const itemsList = data.items.map((item,index) =>
+    {
+
+    return (
+        <div key={index} className="filter-color__item">
             <span
                 className={classNames('filter-color__check input-check-color', {
                     'input-check-color--white': colorType(item.color) === 'white',
@@ -40,7 +52,7 @@ function FilterColor(props) {
                         type="checkbox"
                         value={item.slug}
                         checked={value.includes(item.slug)}
-                        disabled={item.count === 0}
+
                         onChange={handleChange}
                     />
                     <span className="input-check-color__box" />
@@ -49,7 +61,8 @@ function FilterColor(props) {
                 </label>
             </span>
         </div>
-    ));
+    )}
+    );
 
     return (
         <div className="filter-color">

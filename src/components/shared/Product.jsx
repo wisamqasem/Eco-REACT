@@ -39,7 +39,9 @@ class Product extends Component {
             compareAddItem,
             cartAddItem,
         } = this.props;
+            console.log("🚀 ~ file: Product.jsx ~ line 42 ~ Product ~ render ~ product : ", product)
 
+      //  const product =  (this.props.product.fields ? this.props.product.fields : this.props.product.document.fields ) ;// i make that cuse if u come from the block of my products the form of data is deferent then if u come from onther page.
         const { quantity } = this.state;
         let prices;
 
@@ -150,7 +152,9 @@ class Product extends Component {
                         <div className="product__availability">
                             Availability:
                             {' '}
-                            <span className="text-success">In Stock</span>
+                            {product.availability.stringValue == 'In stock' ?  <span className="text-success">In Stock</span> : null}
+  {product.availability.stringValue == 'Sold out' ?  <span className="text-danger">Sold Out</span> : null}
+  {product.availability.stringValue == 'Out of order' ?  <span className="text-danger">Out of order</span> : null}
                         </div>
 
                         <div className="product__prices">
@@ -223,7 +227,7 @@ class Product extends Component {
                             <div className="form-group product__option">
                                 <label htmlFor="product-quantity" className="product__option-label">Quantity</label>
                                 <div className="product__actions">
-                                    <div className="product__actions-item">
+                                    {/* <div className="product__actions-item">
                                         <InputNumber
                                             id="product-quantity"
                                             aria-label="Quantity"
@@ -233,7 +237,7 @@ class Product extends Component {
                                             value={quantity}
                                             onChange={this.handleChangeQuantity}
                                         />
-                                    </div>
+                                    </div> */}
                                     <div className="product__actions-item product__actions-item--addtocart">
                                         <AsyncAction
                                             action={() => cartAddItem(product, [], quantity)}

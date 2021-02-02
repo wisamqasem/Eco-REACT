@@ -24,34 +24,34 @@ function NavLinks(props) {
         const { direction } = languages[locale];
 
         const item = event.currentTarget;
-        const megamenu = item.querySelector('.nav-links__megamenu');
+       // const megamenu = item.querySelector('.nav-links__megamenu');
 
-        if (megamenu) {
-            const container = megamenu.offsetParent;
-            const containerWidth = container.getBoundingClientRect().width;
-            const megamenuWidth = megamenu.getBoundingClientRect().width;
-            const itemOffsetLeft = item.offsetLeft;
+        // if (megamenu) {
+        //     const container = megamenu.offsetParent;
+        //     const containerWidth = container.getBoundingClientRect().width;
+        //     const megamenuWidth = megamenu.getBoundingClientRect().width;
+        //     const itemOffsetLeft = item.offsetLeft;
 
-            if (direction === 'rtl') {
-                const itemPosition = containerWidth - (
-                    itemOffsetLeft + item.getBoundingClientRect().width
-                );
+        //     if (direction === 'rtl') {
+        //         const itemPosition = containerWidth - (
+        //             itemOffsetLeft + item.getBoundingClientRect().width
+        //         );
 
-                const megamenuPosition = Math.round(
-                    Math.min(itemPosition, containerWidth - megamenuWidth),
-                );
+        //         const megamenuPosition = Math.round(
+        //             Math.min(itemPosition, containerWidth - megamenuWidth),
+        //         );
 
-                megamenu.style.left = '';
-                megamenu.style.right = `${megamenuPosition}px`;
-            } else {
-                const megamenuPosition = Math.round(
-                    Math.min(itemOffsetLeft, containerWidth - megamenuWidth),
-                );
+        //         megamenu.style.left = '';
+        //         megamenu.style.right = `${megamenuPosition}px`;
+        //     } else {
+        //         const megamenuPosition = Math.round(
+        //             Math.min(itemOffsetLeft, containerWidth - megamenuWidth),
+        //         );
 
-                megamenu.style.right = '';
-                megamenu.style.left = `${megamenuPosition}px`;
-            }
-        }
+        //         megamenu.style.right = '';
+        //         megamenu.style.left = `${megamenuPosition}px`;
+        //     }
+        // }
     };
     var navLinksfiltered;
 
@@ -75,7 +75,7 @@ function NavLinks(props) {
             );
         }
 
-        if (item.submenu && item.submenu.type === 'megamenu') {
+        if (item.submenu && item.submenu.type === 'megaMenu') {
             submenu = (
                 <div className={`nav-links__megamenu nav-links__megamenu--size--${item.submenu.menu.size}`}>
                     <Megamenu menu={item.submenu.menu} />

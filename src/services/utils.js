@@ -3,7 +3,9 @@ export const url = {
 
     catalog: () => '/shop/catalog',
 
-    category: (category) => `/shop/catalog/${category.slug}`,
+    category: (category) => `/shop/catalog/${category}`,
+
+    subCategory: (subCategory,category) => `/shop/catalog/${category}?filter_category=${subCategory}`,
 
     product: (product) => `/shop/products/${product.slug['stringValue']}`,
 };

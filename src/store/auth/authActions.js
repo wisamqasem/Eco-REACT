@@ -53,13 +53,10 @@ export const signUp = (newUser) => {
       newUser.register_email,
       newUser.register_password
     )
-    // .then(resp => {
-    //   return firestore.collection('users').doc(resp.user.uid).set({
-    //   //  firstName: newUser.firstName,
-    //   //  lastName: newUser.lastName,
-    //    // initials: newUser.firstName[0] + newUser.lastName[0]
-    //   });
-    // })
+    .then(resp => {
+       firestore.collection('carts').doc(resp.user.uid).set({});
+       firestore.collection('wishLists').doc(resp.user.uid).set({});
+    })
     .then(() => {
       dispatch({ type: 'SIGNUP_SUCCESS' });
     }).catch((err) => {

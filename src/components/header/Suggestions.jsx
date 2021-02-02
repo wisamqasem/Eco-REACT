@@ -45,7 +45,7 @@ function Suggestions(props) {
             {context === 'header' && (
                 <div className="suggestions__item-actions">
                     <AsyncAction
-                        action={() => cartAddItem(product)}
+                        action={() => cartAddItem(product.fields)}
                         render={({ run, loading }) => (
                             <button
                                 type="button"

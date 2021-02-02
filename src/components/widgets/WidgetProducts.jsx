@@ -11,40 +11,42 @@ import { url } from '../../services/utils';
 
 function WidgetProducts(props) {
     const { title, products } = props;
-    const productsList = products.map((product) => {
+    console.log("🚀 ~ file: WidgetProducts.jsx ~ line 14 ~ WidgetProducts ~ products : ", products)
+
+    const productsList = products.map((product,index) => {
         let image;
         let price;
-
-        if (product.images && product.images.length > 0) {
+product=product.fields;
+       // if (product.images && product.images.length > 0) {
             image = (
                 <div className="widget-products__image">
                     <div className="product-image">
                         <Link to={url.product(product)} className="product-image__body">
-                            <img className="product-image__img" src={product.images[0]} alt="" />
+                            <img className="product-image__img" src={product.images.arrayValue.values[0].stringValue} alt="" />
                         </Link>
                     </div>
                 </div>
             );
-        }
+       // }
 
-        if (product.compareAtPrice) {
+        if (product.compareAtPrice.stringValue) {
             price = (
                 <React.Fragment>
-                    <span className="widget-products__new-price"><Currency value={product.price} /></span>
+                    <span className="widget-products__new-price"><Currency value={parseInt(product.price.stringValue)} /></span>
                     {' '}
-                    <span className="widget-products__old-price"><Currency value={product.compareAtPrice} /></span>
+                    <span className="widget-products__old-price"><Currency value={parseInt(product.compareAtPrice.stringValue)} /></span>
                 </React.Fragment>
             );
         } else {
-            price = <Currency value={product.price} />;
+            price = <Currency value={parseInt(product.price.stringValue)} />;
         }
 
         return (
-            <div key={ product.createTime} className="widget-products__item">
+            <div key={ index} className="widget-products__item">
                 {image}
                 <div className="widget-products__info">
                     <div className="widget-products__name">
-                        <Link to={url.product(product)}>{product.name}</Link>
+                        <Link to={url.product(product)}>{product.name.stringValue}</Link>
                     </div>
                     <div className="widget-products__prices">
                         {price}

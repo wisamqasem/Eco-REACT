@@ -18,7 +18,10 @@ export default class CheckFilterBuilder extends AbstractFilterBuilder {
     }
 
     makeItems(products, value) {
-        products.forEach((product) => this.extractItems(product).forEach((item) => {
+    console.log("🚀 ~ file: check.js ~ line 21 ~ CheckFilterBuilder ~ makeItems ~ products : ", products)
+
+        products.forEach((product) =>
+        this.extractItems(product).forEach((item) => {
             if (!this.items.find((x) => x.slug === item.slug)) {
                 this.items.push(item);
             }

@@ -30,11 +30,14 @@ export default class ColorFilterBuilder extends AbstractFilterBuilder {
 
     value = [];
 
+
     test(product) {
+
         if (this.value.length === 0) {
             return true;
         }
-
+        console.log("🚀 ~ file: color.js ~ line 32 ~ ColorFilterBuilder ~ value", this.value);
+        console.log("🚀 ~ file: color.js ~ line 35 ~ ColorFilterBuilder ~ test ~ product", product)
         return this.value.reduce((result, value) => (
             result || this.extractItems(product).map((x) => x.slug).includes(value)
         ), false);
@@ -42,6 +45,8 @@ export default class ColorFilterBuilder extends AbstractFilterBuilder {
 
     makeItems(products, value) {
         products.forEach((product) => this.extractItems(product).forEach((item) => {
+        //console.log("🚀 ~ file: color.js ~ line 45 ~ ColorFilterBuilder ~ products.forEach ~ item", item)
+
             if (!this.items.find((x) => x.slug === item.slug)) {
                 this.items.push(item);
             }
@@ -50,8 +55,8 @@ export default class ColorFilterBuilder extends AbstractFilterBuilder {
         this.value = this.parseValue(value);
     }
 
-    calc(filters) {
-        const products = productsData.filter(
+    calc(filters,items) {
+        const products = items.filter(
             (product) => filters.reduce(
                 (isMatched, filter) => isMatched && (filter === this || filter.test(product)),
                 true,
@@ -87,15 +92,18 @@ export default class ColorFilterBuilder extends AbstractFilterBuilder {
     }
 
     extractItems(product) {
-        const attribute = product.attributes.find((x) => x.slug === this.slug);
+  //  console.log("🚀 ~ file: color.js ~ line 90 ~ ColorFilterBuilder ~ extractItems ~ product : ", this.slug)
+    product.attributes=[{ slug: 'color', values: ['silver', 'cerise'] }]
+         const attribute = product.attributes.find((x) => x.slug === this.slug);
+        //const attribute = product.find((x) => x.document.fields.slug.stringValue === this.slug);
 
         if (!attribute) {
             return [];
         }
 
         return attribute.values.map((value) => ({
-            slug: value.slug,
-            name: value.name,
+            slug: value,
+            name: value,
             color: this.getColorCode(value.slug),
             count: 0,
         }));

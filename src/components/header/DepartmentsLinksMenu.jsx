@@ -7,6 +7,8 @@ import PropTypes from 'prop-types';
 
 // application
 import AppLink from '../shared/AppLink';
+import { Link } from 'react-router-dom';
+import { url } from '../../services/utils';
 import { ArrowRoundedRight6x9Svg } from '../../svg';
 
 function Menu(props) {
@@ -15,12 +17,13 @@ function Menu(props) {
         withIcons,
         items,
         onClick,
+        category
     } = props;
 
     const renderLink = (item, content) => {
         if(!item.url){item.url=item.stringValue};
 
-        let link;
+        let link;// /shop/catalog/category/
 
         if (item.url) {
             link = (
@@ -48,36 +51,37 @@ function Menu(props) {
         let submenu;
         let icon;
 
-        if (item.submenu && item.submenu.length) {
-            arrow = <ArrowRoundedRight6x9Svg className="menu__arrow" />;
-        }
+        // if (item.submenu && item.submenu.length) {
+        //     arrow = <ArrowRoundedRight6x9Svg className="menu__arrow" />;
+        // }
 
         //if (item.submenu && item.submenu.length) {     this is in case there is submenu inside sub categories
-        if (item.submenu ) {
-            submenu = (
-                <div className="menu__submenu">
-                    <Menu items={item.submenu} />
-                </div>
-            );
-        }
+        // if (item.submenu ) {
+        //     submenu = (
+        //         <div className="menu__submenu">
+        //             <Menu items={item.submenu} />
+        //         </div>
+        //     );
+        // }
 
-        if (withIcons && item.icon) {
-            icon = (
-                <div className="menu__icon">
-                    <img src={item.icon} srcSet={item.icon_srcset} alt="" />
-                </div>
-            );
-        }
+        // if (withIcons && item.icon) {
+        //     icon = (
+        //         <div className="menu__icon">
+        //             <img src={item.icon} srcSet={item.icon_srcset} alt="" />
+        //         </div>
+        //     );
+        // }
 
         return (
             <li key={index}>
-                {renderLink(item, (
+                {/* {renderLink(item, ( */}
                     <React.Fragment>
-                        {icon}
-                        {item.title}
-                        {arrow}
+                        {/* {icon} */}
+                        <Link to={url.subCategory(item.title,category)}>{item.title}</Link>
+                        {/* {item.title} */}
+                        {/* {arrow} */}
                     </React.Fragment>
-                ))}
+                {/* ))} */}
                 {submenu}
             </li>
         );

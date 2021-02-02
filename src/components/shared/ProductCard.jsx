@@ -124,14 +124,16 @@ try {
                 </div>
                 <div className="product-card__rating">
                     <Rating value={parseInt(product.rating.stringValue)} />
-                    <div className=" product-card__rating-legend">{`${'3'} Reviews`}</div>
+                    {/* <div className=" product-card__rating-legend">{`${'3'} Reviews`}</div> */}
                 </div>
                 {features}
             </div>
             <div className="product-card__actions">
                 <div className="product-card__availability">
                     Availability:
-                    <span className="text-success">In Stock</span>
+                    {product.availability.stringValue == 'In stock' ?  <span className="text-success">In Stock</span> : null}
+  {product.availability.stringValue == 'Sold out' ?  <span className="text-danger">Sold Out</span> : null}
+  {product.availability.stringValue == 'Out of order' ?  <span className="text-danger">Out of order</span> : null}
                 </div>
                 {price}
                 <div className="product-card__buttons">

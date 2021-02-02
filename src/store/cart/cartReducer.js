@@ -1,5 +1,5 @@
-import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_UPDATE_QUANTITIES } from './cartActionTypes';
-
+import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_UPDATE_QUANTITIES,GET_CART_DATA } from './cartActionTypes';
+import firebase from '../../config/fbConfig'
 /**
  * @param {array} items
  * @param {object} product
@@ -8,27 +8,47 @@ import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_UPDATE_QUANTITIES } from './cartA
  */
 function findItemIndex(items, product, options) {
     return items.findIndex((item) => {
-        if (item.product.id !== product.id || item.options.length !== options.length) {
+        if (item.mapValue.fields.slug.stringValue !== product.slug.stringValue ) {
             return false;
         }
 
-        for (let i = 0; i < options.length; i += 1) {
-            const option = options[i];
-            const itemOption = item.options.find((itemOption) => (
-                itemOption.optionId === option.optionId && itemOption.valueId === option.valueId
-            ));
+        // for (let i = 0; i < options.length; i += 1) {
+        //     const option = options[i];
+        //     const itemOption = item.options.find((itemOption) => (
+        //         itemOption.optionId === option.optionId && itemOption.valueId === option.valueId
+        //     ));
 
-            if (!itemOption) {
-                return false;
-            }
-        }
+        //     if (!itemOption) {
+        //         return false;
+        //     }
+        // }
 
         return true;
     });
 }
 
+function cartData(state,Products) {
+    if(!Products.data.fields.products.arrayValue.values)return{
+          ...state,
+        cartProducts:[],
+        quantity:0,
+        subtotal:0,
+        total:0}
+    const cartProducts = Products.data.fields.products.arrayValue.values;
+    var subtotal=0,extraLines=0;
+cartProducts.map((p)=>{p.total=parseInt(p.mapValue.fields.price.stringValue);subtotal+=parseInt(p.mapValue.fields.price.stringValue)})
+state.extraLines.map((p)=>{extraLines+=p.price})
+
+    return{
+        ...state,
+        cartProducts:cartProducts,
+        quantity:cartProducts.length,
+        subtotal:subtotal,
+        total:subtotal+extraLines
+    }
+}
+
 function calcSubtotal(items) {
-    console.log("subtotle : ",items);
     return items.reduce((subtotal, item) => subtotal + item.total, 0);
 }
 
@@ -37,37 +57,38 @@ function calcQuantity(items) {
 }
 
 function calcTotal(subtotal, extraLines) {
-    console.log("totle : ",subtotal);
     return subtotal + extraLines.reduce((total, extraLine) => total + extraLine.price, 0);
 }
 
 function addItem(state, product, options, quantity) {
-    const itemIndex = findItemIndex(state.items, product, options);
+    const itemIndex = findItemIndex(state.cartProducts, product, options);
 
     let newItems;
-    let { lastItemId } = state;
+    //let { lastItemId } = state;
 
     if (itemIndex === -1) {
-        lastItemId += 1;
-        newItems = [...state.items, {
-            id: lastItemId,
-            product: JSON.parse(JSON.stringify(product)),
-            options: JSON.parse(JSON.stringify(options)),
-            price: parseInt(product.price.stringValue),
-            total: parseInt(product.price.stringValue) * quantity,
-            quantity,
+       // lastItemId += 1;
+
+        newItems = [...state.cartProducts, {
+            //id: lastItemId,
+            mapValue:{fields : { images :{stringValue :product.images.arrayValue.values[0].stringValue } ,name :{stringValue :product.name.stringValue } ,price :{stringValue : product.price.stringValue} ,slug :{stringValue : product.slug.stringValue} }} ,
+           // options: JSON.parse(JSON.stringify(options)),
+           // price: parseInt(product.price.stringValue),
+            total: parseInt(product.price.stringValue),
+
         }];
+
     } else {
-        const item = state.items[itemIndex];
+        const item = state.cartProducts[itemIndex];
 
         newItems = [
-            ...state.items.slice(0, itemIndex),
+            ...state.cartProducts.slice(0, itemIndex),
             {
                 ...item,
-                quantity: item.quantity + quantity,
-                total: (item.quantity + quantity) * parseInt(item.price.stringValue),
+                quantity: 1,
+                total:  parseInt(item.mapValue.fields.price.stringValue),
             },
-            ...state.items.slice(itemIndex + 1),
+            ...state.cartProducts.slice(itemIndex + 1),
         ];
     }
 
@@ -76,53 +97,52 @@ function addItem(state, product, options, quantity) {
 
     return {
         ...state,
-        lastItemId,
+     //   lastItemId,
         subtotal,
         total,
-        items: newItems,
-        quantity: calcQuantity(newItems),
+        cartProducts: newItems,
+        quantity: newItems.length//calcQuantity(newItems),
     };
 }
 
 function removeItem(state, itemId) {
-    const { items } = state;
-    const newItems = items.filter((item) => item.id !== itemId);
-
-    const subtotal = calcSubtotal(newItems);
+    const { cartProducts } = state;
+    const products = cartProducts//.data.fields.products.arrayValue.values;
+    const newproducts = products.filter((item) => item.mapValue.fields.slug.stringValue !== itemId);
+    const subtotal = calcSubtotal(newproducts);
     const total = calcTotal(subtotal, state.extraLines);
 
     return {
         ...state,
-        items: newItems,
-        quantity: calcQuantity(newItems),
+        cartProducts : newproducts,
+        quantity:newproducts.length,
+        // quantity: calcQuantity(newproducts),
         subtotal,
         total,
     };
 }
 
+
 function updateQuantities(state, quantities) {
     let needUpdate = false;
-
-    const newItems = state.items.map((item) => {
-        const quantity = quantities.find((x) => x.itemId === item.id && x.value !== item.quantity);
-
+    const newItems = state.cartProducts.map((item) => {
+item.total=item.quantity*parseInt(item.mapValue.fields.price.stringValue);
+        const quantity = quantities.find((x) => x.productId === item.mapValue.fields.slug.stringValue && x.value !== item.quantity);
         if (!quantity) {
             return item;
         }
-
         needUpdate = true;
-
+item.quantity=quantity.value;//////////////
         return {
             ...item,
             quantity: quantity.value,
-            total: quantity.value * parseInt(item.price.stringValue),
+            total: quantity.value * parseInt(item.mapValue.fields.price.stringValue),
         };
     });
 
     if (needUpdate) {
         const subtotal = calcSubtotal(newItems);
         const total = calcTotal(subtotal, state.extraLines);
-
         return {
             ...state,
             items: newItems,
@@ -155,8 +175,9 @@ function updateQuantities(state, quantities) {
 * }
 */
 const initialState = {
+    cartProducts:[],
     lastItemId: 0,
-    quantity: 0,
+    quantity:0,
     items: [],
     subtotal: 0,
     extraLines: [ // shipping, taxes, fees, .etc
@@ -175,7 +196,9 @@ const initialState = {
 };
 
 export default function cartReducer(state = initialState, action) {
+
     switch (action.type) {
+
     case CART_ADD_ITEM:
         return addItem(state, action.product, action.options, action.quantity);
 
@@ -184,6 +207,7 @@ export default function cartReducer(state = initialState, action) {
 
     case CART_UPDATE_QUANTITIES:
         return updateQuantities(state, action.quantities);
+    case GET_CART_DATA : return cartData(state,action.cartProducts);
 
     default:
         return state;

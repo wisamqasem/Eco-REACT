@@ -41,6 +41,7 @@ function ProductsView(props) {
         offcanvas,
         sidebarOpen,
     } = props;
+
     const [layout, setLayout] = useState(propsLayout);
 
     const handlePageChange = useSetOption('page', parseFloat, dispatch);
@@ -75,12 +76,13 @@ function ProductsView(props) {
             </button>
         );
     });
-
-    const productsListItems = productsList.items.map((product) => (
-        <div key={ product.createTime} className="products-list__item">
+    console.log("🚀 ~ file: ProductsView.jsx ~ line 84 ~ ProductsView ~  productsList : ",  productsList);
+    const productsListItems = productsList.items.map((product,index) => (
+        <div key={ index} className="products-list__item">
             <ProductCard product={product} />
         </div>
     ));
+
 
     const rootClasses = classNames('products-view', {
         'products-view--loading': isLoading,
@@ -112,11 +114,11 @@ function ProductsView(props) {
                                 </div>
                             </div>
                         </div>
-                        <div className="view-options__legend">
+                        {/* <div className="view-options__legend">
                             {`Showing ${productsList.from}—${productsList.to} of ${productsList.total} products`}
-                        </div>
+                        </div> */}
                         <div className="view-options__divider" />
-                        <div className="view-options__control">
+                        {/* <div className="view-options__control">
                             <label htmlFor="view-options-sort">Sort By</label>
                             <div>
                                 <select
@@ -130,8 +132,8 @@ function ProductsView(props) {
                                     <option value="name_desc">Name (Z-A)</option>
                                 </select>
                             </div>
-                        </div>
-                        <div className="view-options__control">
+                        </div> */}
+                        {/* <div className="view-options__control">
                             <label htmlFor="view-options-limit">Show</label>
                             <div>
                                 <select
@@ -146,7 +148,7 @@ function ProductsView(props) {
                                     <option value="24">24</option>
                                 </select>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
 

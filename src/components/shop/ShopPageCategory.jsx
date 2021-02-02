@@ -17,6 +17,7 @@ import shopApi from '../../api/shop';
 import WidgetFilters from '../widgets/WidgetFilters';
 import WidgetProducts from '../widgets/WidgetProducts';
 import { sidebarClose } from '../../store/sidebar';
+import { Link } from 'react-router-dom';
 
 // data stubs
 import theme from '../../data/theme';
@@ -79,8 +80,8 @@ function buildQuery(options, filters) {
     if (options.sort !== 'default') {
         params.sort = options.sort;
     }
-
-    Object.keys(filters).filter((x) => x !== 'category' && !!filters[x]).forEach((filterSlug) => {
+//x !== 'category' &&
+    Object.keys(filters).filter((x) => !!filters[x]).forEach((filterSlug) => {
         params[`filter_${filterSlug}`] = filters[filterSlug];
     });
 
@@ -167,9 +168,18 @@ function ShopPageCategory(props) {
         viewMode,
         sidebarPosition,
     } = props;
+
+
     const offcanvas = columns === 3 ? 'mobile' : 'always';
     const [state, dispatch] = useReducer(reducer, initialState, init);
     const [latestProducts, setLatestProducts] = useState([]);
+
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const filter_category = urlParams.get('filter_category')
+
+
+
 
     // Replace current url.
     useEffect(() => {
@@ -187,7 +197,8 @@ function ShopPageCategory(props) {
         dispatch({ type: 'RESET', categorySlug });
 
         if (categorySlug) {
-            request = shopApi.getCategoryBySlug(categorySlug);
+            request = shopApi.getCategoryProductsBySlug(categorySlug);
+
         } else {
             request = Promise.resolve(null);
         }
@@ -210,8 +221,8 @@ function ShopPageCategory(props) {
         let canceled = false;
 
         dispatch({ type: 'FETCH_PRODUCTS_LIST' });
-
-        shopApi.getProductsList(
+        console.log("🚀 ~ file: ShopPageCategory.jsx ~ line 233 ~ useEffect ~ state.filters", state.filters)
+        shopApi.getProductsList(categorySlug,
             state.options,
             { ...state.filters, category: categorySlug },
         ).then((productsList) => {
@@ -225,7 +236,8 @@ function ShopPageCategory(props) {
         return () => {
             canceled = true;
         };
-    }, [dispatch, categorySlug, state.options, state.filters]);
+    }, [dispatch, categorySlug, state.options, state.filters,filter_category]);
+
 
     // Load latest products.
     useEffect(() => {
@@ -259,6 +271,22 @@ function ShopPageCategory(props) {
     let pageTitle = 'Shop';
     let content;
 
+    //in case there is no products for some category
+    if(!state.category.data[0].document)return(
+    <div className="container">
+    <div className="not-found">
+        <div className="not-found__404">
+            Oops!
+        </div>
+        <div className="not-found__content">
+            <h1 className="not-found__title">there is no products in this category</h1>
+            <Link to="/" className="btn btn-secondary btn-sm">Go To Home Page</Link>
+        </div>
+    </div>
+</div>
+);////////////////////////////////////
+
+
     if (state.category) {
         getCategoryParents(state.category).forEach((parent) => {
             breadcrumb.push({ title: parent.name, url: url.category(parent) });
@@ -281,6 +309,7 @@ function ShopPageCategory(props) {
             offcanvas={offcanvas}
         />
     );
+
 
     const sidebarComponent = (
         <CategorySidebar offcanvas={offcanvas}>

@@ -23,7 +23,7 @@ export default function BlockProducts(props) {
     } = props;
 
    // const { products} = props;
-  // console.log("product : ",products);
+   //console.log("products in blockProducts : ",products);
     let large;
     let smalls;
 

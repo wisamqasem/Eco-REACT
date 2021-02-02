@@ -16,8 +16,11 @@ import { cartRemoveItem, cartUpdateQuantities } from '../../store/cart';
 import { Cross12Svg } from '../../svg';
 import { url } from '../../services/utils';
 
+import shopApi from '../../api/shop'
+
 // data stubs
 import theme from '../../data/theme';
+import {getCartData} from '../../store/cart/cartActions'
 
 class ShopPageCart extends Component {
     constructor(props) {
@@ -26,22 +29,41 @@ class ShopPageCart extends Component {
         this.state = {
             /** example: [{itemId: 8, value: 1}] */
             quantities: [],
+
+
         };
     }
+    // componentWillMount(){
+    //     console.log("fck me hard first");
+    //     const { auth} = this.props;
+    //     this.props.getCartData(auth.uid);
+    //   }
+    // componentDidMount() {
+    //     console.log("fck me hard second")
+    //     const { auth} = this.props;
 
-    getItemQuantity(item) {
+
+
+    //   }
+    //   componentDidUpdate() {
+    //     this.render();
+    //   }
+
+    getItemQuantity(product) {
+        const productId = product.mapValue.fields.slug.stringValue;
         const { quantities } = this.state;
-        const quantity = quantities.find((x) => x.itemId === item.id);
+        const quantity = quantities.find((x) => x.productId ===  productId );
 
-        return quantity ? quantity.value : item.quantity;
+        return quantity ? quantity.value : product.quantity=1;
     }
 
-    handleChangeQuantity = (item, quantity) => {
+    handleChangeQuantity = (product, quantity) => {
+        const productId = product.mapValue.fields.slug.stringValue;
         this.setState((state) => {
-            const stateQuantity = state.quantities.find((x) => x.itemId === item.id);
+            const stateQuantity = this.state.quantities.find((x) => x.productId ===productId );
 
             if (!stateQuantity) {
-                state.quantities.push({ itemId: item.id, value: quantity });
+                state.quantities.push({ productId: productId, value: quantity });
             } else {
                 stateQuantity.value = quantity;
             }
@@ -53,94 +75,104 @@ class ShopPageCart extends Component {
     };
 
     cartNeedUpdate() {
-        const { quantities } = this.state;
+        const { quantities,productsArr } = this.state;
         const { cart } = this.props;
 
         return quantities.filter((x) => {
-            const item = cart.items.find((item) => item.id === x.itemId);
+            //const item = cart.items.find((item) => item.id === x.itemId);
+           const product = cart.cartProducts.find((product) => product.mapValue.fields.slug.stringValue === x.productId);
 
-            return item && item.quantity !== x.value && x.value !== '';
+            return product && product.quantity !== x.value && x.value !== '';
         }).length > 0;
     }
 
     renderItems() {
-        const { cart, cartRemoveItem } = this.props;
+        const { cart, cartRemoveItem,auth,cartProducts } = this.props;
+console.log("cart from render : ",cart);
 
-        return cart.items.map((item) => {
-            let image;
-            let options;
+const productsArr = cartProducts;
+return productsArr.map((product)=>{
+    let image;
+    const productQ = this.getItemQuantity(product);
+        image = (
+            <div className="product-image">
+                <Link to={url.product(product.mapValue.fields)} className="product-image__body">
+                    <img className="product-image__img" src={product.mapValue.fields.images.stringValue} alt="" />
+                </Link>
+            </div>
+        );
 
-            if (item.product.images.arrayValue.values.length > 0) {
-                image = (
-                    <div className="product-image">
-                        <Link to={url.product(item.product)} className="product-image__body">
-                            <img className="product-image__img" src={item.product.images.arrayValue.values[0].stringValue} alt="" />
-                        </Link>
-                    </div>
-                );
-            }
+        const removeButton = (
+            <AsyncAction
+                action={() => cartRemoveItem(product.mapValue.fields,auth.uid)}
+                render={({ run, loading }) => {
+                    const classes = classNames('btn btn-light btn-sm btn-svg-icon', {
+                        'btn-loading': loading,
+                    });
 
-            if (item.options.length > 0) {
-                options = (
-                    <ul className="cart-table__options">
-                        {item.options.map((option, index) => (
-                            <li key={index}>{`${option.optionTitle}: ${option.valueTitle}`}</li>
-                        ))}
-                    </ul>
-                );
-            }
+                    return (
+                        <button type="button" onClick={run} className={classes}>
+                            <Cross12Svg />
+                        </button>
+                    );
+                }}
+            />
+        );
+        return (
+            <tr key={product.mapValue.fields.slug.stringValue} className="cart-table__row">
+                <td className="cart-table__column cart-table__column--image">
+                    {image}
+                </td>
+                <td className="cart-table__column cart-table__column--product">
+                    <Link to={url.product(product.mapValue.fields)} className="cart-table__product-name">
+                        {product.mapValue.fields.name.stringValue}
+                    </Link>
+                    {/* {options} */}
+                </td>
+                <td className="cart-table__column cart-table__column--price" data-title="Price">
+                    <Currency value={parseInt(product.mapValue.fields.price.stringValue)} />
+                </td>
+                <td className="cart-table__column cart-table__column--quantity" data-title="Quantity">
+                    <InputNumber
+                        onChange={(quantity) => this.handleChangeQuantity(product, quantity)}
+                        value={this.getItemQuantity(product)}
+                        min={1}
+                    />
+                </td>
+                <td className="cart-table__column cart-table__column--total" data-title="Total">
+                    <Currency value={parseInt(product.mapValue.fields.price.stringValue)*productQ} />
+                </td>
+                <td className="cart-table__column cart-table__column--remove">
+                    {removeButton}
+                </td>
+            </tr>
+        );
 
-            const removeButton = (
-                <AsyncAction
-                    action={() => cartRemoveItem(item.id)}
-                    render={({ run, loading }) => {
-                        const classes = classNames('btn btn-light btn-sm btn-svg-icon', {
-                            'btn-loading': loading,
-                        });
 
-                        return (
-                            <button type="button" onClick={run} className={classes}>
-                                <Cross12Svg />
-                            </button>
-                        );
-                    }}
-                />
-            );
 
-            return (
-                <tr key={item.id} className="cart-table__row">
-                    <td className="cart-table__column cart-table__column--image">
-                        {image}
-                    </td>
-                    <td className="cart-table__column cart-table__column--product">
-                        <Link to={url.product(item.product)} className="cart-table__product-name">
-                            {item.product.name.stringValue}
-                        </Link>
-                        {options}
-                    </td>
-                    <td className="cart-table__column cart-table__column--price" data-title="Price">
-                        <Currency value={parseInt(item.price.stringValue)} />
-                    </td>
-                    <td className="cart-table__column cart-table__column--quantity" data-title="Quantity">
-                        <InputNumber
-                            onChange={(quantity) => this.handleChangeQuantity(item, quantity)}
-                            value={this.getItemQuantity(item)}
-                            min={1}
-                        />
-                    </td>
-                    <td className="cart-table__column cart-table__column--total" data-title="Total">
-                        <Currency value={item.total} />
-                    </td>
-                    <td className="cart-table__column cart-table__column--remove">
-                        {removeButton}
-                    </td>
-                </tr>
-            );
-        });
+
+
+})
+
+
     }
+    getSubTotal(){
+    const {quantities,productsArr} = this.state;
+    var subtotal=0;
+    quantities.map((q)=>{
+        const product =  productsArr.find(x=>x.mapValue.fields.slug.stringValue==q.productId);
+subtotal += parseInt(product.mapValue.fields.price.stringValue) * q.value;
+//console.log("getSubtotoal : ",q.value)
 
+     })
+   //.log("subtotole : ",subtotal)
+
+return subtotal
+
+}
     renderTotals() {
-        const { cart } = this.props;
+       const { cart } = this.props;
+
 
         if (cart.extraLines.length <= 0) {
             return null;
@@ -180,7 +212,7 @@ class ShopPageCart extends Component {
     }
 
     renderCart() {
-        const { cart, cartUpdateQuantities } = this.props;
+        const { cart, cartUpdateQuantities,cartProducts } = this.props;
         const { quantities } = this.state;
 
         const updateCartButton = (
@@ -192,7 +224,7 @@ class ShopPageCart extends Component {
                     });
 
                     return (
-                        <button type="button" onClick={run} className={classes} disabled={!this.cartNeedUpdate()}>
+                        <button type="button" onClick={run} className={classes} disabled={!this.cartNeedUpdate()} >
                             Update Cart
                         </button>
                     );
@@ -225,7 +257,7 @@ class ShopPageCart extends Component {
                             <button type="submit" className="btn btn-primary">Apply Coupon</button>
                         </form>
                         <div className="cart__buttons">
-                            <Link to="/" className="btn btn-light">Continue Shopping</Link>
+                            <Link to="/" className="btn btn-primary">Continue Shopping</Link>
                             {updateCartButton}
                         </div>
                     </div>
@@ -257,14 +289,21 @@ class ShopPageCart extends Component {
     }
 
     render() {
-        const { cart } = this.props;
+        const {auth}= this.props;
+
+        const { cart ,cartProducts} = this.props;
+     //   console.log("fck me : ",cart.lastItemId)
+     //   console.log("cart baby : ",cart)
+//console.log("cart products : ",cartProducts)
+
+
         const breadcrumb = [
             { title: 'Home', url: '' },
             { title: 'Shopping Cart', url: '' },
         ];
 
         let content;
-
+console.log("cart q : ",cart.quantity)
         if (cart.quantity) {
             content = this.renderCart();
         } else {
@@ -298,11 +337,16 @@ class ShopPageCart extends Component {
 
 const mapStateToProps = (state) => ({
     cart: state.cart,
+    cartProducts: state.cart.cartProducts,
+    auth : state.firebase.auth
 });
 
-const mapDispatchToProps = {
-    cartRemoveItem,
-    cartUpdateQuantities,
+const mapDispatchToProps =(dispatch)=> {
+    return{
+    cartRemoveItem : (product,cartId)=>dispatch(cartRemoveItem(product,cartId)),
+    cartUpdateQuantities:(quantities)=>dispatch(cartUpdateQuantities(quantities)),
+    getCartData:(userId) => dispatch(getCartData(userId))
+    }
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShopPageCart);

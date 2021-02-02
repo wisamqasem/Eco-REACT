@@ -150,6 +150,7 @@ function Layout(props) {
                                 />
                             )}
                         />
+
                         {/* Following product layouts only for demonstration. */}
                         {productLayouts}
 

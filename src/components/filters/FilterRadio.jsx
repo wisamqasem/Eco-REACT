@@ -18,7 +18,7 @@ function FilterRadio(props) {
         }
     };
 
-    const itemsList = data.items.map((item) => {
+    const itemsList = data.items.map((item,index) => {
         let count;
 
         if (item.count) {
@@ -31,7 +31,7 @@ function FilterRadio(props) {
 
         return (
             <label
-                key={item.slug}
+                key={index}
                 className={itemClasses}
             >
                 <span className="filter-list__input input-radio">
@@ -40,15 +40,15 @@ function FilterRadio(props) {
                             className="input-radio__input"
                             type="radio"
                             name={data.slug}
-                            value={item.slug}
-                            checked={value === item.slug}
+                            value={item}
+                            checked={value === item}
                             disabled={item.count === 0}
                             onChange={handleChange}
                         />
                         <span className="input-radio__circle" />
                     </span>
                 </span>
-                <span className="filter-list__title">{item.name}</span>
+                <span className="filter-list__title">{item}</span>
                 {count}
             </label>
         );

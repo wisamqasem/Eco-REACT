@@ -76,7 +76,7 @@ NavPanel.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-    wishlist: state.wishlist,
+    wishlist: state.wishlist.wishListProducts,
 });
 
 const mapDispatchToProps = {};

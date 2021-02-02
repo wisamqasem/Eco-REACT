@@ -63,10 +63,10 @@ class ShopPageCheckout extends Component {
     renderCart() {
         const { cart } = this.props;
 
-        const items = cart.items.map((item) => (
-            <tr key={item.id}>
-                <td>{`${item.product.name} × ${item.quantity}`}</td>
-                <td><Currency value={item.total} /></td>
+        const items = cart.cartProducts.map((item) => (
+            <tr key={item.mapValue.fields.slug.stringValue}>
+                <td>{`${item.mapValue.fields.name.stringValue} × ${item.quantity}`}</td>
+                <td><Currency value={parseInt(item.total)} /></td>
             </tr>
         ));
 

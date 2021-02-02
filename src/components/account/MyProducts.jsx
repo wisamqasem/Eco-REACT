@@ -6,6 +6,7 @@ import shopApi from '../../api/shop'
 import BlockProducts from '../blocks/BlockProducts';
 import { useDeferredData, useProductColumns, useProductTabs } from '../../services/hooks';
 import { Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 class MyProducts extends Component {
 
@@ -38,7 +39,24 @@ const myProducts = useDeferredData(() => (
 console.log("🚀 ~ file: MyProducts.jsx ~ line 37 ~ Myproductsfun : ", myProducts)
 
     if (!auth.uid) return <Redirect to='/' />
-  return <MyProducts myProducts={myProducts}/>
+  //  const isThereProducts=myProducts.data.data ? false : true;
+  //if(myProducts.data.data[0].documents){}
+    if(myProducts.data.length===0 || myProducts.data.data.length===1 ){
+
+         return (
+    <div className="block block-empty">
+    <div className="container">
+        <div className="block-empty__body">
+            <div className="block-empty__message">There is no products</div>
+            <div className="block-empty__actions">
+                <Link to="/" className="btn btn-primary btn-sm">Continue</Link>
+            </div>
+        </div>
+    </div>
+</div> );}
+
+    return <MyProducts myProducts={myProducts}/>
+
 
 
 }

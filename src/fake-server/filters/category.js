@@ -28,9 +28,10 @@ export default class CategoryFilterBuilder extends AbstractFilterBuilder {
     }
 
     makeItems(products, value) {
+        console.log("🚀 ~ file: category.js ~ line 31 ~ CategoryFilterBuilder ~ makeItems ~ products : ", products)
         this.value = value || null;
 
-        const category = categoriesListData.find((x) => x.slug === value);
+        const category = products.find((x) => x.document.fields.slug.stringValue === value);
         // const categoryHasProductsFn = (x) => categoryHasProducts(x, productsData);
         const categoryHasProductsFn = () => true;
 

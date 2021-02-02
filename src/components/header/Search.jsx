@@ -36,8 +36,11 @@ function useCategories() {
             if (canceled) {
                 return;
             }
+           // newcategories.name=categories.fields.name.stringValue;
+          //  newcategories.subCategories=categories.fields.subCategories.arrayValue.values;
 
-            setCategories(treeToList(categories));
+
+            setCategories(treeToList(categories));//
         });
 
         return () => {
@@ -168,13 +171,16 @@ function Search(props) {
             <Cross20Svg />
         </button>
     );
-
-    const categoryOptions = categories.map((category) => (
-        <option key={category.slug} value={category.slug}>
+//console.log("categories : ",categories);
+    const categoryOptions = categories.map((category,index) => {
+        category.name=category.fields.name.stringValue;
+        //category.subCategories=categories.fields.subCategories.arrayValue.values;
+return(
+        <option key={index} value={category.slug}>
             {'\u00A0'.repeat(4 * category.depth)}
             {category.name}
-        </option>
-    ));
+        </option>)
+    });
 
     return (
         <div className={rootClasses} ref={wrapper} onBlur={handleBlur}>

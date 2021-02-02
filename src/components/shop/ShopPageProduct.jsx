@@ -21,7 +21,7 @@ import WidgetCategories from '../widgets/WidgetCategories';
 import WidgetProducts from '../widgets/WidgetProducts';
 
 // data stubs
-import categories from '../../data/shopWidgetCategories';
+//import categories from '../../data/shopWidgetCategories';
 import theme from '../../data/theme';
 
 function ShopPageProduct(props) {
@@ -29,6 +29,7 @@ function ShopPageProduct(props) {
     const [isLoading, setIsLoading] = useState(true);
     const [product, setProduct] = useState(null);
     const [relatedProducts, setRelatedProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [latestProducts, setLatestProducts] = useState([]);
 
     // Load product.
@@ -84,6 +85,18 @@ function ShopPageProduct(props) {
 
                 setLatestProducts(result);
             });
+            shopApi.getCategories({ limit: 10 }).then((result) => {
+                if (canceled) {
+                    return;
+                }
+
+                setCategories(result);
+            });
+
+
+
+
+
         }
 
         return () => {

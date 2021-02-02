@@ -22,7 +22,7 @@ import BlockSlideShow from '../blocks/BlockSlideShow';
 
 //import Dashboard from '../../fake-server/database/Dashboard'
 // data stubs
-import categories from '../../data/shopBlockCategories';
+//import categories from '../../data/shopBlockCategories';
 import posts from '../../data/blogPosts';
 import theme from '../../data/theme';
 
@@ -52,6 +52,16 @@ function HomePageOne() {
     const bestsellers = useDeferredData(() => (
         shopApi.getPopularProducts({ limit: 7 })
     ), []);
+
+    const categories = useDeferredData(() => (
+        shopApi.getCategories({ limit: 6 })
+    ), []);
+
+
+
+
+
+
 
     /**
      * Latest products.
@@ -126,9 +136,9 @@ function HomePageOne() {
                 <BlockCategories
                     title="Popular Categories"
                     layout="classic"
-                    categories={categories}
+                    categories={categories.data}
                 />
-            ), [])}
+            ), [categories.data])}
 
             {useMemo(() => (
                 <BlockProductsCarousel
