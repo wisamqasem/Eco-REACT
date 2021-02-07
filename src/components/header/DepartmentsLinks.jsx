@@ -3,6 +3,7 @@ import React ,{useEffect,useState}from 'react';
 
 // third-party
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux'
 
 // application
 import Megamenu from './Megamenu';
@@ -14,16 +15,22 @@ import shopApi from '../../api/shop';
 // data stubs
 import departments from '../../data/headerDepartments';
 import { url } from '../../services/utils';
+import {getCategoriesData} from '../../store/categories/categoriesAction';
 
-function DepartmentsLinks() {
-    const [departments, setDepartments] = useState([]);
+function DepartmentsLinks(props) {
+    const {  getCategoriesData,departments } = props;
+   // const [departments, setDepartments] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+
+
     useEffect(() => {
         let canceled = false;
         setIsLoading(true);
-shopApi.getCategories({limit:10}).then((departments)=>{
-    setDepartments(departments);
-});
+        getCategoriesData();
+console.log("departments : ",departments);
+// shopApi.getCategories({limit:20}).then((departments)=>{
+
+// });
         setIsLoading(false);
         return () => {
             canceled = true;
@@ -91,4 +98,19 @@ shopApi.getCategories({limit:10}).then((departments)=>{
     );
 }
 
-export default DepartmentsLinks;
+
+const mapStateToProps = (state) => {
+    return{
+        departments : state.categories.categories
+    }
+  }
+
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getCategoriesData: (category) => dispatch(getCategoriesData(category)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DepartmentsLinks)
+

@@ -474,7 +474,7 @@ console.log("het product by slug : ",res);
             const value=filter_brand ? filter_brand.split(','):[];
             // Apply filters to products list.
              return items = items.filter(
-                (product) => value.includes(product.document.fields.brand.stringValue)
+                (product) => value.includes(product.document.fields.brand.stringValue.toUpperCase())
             );
 
         }

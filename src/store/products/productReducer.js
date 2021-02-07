@@ -1,4 +1,5 @@
-import { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom';
+import { toast } from 'react-toastify';
 const initState = {
     products: [
       {id: '1', title: 'help me find peach', content: 'blah blah blah'},
@@ -11,11 +12,11 @@ const initState = {
     switch (action.type) {
       case 'CREATE_PRODUCT_SUCCESS':
         console.log('create product success');
-        alert("CREATE_PRODUCT_SUCCESS");
+        toast.success(`Product "${action.productName}" created successfuly`);
         return state;
       case 'CREATE_PRODUCT_ERROR':
         console.log('create product error');
-        alert("CREATE_PRODUCT_FAILED");
+        toast.success(`Create product "${action.productName}" failed , try again`);
         return state;
       default:
         return state;

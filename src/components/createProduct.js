@@ -6,6 +6,19 @@ import MainComponent from './MainComponent'
 import { uploadImage, getData } from "../store/images/uploadImagesAction";
 import ReactDOM from 'react-dom';
 import {checkUserLoged}  from '../store/auth/authActions';
+import {  getCategoriesData} from '../store/categories/categoriesAction';
+import Departments from './header/Departments'
+import {
+    Menu,
+    MenuItem,
+    MenuButton,
+    SubMenu
+} from '@szhsin/react-menu';
+import '@szhsin/react-menu/dist/index.css';
+import { SwatchesPicker } from 'react-color';
+import { Check12x9Svg } from '../svg';
+import { colorType } from '../services/color';
+import classNames from 'classnames';
 
 
 class CreateProduct extends Component {
@@ -15,8 +28,10 @@ class CreateProduct extends Component {
   //  image: null,
   availability: 'In stock',
   badges: '....',
-  //brand:null,
+  brand:'',
   categories: '....',
+  subCategory:null,
+  colors:[],
   compareAtPrice: '0',
   name:'',
   price:'',
@@ -32,10 +47,16 @@ class CreateProduct extends Component {
   errName:false,
   errImage:false,
   errPrice:false,
+  errBrand:false,
+  categoryBtn:'primary',
+  imageBtn:'primary',
+
   }
   componentDidMount() {
     this.props.getData();
+
   }
+
 
   fileInputRef = React.createRef();
 
@@ -43,14 +64,19 @@ class CreateProduct extends Component {
   onFormSubmit = e => {
     e.preventDefault(); // Stop form submit
     var {errName,errImage,errPrice,errdescription}=this.state;
-    var {description , name,price} = this.state;
+    var {description , name,price,brand,subCategory} = this.state;
     //validating the file
     //check if the file is exists
-    if (this.state.file === null) this.setState( {errImage: true });
-    if(description=='')this.setState( {errdescription: true });
-    if(name==='')this.setState( {errName: true });
-    if(price==='')this.setState( {errPrice: true });
-    if(description=='' || name=='' || price=='' ||  this.state.file === null){return;}
+    console.log("🚀 ~ file: createProduct.js ~ line 72 ~ CreateProduct ~ this.state.file", this.state.file)
+    if (!this.state.file) this.setState( {errImage: true,imageBtn:'danger' });else this.setState( {errImage: false,imageBtn:'primary' });
+
+    if(description=='')this.setState( {errdescription: true });else this.setState( {errdescription: false });
+    if(name==='')this.setState( {errName: true });else this.setState( {errName: false });
+    if(price==='')this.setState( {errPrice: true });else this.setState( {errPrice: false });
+    if(brand==='')this.setState( {errBrand: true });else this.setState( {errBrand: false });
+    if(subCategory===null)this.setState({categoryBtn: 'danger' });else this.setState({categoryBtn: 'primary' });
+
+    if(description=='' || name=='' || price=='' || brand=='' ||subCategory==null || this.state.file === null){return;}
     //check if the image size is larger than 1MB
     // if (this.state.file.size > 1048576) {
     //   alert("Image size must be less than 1MB!");
@@ -152,6 +178,26 @@ this.state.imagesUploaded.push(imageUploadedIcon);
     this.setState({
       [e.target.id]: e.target.value
     })
+
+  }
+  handleCategoryClick=(subCategoryName,categoryName)=>{
+    this.setState({categories: categoryName,subCategory:subCategoryName})
+
+   // console.log('subcategories : ',categoryName)
+
+  }
+  handleColorChange=(e)=>{
+      var {colors} =this.state;
+      if(e.target.checked){
+      //console.log("color : ",e.target.value);
+      //console.log("color arr : ",colors);
+      //colors=colors.push(e.target.value)
+      this.setState({colors:[...colors,e.target.value]});
+    }
+
+else {colors = colors.filter(x=>x!=e.target.value);  this.setState({colors:[...colors]}); }
+
+
   }
 //   handleSubmit = (e) => {
 //     e.preventDefault();
@@ -167,8 +213,58 @@ this.state.imagesUploaded.push(imageUploadedIcon);
   render() {
 
 
-    const {auth} = this.props
-    const {errdescription,errPrice,errName,errImage} = this.state;
+    const {auth,categories} = this.props
+    const {errdescription,errPrice,errName,errImage,subCategory} = this.state;
+    var subCategoryPath,categoryPath ='';
+    const colors = [
+        { slug: 'white', color: '#fff' },
+        { slug: 'silver', color: '#d9d9d9' },
+        { slug: 'light-gray', color: '#b3b3b3' },
+        { slug: 'gray', color: '#808080' },
+        { slug: 'dark-gray', color: '#666' },
+        { slug: 'coal', color: '#4d4d4d' },
+        { slug: 'black', color: '#262626' },
+        { slug: 'red', color: '#ff4040' },
+        { slug: 'orange', color: '#ff8126' },
+        { slug: 'yellow', color: '#ffd333' },
+        { slug: 'pear-green', color: '#becc1f' },
+        { slug: 'green', color: '#8fcc14' },
+        { slug: 'emerald', color: '#47cc5e' },
+        { slug: 'shamrock', color: '#47cca0' },
+        { slug: 'shakespeare', color: '#47cccc' },
+        { slug: 'blue', color: '#40bfff' },
+        { slug: 'dark-blue', color: '#3d6dcc' },
+        { slug: 'violet', color: '#7766cc' },
+        { slug: 'purple', color: '#b852cc' },
+        { slug: 'cerise', color: '#e53981' },
+    ];
+    const colorsList = colors.map((item,index) =>
+    {
+    return (
+        <div key={index} className="filter-color__item">
+            <span
+                className={classNames('filter-color__check input-check-color', {
+                    'input-check-color--white': colorType(item.color) === 'white',
+                    'input-check-color--light': colorType(item.color) === 'light',
+                })}
+                style={{ color: item.color }}
+            >
+                <label className="input-check-color__body">
+                    <input
+                        className="input-check-color__input"
+                        type="checkbox"
+                        value={item.slug}
+                       // checked={value.includes(item)}
+                        onChange={this.handleColorChange}
+                    />
+                    <span className="input-check-color__box" />
+                    <Check12x9Svg className="input-check-color__icon" />
+                    <span className="input-check-color__stick" />
+                </label>
+            </span>
+        </div>
+    )}
+    );
     if (!auth.uid) return <Redirect to='/' />
     this.state.userId = auth.uid;
 
@@ -205,6 +301,7 @@ this.state.imagesUploaded.push(imageUploadedIcon);
         <label htmlFor="input-default">Price</label>
         <input  type="text" className={"form-control "+(errPrice ? 'is-invalid': '')} placeholder="Enter product price" id='price' onChange={this.handleChange}/>
 </div>
+
 <div className="form-group">
         <label htmlFor="input-default">Availability</label>
         <select id='availability' className="form-control"  onChange={this.handleChange}>
@@ -235,10 +332,10 @@ this.state.imagesUploaded.push(imageUploadedIcon);
         <label htmlFor="input-default">Description</label>
         <textarea  type="text" className={"form-control "+(this.state.errdescription ? 'is-invalid': '')}   placeholder="Enter the Description of the product" id='description' onChange={this.handleChange}></textarea>
 </div>
-{/* <div className="form-group">
+<div className="form-group">
         <label htmlFor="input-default">Brand</label>
-        <input  type="text" className="form-control" placeholder="Placeholder" id='brand' onChange={this.handleChange}/>
-</div> */}
+        <input  type="text" className={"form-control "+(this.state.errBrand ? 'is-invalid': '')} placeholder="Placeholder" id='brand' onChange={this.handleChange}/>
+</div>
 <div className="form-group">
         <label htmlFor="input-default">CompareAtPrice</label>
         <input  type="text" className="form-control" placeholder="Placeholder" id='compareAtPrice' onChange={this.handleChange}/>
@@ -252,25 +349,38 @@ this.state.imagesUploaded.push(imageUploadedIcon);
         <input  type="text" className="form-control" placeholder="Placeholder" id='reviews' onChange={this.handleChange}/>
 </div> */}
 
-    <div className="form-group">
-         <label htmlFor="select-default">Categories</label>
-         <select id="categories" className="form-control"  onChange={this.handleChange}>
-         <option>....</option>
-         <option>Pet Supplies</option>
-         <option>Office Product</option>
-         <option>Grocery & Gourmet Food</option>
-         <option>Toys & Games</option>
-         <option>Movies & TV</option>
-         <option>Sports & Outdoors</option>
-         <option>Tools & Home</option>
-         <option>Clothing & Accessories</option>
-         <option>Software & Mobile Apps</option>
-         <option>Books</option>
-         <option>Health & Beauty</option>
-         <option>Electronics & Accessories</option>
-         <option>Home & Kitchen</option>
-         </select>
-     </div>
+
+
+
+
+<div className="form-group">
+<label htmlFor="input-default">Colors</label>
+<div className="filter-color">
+            <div className="filter-color__list">
+            { colorsList }
+            </div>
+        </div>
+
+{/* <SwatchesPicker color='#607d8b' onChange={ this.handleColorChange }/> */}
+
+</div>
+
+
+{/*this submenu from  https://szhsin.github.io/react-menu/ */}
+<div className="form-group">
+<Menu  menuButton={<button type="button" className={"btn btn-"+this.state.categoryBtn+"  btn-lg"}   >Category</button>} >
+{categories.map((category,index)=>{
+return( <SubMenu key={index} label={category.fields.name.stringValue}> {
+category.fields.subCategories.arrayValue.values.map((x,index)=>{
+  return ( <MenuItem    onClick={e=>{this.handleCategoryClick(x.stringValue,category.fields.name.stringValue)}} key={index}>{x.stringValue}</MenuItem>)
+})
+} </SubMenu>)
+         })}
+</Menu>
+<label >{subCategory ? this.state.categories+'>'+subCategory:''}</label>
+</div>
+
+
 
      <div className="form-group">
         <label htmlFor="input-default">Upload Images</label>
@@ -283,7 +393,7 @@ this.state.imagesUploaded.push(imageUploadedIcon);
                                  <div className="form-group" >
 <div className={"row-reverse "}>
                                  {this.state.imagesUploaded.map((icon,i)=>{return <div  key={i}>{icon}</div>})}</div>
-                              <button type="button" id="selctImageBtn" className={`btn btn-primary btn-lg`}  onClick={() =>{
+                              <button type="button" id="selctImageBtn" className={'btn btn-'+this.state.imageBtn+' btn-lg'}  onClick={() =>{
                                   this.fileInputRef.current.click();this.changeText("add more images")}
                                 }>{this.state.selectImageBtn}</button></div>
                                 {' '} <button type="submit" className={"btn btn-primary  btn-lg"}  onClick={this.onFormSubmit} >Upload</button>
@@ -345,7 +455,8 @@ this.state.imagesUploaded.push(imageUploadedIcon);
 const mapStateToProps = (state) => {
     return{
       authError: state.auth.authError,
-      auth: state.firebase.auth
+      auth: state.firebase.auth,
+      categories:state.categories.categories
     }
   }
 
@@ -353,6 +464,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     createProduct: (product) => dispatch(createProduct(product)),
+    getCategoriesData: (category) => dispatch(getCategoriesData(category)),
     uploadImage,
     getData,
    // getUserId : () => dispatch(checkUserLoged()),

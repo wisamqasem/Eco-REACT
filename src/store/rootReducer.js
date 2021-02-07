@@ -14,8 +14,10 @@ import productReducer from './products/productReducer';
 import reviewReducer from './products/reviewReducer';
 import { firestoreReducer } from 'redux-firestore';
 import { firebaseReducer } from 'react-redux-firebase';
-import uploadImagesReducer from './images/uploadImagesReducer'
-import authReducer from './auth/authReducer'
+import uploadImagesReducer from './images/uploadImagesReducer';
+import authReducer from './auth/authReducer';
+import categoriesReducer from './categories/categoriesReducer';
+
 export default combineReducers({
     version: (state = version) => state,
     cart: cartReducer,
@@ -31,5 +33,6 @@ export default combineReducers({
     firebase: firebaseReducer,
     image: uploadImagesReducer,
     auth : authReducer,
-    review: reviewReducer
+    review: reviewReducer,
+    categories:categoriesReducer
 });

@@ -91,16 +91,18 @@ if(imagesNum==count){ resolve(imagesUrl);}
         badges:product.badges ,
         description:product.description ,
         userId:product.userId,
-       // brand:product.brand ,
+        brand:product.brand ,
         compareAtPrice:product.compareAtPrice,
         rating:'0',
         peopleRated : '0',
         reviews:[],
         slug:product.name,
         categories:product.categories,
+        subCategory:product.subCategory,
+        colors:product.colors,
         images:value
     }).then(() => {
-      dispatch({ type: 'CREATE_PRODUCT_SUCCESS' });
+      dispatch({ type: 'CREATE_PRODUCT_SUCCESS' , productName :product.name });
     }).catch(err => {
       dispatch({ type: 'CREATE_PRODUCT_ERROR' }, err);
     })
