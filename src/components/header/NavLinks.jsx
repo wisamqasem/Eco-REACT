@@ -55,11 +55,11 @@ function NavLinks(props) {
     };
     var navLinksfiltered;
 
-    if(auth.uid  ){
-        navLinksfiltered = navLinks.filter((x) =>{ return x.title.props.defaultMessage != "Login"; });
-    }
-    else {   navLinksfiltered = navLinks.filter((x) => { return x.title.props.defaultMessage != "Account"; });  }
-    const linksList = navLinksfiltered.map((item, index) => {
+    // if(auth.uid  ){
+    //     navLinksfiltered = navLinks.filter((x) =>{ return x.title.props.defaultMessage != "Login"; });
+    // }
+    // else {   navLinksfiltered = navLinks.filter((x) => { return x.title.props.defaultMessage != "Account"; });  }
+    const linksList =  navLinks.map((item, index) => {
         let arrow;
         let submenu;
 

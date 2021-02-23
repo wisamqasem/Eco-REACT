@@ -8,6 +8,7 @@ import shopApi from '../../api/shop';
 export function getWishListData(userId){
     return (dispatch) => (//-----------------
         new Promise((resolve) => {
+            console.log("fck me hard ohhhhhhhhhhhhhh")
            // const userId  = firebase.auth().currentUser.uid;
             shopApi.getMyWishList(userId).then((wishList)=>{
                 dispatch({ type: GET_WISHLISTS_DATA ,wishLists :wishList });

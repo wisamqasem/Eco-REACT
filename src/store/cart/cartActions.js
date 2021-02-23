@@ -62,7 +62,7 @@ return (dispatch, getState,{getFirestore}) => (
             name:product.name.stringValue,
             price:product.price.stringValue ,
             slug:product.slug.stringValue,
-            images:product.images.stringValue ? product.images.stringValue:product.images.arrayValue.values[0].stringValue
+            images:product.images.stringValue ? product.images.stringValue : product.images.arrayValue.values[0].stringValue
                 })
 
         }).then(() => {

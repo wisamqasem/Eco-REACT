@@ -56,6 +56,7 @@ export const signUp = (newUser) => {
     .then(resp => {
        firestore.collection('carts').doc(resp.user.uid).set({});
        firestore.collection('wishLists').doc(resp.user.uid).set({});
+       firestore.collection('compareLists').doc(resp.user.uid).set({});
     })
     .then(() => {
       dispatch({ type: 'SIGNUP_SUCCESS' });

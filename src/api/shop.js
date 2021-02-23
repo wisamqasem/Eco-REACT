@@ -50,9 +50,16 @@ getMyCart : (cartId)=>{
         return Promise.resolve( res )
 })
 },
-
-getMyWishList : (wishListId)=>{
+getMyCompareList: (compareListId)=>{
     console.log("who let the dogs out");
+    return   axios.get('https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents/compareLists/'+compareListId)
+    .then(res => {
+        console.log("the data of comparelist : ",res);
+        return Promise.resolve( res )
+})
+},
+getMyWishList : (wishListId)=>{
+
     return   axios.get('https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents/wishLists/'+wishListId)
     .then(res => {
         console.log("the data of wishlist : ",res);
@@ -294,6 +301,8 @@ console.log("het category by slug : ",res);
                 { fieldPath: 'slug' },
                 { fieldPath: 'userId' },
                 { fieldPath: 'peopleRated' },
+                { fieldPath: 'colors' },
+                { fieldPath: 'subCategory' },
 
             ]
         },
@@ -356,16 +365,67 @@ console.log("het product by slug : ",res);
      * @return {Promise<Array<object>>}
      */
     getRelatedProducts: (slug, options = {}) => {
-        return   axios.get('https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents/products/')
-        .then(res => {
-            return Promise.resolve(res.data.documents);
-        //    return new Promise((resolve) => {
-        //      setTimeout(() => {
-        //          resolve(res.data.documents);
-        //      }, 500);
-        //  });
-        })
+        return   axios.post('https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents:runQuery',
+        { structuredQuery:
+            { from: [
+                { collectionId: 'products'
+            }
+        ],
+        select: { fields:
+            [
+                { fieldPath: 'name' },
+                { fieldPath: 'availability' },
+                { fieldPath: 'badges' },
+                { fieldPath: 'brand' },
+                { fieldPath: 'categories' },
+                { fieldPath: 'compareAtPrice' },
+                { fieldPath: 'description' },
+                { fieldPath: 'images' },
+                { fieldPath: 'price' },
+                { fieldPath: 'rating' },
+                { fieldPath: 'reviews' },
+                { fieldPath: 'slug' },
+                { fieldPath: 'userId' },
+                { fieldPath: 'peopleRated' },
+                { fieldPath: 'colors' },
+                { fieldPath: 'subCategory' },
 
+            ]
+        },
+        where: {
+            compositeFilter: {
+                filters: [
+                    { fieldFilter: {
+                        field: {
+                            fieldPath: 'subCategory'
+                        },
+                            op: 'EQUAL',
+                            value: {
+
+                               stringValue : slug
+                            }
+                        }
+                    }
+                ], op: 'AND'
+            }
+        },
+            limit: 15
+            }
+        })
+        .then(res => {
+                //const product = res.data.documents.find((x) => x.fields.slug.stringValue === slug);
+               // if(product){
+console.log("get related products : ",res);
+                    return new Promise((resolve) => {
+                      setTimeout(() => {
+                          resolve(res.data);
+                      }, 500);
+                  });
+
+
+               // }else{ console.log("can't find the slug baby.... ");}
+
+        })
 
 
 
@@ -398,7 +458,9 @@ console.log("het product by slug : ",res);
 
 
      getCategoryBySlug:  (slug, options = {}) => {
+     console.log("🚀 ~ file: shop.js ~ line 461 ~ slug", slug)
         // return getCategoryBySlug(slug, options);
+
          return   axios.post('https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents:runQuery',
          { structuredQuery:
              { from: [
@@ -872,6 +934,42 @@ if(filter_category)items=categoryFilter(filter_category,items);
         // This is for demonstration purposes only. Remove it and use the code above.
      //   return getSuggestions(query, options);
     },
+
+getSearchPage : (query,category)=>{
+
+    return   axios.get('https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents/products/')
+        .then(res => {
+        //  console.log(res);
+        console.log("🚀 ~ file: shop.js ~ line 937 ~ category", category);
+if(category!='all')
+        return Promise.resolve(
+            res.data.documents.filter(
+                (x) => x.fields.name.stringValue.toLowerCase().includes(query.toLowerCase()) &&  x.fields.categories.stringValue.toLowerCase().includes(category.toLowerCase())
+            ).slice(0, 50),
+        );
+        else return Promise.resolve(
+            res.data.documents.filter(
+                (x) => x.fields.name.stringValue.toLowerCase().includes(query.toLowerCase())
+            ).slice(0, 50),
+        );
+
+
+        //    return new Promise((resolve) => {
+        //      setTimeout(() => {
+        //          resolve(res.data.documents);
+        //      }, 500);
+        //  });
+
+        }).catch(error => {
+            console.log("falid to get data for searching : ",error);
+        });
+
+
+}
+
+
+
+
 };
 
 export default shopApi;

@@ -36,11 +36,13 @@ import SitePageNotFound from './site/SitePageNotFound';
 import SitePageTerms from './site/SitePageTerms';
 import SitePageTypography from './site/SitePageTypography';
 import Myproductsfun from './account/MyProducts';
+import SearchPage from './searchPage'
 
 
 // data stubs
 import theme from '../data/theme';
 import createProduct from './createProduct';
+import Search from './header/Search';
 
 
 
@@ -104,6 +106,21 @@ function Layout(props) {
                         */}
                         <Route exact path={`${match.path}`} component={homeComponent} />
 
+
+                         {/* Search Page */}
+                         <Route
+                         exact
+                         path='/search/:searchQurey/:searchCategory'
+                          render={(props) => (
+                                <SearchPage
+                                    {...props}
+                                    searchQurey={props.match.params.searchQurey}
+                                    searchCategory={props.match.params.searchCategory}
+                                />
+                            )}
+
+
+                           />
                         {/* create product */}
                         <Route  path='/account/createProduct' component={createProduct} />
                          {/* my products  */}

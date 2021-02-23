@@ -21,19 +21,21 @@ import {
       const firestore = getFirestore();
       const metadata = {contentType: "image/jpeg" };
       const userId  = firebase.auth().uid;
-      console.log("🚀 ~ file: productAction.js ~ line 24 ~ return ~ userId", userId)
+      var uniqid = require('uniqid');
+      //console.log("🚀 ~ file: productAction.js ~ line 25 ~ return ~ uniqid", uniqid())
+
 
 var count=0;
 
       const promise1 = new Promise((resolve, reject) => {
         const uploadimages =   (imagesNum)=>{ product.images.map(image=>{
-
             // storageRef
             // .child("images/" + product.file.name)
             // .put(product.file, metadata);
 
+            //image.name
             const uploadTask=   storageRef
-             .child("images/" + image.name)
+             .child("images/" + uniqid() )
              .put(image, metadata);
 
              console.log("done")

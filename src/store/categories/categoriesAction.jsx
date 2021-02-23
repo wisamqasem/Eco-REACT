@@ -11,7 +11,7 @@ export function getCategoriesData(){
         new Promise((resolve) => {
 
             shopApi.getCategories({limit:20}).then((categories)=>{
-            console.log("🚀 ~ file: categoriesAction.jsx ~ line 14 ~ shopApi.getCategories ~ categories", categories)
+            console.log("", categories)
 
                 dispatch({ type: 'GET_CATEGORIES_DATA' ,categories :categories });
 

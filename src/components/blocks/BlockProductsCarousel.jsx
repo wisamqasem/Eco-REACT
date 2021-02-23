@@ -187,15 +187,15 @@ export default class BlockProductsCarousel extends Component {
             loading,
         } = this.props;
 
-        const columns = this.productsColumns().map((column, index) => {
-            const products = column.map((product) => (
-                <div key={ product.createTime} className="block-products-carousel__cell">
+        const columns = this.productsColumns().map((column, index1) => {
+            const products = column.map((product,index2) => (
+                <div key={ index2} className="block-products-carousel__cell">
                     <ProductCard product={product} />
                 </div>
             ));
 
             return (
-                <div key={index} className="block-products-carousel__column">
+                <div key={index1} className="block-products-carousel__column">
                     {products}
                 </div>
             );

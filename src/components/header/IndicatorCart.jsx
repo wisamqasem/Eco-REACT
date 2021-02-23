@@ -16,13 +16,13 @@ import { url } from '../../services/utils';
 import { useDeferredData, useProductColumns, useProductTabs } from '../../services/hooks';
 import shopApi from '../../api/shop';
 import BlockLoader from '../blocks/BlockLoader';
-import {getCartData} from '../../store/cart/cartActions';
-import {getWishListData} from  '../../store/wishlist/wishlistActions';
+// import {getCartData} from '../../store/cart/cartActions';
+// import {getWishListData} from  '../../store/wishlist/wishlistActions';
 
 function IndicatorCart(props) {
     const {  cartRemoveItem ,auth,getCartData,cart } = props;
     //const [cart, setCart] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+   // const [isLoading, setIsLoading] = useState(true);
     let dropdown;
     let totals;
 //console.log("auth ID : ",auth.uid );
@@ -34,23 +34,23 @@ function IndicatorCart(props) {
 //console.log("🚀 ~ file: IndicatorCart.jsx ~ line 30 ~ IndicatorCart ~ myProducts : ", myProducts)
 //const cart = myProducts.data.data.fields.products.arrayValue.values;
 
-useEffect(() => {
-    let canceled = false;
-//console.log("useEffect called")
-    setIsLoading(true);
-    getWishListData(auth.uid);
-    getCartData(auth.uid);
+// useEffect(() => {
+//     let canceled = false;
+// //console.log("useEffect called")
+//     setIsLoading(true);
+//     // getWishListData(auth.uid);
+//     // getCartData(auth.uid);
 
-    setIsLoading(false);
+//     setIsLoading(false);
 
-    return () => {
-        canceled = true;
-    };
-},[]);
+//     return () => {
+//         canceled = true;
+//     };
+// },[]);
 
-if (isLoading) {// this is very important to put it after useEffect...........................
-    return <BlockLoader />;
-}
+// if (isLoading) {// this is very important to put it after useEffect...........................
+//     return <BlockLoader />;
+// }
 
 
     // if (cart.extraLines.length > 0) {
@@ -181,8 +181,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps =(dispatch)=> {
     return{
     cartRemoveItem:(product,cartId) => dispatch(cartRemoveItem(product,cartId)),
-    getCartData:(cartId) => dispatch(getCartData(cartId)),
-    getWishListData:(wishListId) => dispatch(getWishListData(wishListId))
+  //  getCartData:(cartId) => dispatch(getCartData(cartId)),
+   // getWishListData:(wishListId) => dispatch(getWishListData(wishListId))
     }
 };
 

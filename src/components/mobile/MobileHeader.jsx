@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import IndicatorAccount from '../header/IndicatorAccount';
 // application
 import Indicator from '../header/Indicator';
 import {
@@ -14,6 +15,7 @@ import {
     Search20Svg,
     Heart20Svg,
     Cart20Svg,
+    Compare16Svg
 } from '../../svg';
 import { mobileMenuOpen } from '../../store/mobile-menu';
 import Search from '../header/Search';
@@ -45,7 +47,7 @@ class MobileHeader extends Component {
     };
 
     render() {
-        const { openMobileMenu, wishlist, cart } = this.props;
+        const { openMobileMenu, wishlist, cart ,products} = this.props;
         const { searchOpen } = this.state;
         const searchClasses = classNames('mobile-header__search', {
             'mobile-header__search--open': searchOpen,
@@ -73,10 +75,17 @@ class MobileHeader extends Component {
                                     icon={<Search20Svg />}
                                 />
                                 <Indicator
-                                    className="indicator--mobile d-sm-flex d-none"
+                                    // className="indicator--mobile d-sm-flex d-none"
+                                    className="indicator--mobile"
                                     url="/shop/wishlist"
                                     value={wishlist.length}
                                     icon={<Heart20Svg />}
+                                />
+                                <Indicator
+                                    className="indicator--mobile"
+                                    url="/shop/compare"
+                                    value={products.length}
+                                    icon={<Compare16Svg />}
                                 />
                                 <Indicator
                                     className="indicator--mobile"
@@ -84,6 +93,7 @@ class MobileHeader extends Component {
                                     value={cart.quantity}
                                     icon={<Cart20Svg />}
                                 />
+                                <IndicatorAccount />
                             </div>
                         </div>
                     </div>
@@ -95,7 +105,10 @@ class MobileHeader extends Component {
 
 const mapStateToProps = (state) => ({
     cart: state.cart,
-    wishlist: state.wishlist,
+    cartProducts: state.cart.cartProducts,
+    wishlist: state.wishlist.wishListProducts,
+    products: state.compare.compareListProducts,
+    auth : state.firebase.auth
 });
 
 const mapDispatchToProps = {

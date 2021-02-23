@@ -1,5 +1,5 @@
 function categoriesData(state,categories) {
-console.log("🚀 ~ file: categoriesReducer.jsx ~ line 2 ~ categoriesData ~ categories", categories)
+//console.log("🚀 ~ file: categoriesReducer.jsx ~ line 2 ~ categoriesData ~ categories", categories)
 
     if(!categories)return{
           ...state,

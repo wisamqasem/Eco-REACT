@@ -18,6 +18,7 @@ import BlockLoader from '../blocks/BlockLoader';
 import { url } from '../../services/utils';
 import { wishlistRemoveItem } from '../../store/wishlist';
 import {getWishListData} from  '../../store/wishlist/wishlistActions';
+import { Redirect } from 'react-router-dom'
 // data stubs
 import theme from '../../data/theme';
 
@@ -33,12 +34,12 @@ class ShopPageWishlist extends Component{
      componentWillMount(){
 
         const { auth} = this.props;
-        this.props.getWishListData(auth.uid);;
+       // this.props.getWishListData(auth.uid);
       }
 render(){
 
     const { wishlist, cartAddItem, wishlistRemoveItem,auth } = this.props;
-
+    if (!auth.uid) return <Redirect to='/' />
 
 
 

@@ -27,7 +27,7 @@ function DepartmentsLinks(props) {
         let canceled = false;
         setIsLoading(true);
         getCategoriesData();
-console.log("departments : ",departments);
+//console.log("departments : ",departments);
 // shopApi.getCategories({limit:20}).then((departments)=>{
 
 // });

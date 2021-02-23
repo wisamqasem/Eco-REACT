@@ -17,6 +17,7 @@ import { cartAddItem } from '../../store/cart';
 import { compareAddItem } from '../../store/compare';
 import { Wishlist16Svg, Compare16Svg } from '../../svg';
 import { wishlistAddItem } from '../../store/wishlist';
+import {url} from '../../services/utils'
 
 class Product extends Component {
     constructor(props) {
@@ -38,9 +39,33 @@ class Product extends Component {
             wishlistAddItem,
             compareAddItem,
             cartAddItem,
+            categories
         } = this.props;
-            console.log("🚀 ~ file: Product.jsx ~ line 42 ~ Product ~ render ~ product : ", product)
 
+
+            const colors = [
+                { slug: 'white', color: '#fff' },
+                { slug: 'silver', color: '#d9d9d9' },
+                { slug: 'light-gray', color: '#b3b3b3' },
+                { slug: 'gray', color: '#808080' },
+                { slug: 'dark-gray', color: '#666' },
+                { slug: 'coal', color: '#4d4d4d' },
+                { slug: 'black', color: '#262626' },
+                { slug: 'red', color: '#ff4040' },
+                { slug: 'orange', color: '#ff8126' },
+                { slug: 'yellow', color: '#ffd333' },
+                { slug: 'pear-green', color: '#becc1f' },
+                { slug: 'green', color: '#8fcc14' },
+                { slug: 'emerald', color: '#47cc5e' },
+                { slug: 'shamrock', color: '#47cca0' },
+                { slug: 'shakespeare', color: '#47cccc' },
+                { slug: 'blue', color: '#40bfff' },
+                { slug: 'dark-blue', color: '#3d6dcc' },
+                { slug: 'violet', color: '#7766cc' },
+                { slug: 'purple', color: '#b852cc' },
+                { slug: 'cerise', color: '#e53981' },
+            ];
+            const colorsArr = product.colors.arrayValue.values ? product.colors.arrayValue.values : [];
       //  const product =  (this.props.product.fields ? this.props.product.fields : this.props.product.document.fields ) ;// i make that cuse if u come from the block of my products the form of data is deferent then if u come from onther page.
         const { quantity } = this.state;
         let prices;
@@ -141,10 +166,10 @@ class Product extends Component {
                                 {/* <span className="text-success">In Stock</span> */}
                             </li>
                             <li>
-                                Brand:
-                                <Link to="/">Wakita</Link>
+                                Brand :
+                                <Link style={{ color: 'blue' }} to={url.subCategory(product.subCategory.stringValue,product.categories.stringValue)}>{product.brand.stringValue.toUpperCase()}</Link>
                             </li>
-                            <li>SKU: 83690/32</li>
+                            {/* <li>SKU: 83690/32</li> */}
                         </ul>
                     </div>
 
@@ -163,10 +188,30 @@ class Product extends Component {
 
                         <form className="product__options">
                             <div className="form-group product__option">
-                                <div className="product__option-label">Color</div>
+                            {colorsArr.length ?
+                            <div>
+                            <div className="product__option-label">Colors</div>
                                 <div className="input-radio-color">
                                     <div className="input-radio-color__list">
-                                        <label
+                                    {
+
+                                        colorsArr.map((c,index)=>{
+                                            const color = colors.find(x=>x.slug==c.stringValue);
+                                          //  console.log("🚀 ~ file: Product.jsx ~ line 193 ~ Product ~ product.colors.arrayValue.values.map ~  color",  color)
+                                            return(
+                                            <label
+                                            key={index}
+                                            className="input-radio-color__item"
+                                            style={{ color: color.color }}
+                                            data-toggle="tooltip"
+                                            //title="Yellow"
+                                        >
+                                            <input type="radio" name="color" />
+                                            <span />
+                                        </label>)
+                                        })
+                                         }
+                                        {/* <label
                                             className="input-radio-color__item input-radio-color__item--white"
                                             style={{ color: '#fff' }}
                                             data-toggle="tooltip"
@@ -183,8 +228,8 @@ class Product extends Component {
                                         >
                                             <input type="radio" name="color" />
                                             <span />
-                                        </label>
-                                        <label
+                                        </label> */}
+                                        {/* <label
                                             className="input-radio-color__item"
                                             style={{ color: '#ff4040' }}
                                             data-toggle="tooltip"
@@ -201,11 +246,16 @@ class Product extends Component {
                                         >
                                             <input type="radio" name="color" disabled />
                                             <span />
-                                        </label>
+                                        </label> */}
                                     </div>
+
                                 </div>
-                            </div>
-                            <div className="form-group product__option">
+                                </div>
+                            :
+                            null
+                            }
+                                </div>
+                            {/* <div className="form-group product__option">
                                 <div className="product__option-label">Material</div>
                                 <div className="input-radio-label">
                                     <div className="input-radio-label__list">
@@ -223,9 +273,9 @@ class Product extends Component {
                                         </label>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                             <div className="form-group product__option">
-                                <label htmlFor="product-quantity" className="product__option-label">Quantity</label>
+                                {/* <label htmlFor="product-quantity" className="product__option-label">Quantity</label> */}
                                 <div className="product__actions">
                                     {/* <div className="product__actions-item">
                                         <InputNumber
@@ -297,20 +347,20 @@ class Product extends Component {
                     </div>
 
                     <div className="product__footer">
-                        <div className="product__tags tags">
+                        {/* <div className="product__tags tags">
                             <div className="tags__list">
                                 <Link to="/">Mounts</Link>
                                 <Link to="/">Electrodes</Link>
                                 <Link to="/">Chainsaws</Link>
                             </div>
-                        </div>
+                        </div> */}
 
                         <div className="product__share-links share-links">
                             <ul className="share-links__list">
-                                <li className="share-links__item share-links__item--type--like"><Link to="/">Like</Link></li>
+                                {/* <li className="share-links__item share-links__item--type--like"><Link to="/">Like</Link></li>
                                 <li className="share-links__item share-links__item--type--tweet"><Link to="/">Tweet</Link></li>
                                 <li className="share-links__item share-links__item--type--pin"><Link to="/">Pin It</Link></li>
-                                <li className="share-links__item share-links__item--type--counter"><Link to="/">4K</Link></li>
+                                <li className="share-links__item share-links__item--type--counter"><Link to="/">4K</Link></li> */}
                             </ul>
                         </div>
                     </div>
@@ -331,13 +381,21 @@ Product.defaultProps = {
     layout: 'standard',
 };
 
+
+const mapStateToProps = (state) => {
+    return{
+        categories : state.categories.categories
+    }
+  }
+
 const mapDispatchToProps = {
     cartAddItem,
     wishlistAddItem,
     compareAddItem,
 };
 
-export default connect(
-    () => ({}),
-    mapDispatchToProps,
-)(Product);
+// export default connect(
+//     () => ({}),
+//     mapDispatchToProps,mapStateToProps
+// )(Product);
+export default connect(mapStateToProps, mapDispatchToProps)(Product)

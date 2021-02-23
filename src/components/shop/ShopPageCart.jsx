@@ -15,6 +15,7 @@ import PageHeader from '../shared/PageHeader';
 import { cartRemoveItem, cartUpdateQuantities } from '../../store/cart';
 import { Cross12Svg } from '../../svg';
 import { url } from '../../services/utils';
+import { Redirect } from 'react-router-dom'
 
 import shopApi from '../../api/shop'
 
@@ -87,8 +88,9 @@ class ShopPageCart extends Component {
     }
 
     renderItems() {
-        const { cart, cartRemoveItem,auth,cartProducts } = this.props;
-console.log("cart from render : ",cart);
+        const {  cartRemoveItem,auth,cartProducts } = this.props;
+        if (!auth.uid) return <Redirect to='/' />
+//console.log("cart from render : ",cart);
 
 const productsArr = cartProducts;
 return productsArr.map((product)=>{

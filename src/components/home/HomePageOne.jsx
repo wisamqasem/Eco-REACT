@@ -129,6 +129,7 @@ function HomePageOne() {
                     limit={6}
                     featuredProduct={bestsellers.data[0]}
                     products={bestsellers.data.slice(1, 7)}
+                    page={false}//this one is only true in searchPage compnent , and it control the width of the product card
                 />
             ), [bestsellers.data])}
 

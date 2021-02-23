@@ -25,7 +25,7 @@ import WidgetProducts from '../widgets/WidgetProducts';
 import theme from '../../data/theme';
 
 function ShopPageProduct(props) {
-    const { productSlug, layout, sidebarPosition } = props;
+    const { productSlug, layout, sidebarPosition} = props;
     const [isLoading, setIsLoading] = useState(true);
     const [product, setProduct] = useState(null);
     const [relatedProducts, setRelatedProducts] = useState([]);
@@ -39,13 +39,23 @@ function ShopPageProduct(props) {
         setIsLoading(true);
 
         shopApi.getProductBySlug(productSlug).then((product) => {//the product have {createTime,fields,name}
-            console.log("the slug pro : ",product.data[0].document);
+          //  console.log("the slug pro : ",product.data[0].document);
             if (canceled) {
                 return;
             }
 
             setProduct(product.data[0].document);
-            console.log("the fckong product name : ",product.data[0].document.name.toString());
+         //   console.log("fcking product : ",product);
+            const productSubCategory =product ?  product.data[0].document.fields.subCategory.stringValue : null;
+            shopApi.getRelatedProducts(productSubCategory, { limit: 8 }).then((products) => {
+                if (canceled) {
+                    return;
+                }
+
+                setRelatedProducts(products);//this is array
+            });
+         //   console.log("🚀 ~ file: ShopPageProduct.jsx ~ line 52 ~ shopApi.getProductBySlug ~ productCategory", productSubCategory)
+        //    console.log("the fckong product name : ",product.data[0].document.name.toString());
             setIsLoading(false);
         });
 
@@ -54,22 +64,23 @@ function ShopPageProduct(props) {
         };
     }, [productSlug, setIsLoading]);
 
+
     // Load related products.
-    useEffect(() => {
-        let canceled = false;
+    // useEffect(() => {
+    //     let canceled = false;
+    //     const productCategory =product ?  product.fields.categories.stringValue : null;
+    //     shopApi.getRelatedProducts(productCategory, { limit: 8 }).then((products) => {
+    //         if (canceled) {
+    //             return;
+    //         }
 
-        shopApi.getRelatedProducts(productSlug, { limit: 8 }).then((products) => {
-            if (canceled) {
-                return;
-            }
+    //         setRelatedProducts(products);//the products have {createTime,fields,name}
+    //     });
 
-            setRelatedProducts(products);//the products have {createTime,fields,name}
-        });
-
-        return () => {
-            canceled = true;
-        };
-    }, [productSlug, setRelatedProducts]);
+    //     return () => {
+    //         canceled = true;
+    //     };
+    // }, [productSlug, setRelatedProducts]);
 
     // Load latest products.
     useEffect(() => {
@@ -205,4 +216,6 @@ ShopPageProduct.defaultProps = {
     sidebarPosition: 'start',
 };
 
-export default ShopPageProduct;
+
+  export default ShopPageProduct;
+

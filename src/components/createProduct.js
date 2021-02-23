@@ -332,6 +332,8 @@ else {colors = colors.filter(x=>x!=e.target.value);  this.setState({colors:[...c
         <label htmlFor="input-default">Description</label>
         <textarea  type="text" className={"form-control "+(this.state.errdescription ? 'is-invalid': '')}   placeholder="Enter the Description of the product" id='description' onChange={this.handleChange}></textarea>
 </div>
+
+
 <div className="form-group">
         <label htmlFor="input-default">Brand</label>
         <input  type="text" className={"form-control "+(this.state.errBrand ? 'is-invalid': '')} placeholder="Placeholder" id='brand' onChange={this.handleChange}/>

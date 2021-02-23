@@ -62,16 +62,17 @@ function calcTotal(subtotal, extraLines) {
 
 function addItem(state, product, options, quantity) {
     const itemIndex = findItemIndex(state.cartProducts, product, options);
-
+    console.log("who let the dogs out pro")
     let newItems;
     //let { lastItemId } = state;
 
     if (itemIndex === -1) {
        // lastItemId += 1;
-
+       console.log("who let the dogs out pro 1")
         newItems = [...state.cartProducts, {
             //id: lastItemId,
-            mapValue:{fields : { images :{stringValue :product.images.arrayValue.values[0].stringValue } ,name :{stringValue :product.name.stringValue } ,price :{stringValue : product.price.stringValue} ,slug :{stringValue : product.slug.stringValue} }} ,
+            //images:product.images.stringValue ? product.images.stringValue : product.images.arrayValue.values[0].stringValue
+            mapValue:{fields : { images :product.images.stringValue ? {stringValue:product.images.stringValue} : {stringValue :product.images.arrayValue.values[0].stringValue } ,name :{stringValue :product.name.stringValue } ,price :{stringValue : product.price.stringValue} ,slug :{stringValue : product.slug.stringValue} }} ,
            // options: JSON.parse(JSON.stringify(options)),
            // price: parseInt(product.price.stringValue),
             total: parseInt(product.price.stringValue),
@@ -79,6 +80,7 @@ function addItem(state, product, options, quantity) {
         }];
 
     } else {
+        console.log("who let the dogs out pro 2")
         const item = state.cartProducts[itemIndex];
 
         newItems = [
@@ -90,11 +92,12 @@ function addItem(state, product, options, quantity) {
             },
             ...state.cartProducts.slice(itemIndex + 1),
         ];
+
     }
 
     const subtotal = calcSubtotal(newItems);
     const total = calcTotal(subtotal, state.extraLines);
-
+    console.log("🚀 ~ file: cartReducer.js ~ line 107 ~ addItem ~ newItems", newItems)
     return {
         ...state,
      //   lastItemId,
@@ -104,6 +107,7 @@ function addItem(state, product, options, quantity) {
         quantity: newItems.length//calcQuantity(newItems),
     };
 }
+
 
 function removeItem(state, itemId) {
     const { cartProducts } = state;

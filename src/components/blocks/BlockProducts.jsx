@@ -19,7 +19,8 @@ export default function BlockProducts(props) {
         layout,
         featuredProduct,
         products,
-        limit
+        limit,
+        page,
     } = props;
 
    // const { products} = props;
@@ -31,7 +32,7 @@ export default function BlockProducts(props) {
         large = (
             <div className="block-products__featured">
                 <div className="block-products__featured-item">
-                    <ProductCard product={featuredProduct} />
+                    <ProductCard product={featuredProduct}  />
                 </div>
             </div>
         );
@@ -40,7 +41,7 @@ export default function BlockProducts(props) {
     // here pro ~~~~~
     if (products.length > 0) {
         const productsList = products.slice(0, limit).map((product, index) => (
-            <div key={index} className="block-products__list-item">
+            <div key={index} className={page ?"search-products__list-item":"block-products__list-item"}>
                 <ProductCard product={product} />
             </div>
         ));

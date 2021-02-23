@@ -29,7 +29,7 @@ class ProductTabs extends Component {
         const { currentTab } = this.state;
         const { withSidebar } = this.props;
         const {productId}=this.props;
-        console.log("gggggggggg : ",productId);
+
         const classes = classNames('product-tabs', {
             'product-tabs--layout--sidebar': withSidebar,
         });

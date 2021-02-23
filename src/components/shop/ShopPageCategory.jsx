@@ -167,17 +167,33 @@ function ShopPageCategory(props) {
         columns,
         viewMode,
         sidebarPosition,
+
     } = props;
 
 
     const offcanvas = columns === 3 ? 'mobile' : 'always';
     const [state, dispatch] = useReducer(reducer, initialState, init);
     const [latestProducts, setLatestProducts] = useState([]);
+    const [products,setProducts]=useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const filter_category = urlParams.get('filter_category')
+    const filter_category = urlParams.get('filter_category');
+    const searchQurey = urlParams.get('search');
+   // props.history.push(url.search(query,category));
 
+    // useEffect(() => {
+    //  //   setIsLoading(true)setIsLoading(false)
+    //         shopApi.getSearchPage(searchQurey,searchCategory).then((x)=>{setProducts(x)})
+    //         let category,subCategory;
+    //         if(products.length!=0){
+    //             category = products[0].fields.categories.stringValue;
+    //             subCategory = products[0].fields.subCategory.stringValue;
+    //             props.history.push(`/shop/catalog/${category}?filter_category=${subCategory}`);
+    //            }
+    //     }, [searchQurey]);
+       // if(isLoading)return <BlockLoader />
 
 
 
@@ -195,6 +211,8 @@ function ShopPageCategory(props) {
         let canceled = false;
 
         dispatch({ type: 'RESET', categorySlug });
+
+
 
         if (categorySlug) {
             request = shopApi.getCategoryProductsBySlug(categorySlug);

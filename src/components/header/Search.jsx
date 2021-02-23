@@ -9,11 +9,14 @@ import React, {
 // third-party
 import classNames from 'classnames';
 import { withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+
 
 // application
 import shopApi from '../../api/shop';
 import Suggestions from './Suggestions';
 import { Cross20Svg, Search20Svg } from '../../svg';
+import { url } from '../../services/utils';
 
 function useCategories() {
     const [categories, setCategories] = useState([]);
@@ -64,7 +67,7 @@ function Search(props) {
     const [hasSuggestions, setHasSuggestions] = useState(false);
     const [suggestedProducts, setSuggestedProducts] = useState([]);
     const [query, setQuery] = useState('');
-    const [category, setCategory] = useState('[all]');
+    const [category, setCategory] = useState('all');
     const categories = useCategories();
     const wrapper = useRef(null);
     const close = useCallback(() => {
@@ -161,6 +164,11 @@ function Search(props) {
         }
     };
 
+    const handleOnSubmit = (event) => {
+event.preventDefault();
+        props.history.push(url.search(query,category));
+    };
+
     const rootClasses = classNames(`search search--location--${context}`, className, {
         'search--suggestions-open': suggestionsOpen,
         'search--has-suggestions': hasSuggestions,
@@ -185,7 +193,7 @@ return(
     return (
         <div className={rootClasses} ref={wrapper} onBlur={handleBlur}>
             <div className="search__body">
-                <form className="search__form" action="">
+                <form className="search__form" action="" onSubmit={handleOnSubmit}>
                     {context === 'header' && (
                         <select
                             className="search__categories"
@@ -203,17 +211,19 @@ return(
                         onChange={handleChangeQuery}
                         onFocus={handleFocus}
                         onKeyDown={handleKeyDown}
+                        onSubmit={handleOnSubmit}
                         value={query}
                         className="search__input"
-                        name="search"
+                        name="searchhhhhhhh"
                         placeholder="Search over 10,000 products"
                         aria-label="Site search"
                         type="text"
                         autoComplete="off"
                     />
-                    <button className="search__button search__button--type--submit" type="submit">
+                    <Link className="search__button search__button--type--submit" to={ url.search(query,category)} > <Search20Svg /> </Link>
+                    {/* <button className="search__button search__button--type--submit" type="button">
                         <Search20Svg />
-                    </button>
+                    </button> */}
                     {closeButton}
                     <div className="search__border" />
                 </form>

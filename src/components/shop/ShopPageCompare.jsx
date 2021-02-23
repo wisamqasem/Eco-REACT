@@ -14,88 +14,105 @@ import PageHeader from '../shared/PageHeader';
 import Rating from '../shared/Rating';
 import { cartAddItem } from '../../store/cart';
 import { compareRemoveItem } from '../../store/compare';
+import { Redirect } from 'react-router-dom'
 import { url } from '../../services/utils';
+
 
 // data stubs
 import theme from '../../data/theme';
 
 function ShopPageCompare(props) {
-    const { products, compareRemoveItem, cartAddItem } = props;
+    const {  products,compareRemoveItem, cartAddItem,auth } = props;
+    if (!auth.uid) return <Redirect to='/' />
+    console.log("🚀 ~ file: ShopPageCompare.jsx ~ line 27 ~ ShopPageCompare ~ products", products)
+
+
+
+  //  const products = [{attributes:[],images:[],slug:{stringValue:'product7'},name:'product7'},{attributes:[],images:[],slug:{stringValue:'product8'},name:'product8'},{attributes:[],images:[],slug:{stringValue:'product9'},name:'product9'}]
     const breadcrumb = [
         { title: 'Home', url: '' },
         { title: 'Comparison', url: '' },
     ];
+
 
     let content;
 
     if (products.length) {
         const attributes = [];
 
-        products.forEach((product) => product.attributes.forEach((productAttribute) => {
-            let attribute = attributes.find((x) => x.name === productAttribute.name);
+        // products.forEach((product) =>
+        //  product.attributes.forEach((productAttribute) => {
+        //     let attribute = attributes.find((x) => x.name === productAttribute.name);
 
-            if (!attribute) {
-                attribute = {
-                    name: productAttribute.name,
-                    values: {},
-                };
-                attributes.push(attribute);
-            }
+        //     if (!attribute) {
+        //         attribute = {
+        //             name: productAttribute.name,
+        //             values: {},
+        //         };
+        //         attributes.push(attribute);
+        //     }
 
-            attribute.values[product.id] = productAttribute.values.map((x) => x.name).join(', ');
-        }));
+        //     attribute.values[product.id] = productAttribute.values.map((x) => x.name).join(', ');
+        // }));
 
-        const productInfoRow = products.map((product) => {
+        const productInfoRow = products.map((product,index) => {
             let image;
 
-            if (product.images.length > 0) {
+
                 image = (
                     <div className="compare-table__product-image product-image">
                         <div className="product-image__body">
-                            <img className="product-image__img" src={product.images[0]} alt="" />
+                            <img className="product-image__img" src={product.mapValue.fields.images.stringValue} alt="" />
                         </div>
                     </div>
                 );
-            }
+
 
             return (
-                <td key={ product.createTime}>
-                    <Link to={url.product(product)} className="compare-table__product-link">
+                <td key={index}>
+                    <Link to={url.product(product.mapValue.fields)} className="compare-table__product-link">
                         {image}
-                        <div className="compare-table__product-name">{product.name}</div>
+                        <div className="compare-table__product-name">{product.mapValue.fields.name.stringValue}</div>
                     </Link>
                 </td>
             );
         });
 
-        const ratingRow = products.map((product) => (
-            <td key={ product.createTime}>
+        const ratingRow = products.map((product,index) => (
+            <td key={ index}>
                 <div className="compare-table__product-rating">
-                    <Rating value={product.rating} />
+                    <Rating value={parseInt(product.mapValue.fields.rating.stringValue)} />
                 </div>
                 <div className=" compare-table__product-rating-legend">
-                    {`${product.reviews} Reviews`}
+                    {`${product.mapValue.fields.reviews.stringValue} Reviews`}
                 </div>
             </td>
         ));
 
-        const availabilityRow = products.map((product) => {
+        const availabilityRow = products.map((product,index) => {
             let badge;
 
-            if (product.availability === 'in-stock') {
+            if (product.mapValue.fields.availability.stringValue === 'In stock') {
                 badge = <span className="compare-table__product-badge badge badge-success">In Stock</span>;
             }
+           else if (product.mapValue.fields.availability.stringValue === 'Sold out') {
+                badge = <span className="compare-table__product-badge badge text-danger">Sold out</span>;
+            }
+           else if (product.mapValue.fields.availability.stringValue === 'Out of order') {
+                badge = <span className="compare-table__product-badge badge text-danger">Out of order</span>;
+            }
 
-            return <td key={ product.createTime}>{badge}</td>;
+
+            return <td key={index}>{badge}</td>;
         });
 
-        const priceRow = products.map((product) => (
-            <td key={ product.createTime}>
-                <Currency value={product.price} />
+        const priceRow = products.map((product,index) => (
+            <td key={ index}>
+                <Currency value={parseInt(product.mapValue.fields.price.stringValue)} />
             </td>
         ));
 
-        const addToCartRow = products.map((product) => {
+        const addToCartRow = products.map((product,index) => {
             const renderButton = ({ run, loading }) => {
                 const classes = classNames('btn btn-primary', {
                     'btn-loading': loading,
@@ -105,29 +122,29 @@ function ShopPageCompare(props) {
             };
 
             return (
-                <td key={ product.createTime}>
+                <td key={ index}>
                     <AsyncAction
-                        action={() => cartAddItem(product)}
+                        action={() => cartAddItem(product.mapValue.fields)}
                         render={renderButton}
                     />
                 </td>
             );
         });
 
-        const attributeRows = attributes.map((feature, index) => {
-            const rows = products.map((product) => (
-                <td key={ product.createTime}>{feature.values[product.id]}</td>
-            ));
+        // const attributeRows = attributes.map((feature, index) => {
+        //     const rows = products.map((product,index1) => (
+        //         <td key={ index1}>{feature.values[product.id]}</td>
+        //     ));
 
-            return (
-                <tr key={index}>
-                    <th>{feature.name}</th>
-                    {rows}
-                </tr>
-            );
-        });
+        //     return (
+        //         <tr key={index}>
+        //             <th>{feature.name}</th>
+        //             {rows}
+        //         </tr>
+        //     );
+        // });
 
-        const removeRow = products.map((product) => {
+        const removeRow = products.map((product,index) => {
             const renderButton = ({ run, loading }) => {
                 const classes = classNames('btn btn-secondary btn-sm', {
                     'btn-loading': loading,
@@ -137,9 +154,9 @@ function ShopPageCompare(props) {
             };
 
             return (
-                <td key={ product.createTime}>
+                <td key={ index}>
                     <AsyncAction
-                        action={() => compareRemoveItem(product.id)}
+                        action={() => compareRemoveItem(product.mapValue.fields,auth.uid)}
                         render={renderButton}
                     />
                 </td>
@@ -172,7 +189,7 @@ function ShopPageCompare(props) {
                                     <th>Add To Cart</th>
                                     {addToCartRow}
                                 </tr>
-                                {attributeRows}
+                                {/* {attributeRows} */}
                                 <tr>
                                     <th aria-label="Remove" />
                                     {removeRow}
@@ -212,7 +229,9 @@ function ShopPageCompare(props) {
 }
 
 const mapStateToProps = (state) => ({
-    products: state.compare,
+    products: state.compare.compareListProducts,
+    auth : state.firebase.auth
+
 });
 
 const mapDispatchToProps = {
