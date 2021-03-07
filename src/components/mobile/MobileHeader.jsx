@@ -48,6 +48,7 @@ class MobileHeader extends Component {
 
     render() {
         const { openMobileMenu, wishlist, cart ,products} = this.props;
+
         const { searchOpen } = this.state;
         const searchClasses = classNames('mobile-header__search', {
             'mobile-header__search--open': searchOpen,
@@ -78,13 +79,13 @@ class MobileHeader extends Component {
                                     // className="indicator--mobile d-sm-flex d-none"
                                     className="indicator--mobile"
                                     url="/shop/wishlist"
-                                    value={wishlist.length}
+                                    value={wishlist ? wishlist.length : 0}
                                     icon={<Heart20Svg />}
                                 />
                                 <Indicator
                                     className="indicator--mobile"
                                     url="/shop/compare"
-                                    value={products.length}
+                                    value={products ? products.length: 0}
                                     icon={<Compare16Svg />}
                                 />
                                 <Indicator

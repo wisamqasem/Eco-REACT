@@ -13,12 +13,13 @@ import { quickviewClose } from '../../store/quickview';
 function Quickview(props) {
     const {   product, open, quickviewClose } = props;
 
-
+    var newProduct=[];
+if(product)newProduct = (product.fields ? product.fields :  product.data[0].document.fields);
 
 
     let productView;
 
-    var newProduct = (product.fields ? product.fields :  product.data[0].document.fields);
+
    // console.log("🚀 ~ file: Quickview.jsx ~ line 15 ~ Quickview ~ product", props.product)
     if (product !== null) {
        // const  product =  (props.product.fields ? props.product.fields : props.product.document.fields ) ;

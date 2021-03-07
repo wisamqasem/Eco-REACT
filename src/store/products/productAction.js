@@ -29,20 +29,11 @@ var count=0;
 
       const promise1 = new Promise((resolve, reject) => {
         const uploadimages =   (imagesNum)=>{ product.images.map(image=>{
-            // storageRef
-            // .child("images/" + product.file.name)
-            // .put(product.file, metadata);
-
             //image.name
             const uploadTask=   storageRef
              .child("images/" + uniqid() )
              .put(image, metadata);
-
-             console.log("done")
-
-
      dispatch({ type: UPLOADING_START });
-
              uploadTask.on(
                 "state_changed",
         function(){ dispatch({ type: UPLOADING });},
@@ -52,32 +43,19 @@ var count=0;
                 },
                 function() {
                   // Handle successful uploads on complete
-
                   uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-                    console.log("WE R IN PRO",downloadURL);
 count++;
                     imagesUrl.push(downloadURL);
-                    console.log("images url links : ",imagesUrl);
 if(imagesNum==count){ resolve(imagesUrl);}
-
                     dispatch({ type: UPLOADING_SUCCESS });
-
-
                 }
               )
             }
               )
-
-
           }
-
           )
-
         }
-
     uploadimages(product.images.length);
-
-
       });
 
 
@@ -98,7 +76,7 @@ if(imagesNum==count){ resolve(imagesUrl);}
         rating:'0',
         peopleRated : '0',
         reviews:[],
-        slug:product.name,
+        slug:product.name+uniqid(),
         categories:product.categories,
         subCategory:product.subCategory,
         colors:product.colors,

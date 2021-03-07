@@ -28,8 +28,8 @@ class CreateProduct extends Component {
   //  image: null,
   availability: 'In stock',
   badges: '....',
-  brand:'',
-  categories: '....',
+  brand:null,
+  categories:null,
   subCategory:null,
   colors:[],
   compareAtPrice: '0',
@@ -49,6 +49,7 @@ class CreateProduct extends Component {
   errPrice:false,
   errBrand:false,
   categoryBtn:'primary',
+  brandBtn:'primary',
   imageBtn:'primary',
 
   }
@@ -69,13 +70,11 @@ class CreateProduct extends Component {
     //check if the file is exists
     console.log("🚀 ~ file: createProduct.js ~ line 72 ~ CreateProduct ~ this.state.file", this.state.file)
     if (!this.state.file) this.setState( {errImage: true,imageBtn:'danger' });else this.setState( {errImage: false,imageBtn:'primary' });
-
     if(description=='')this.setState( {errdescription: true });else this.setState( {errdescription: false });
     if(name==='')this.setState( {errName: true });else this.setState( {errName: false });
     if(price==='')this.setState( {errPrice: true });else this.setState( {errPrice: false });
-    if(brand==='')this.setState( {errBrand: true });else this.setState( {errBrand: false });
+    if(brand===null)this.setState( {brandBtn: 'danger'  });else this.setState( {brandBtn: 'primary'  });
     if(subCategory===null)this.setState({categoryBtn: 'danger' });else this.setState({categoryBtn: 'primary' });
-
     if(description=='' || name=='' || price=='' || brand=='' ||subCategory==null || this.state.file === null){return;}
     //check if the image size is larger than 1MB
     // if (this.state.file.size > 1048576) {
@@ -100,10 +99,6 @@ class CreateProduct extends Component {
       this.state.price === null
 
     ) {
-
-
-
-
 this.props.createProduct(this.state);
 this.props.history.push('/')
      // this.props.uploadImage(this.state.file);
@@ -118,11 +113,8 @@ this.props.history.push('/')
     event.preventDefault();
     this.state.images.push(event.target.files[0])
 console.log("images : ",this.state.images);
-
     this.setState({ file: event.target.files[0] });
-
     let imageFile = event.target.files[0];
-
     if (imageFile) {
       const localImageUrl = URL.createObjectURL(imageFile);
       const imageObject = new window.Image();
@@ -138,19 +130,7 @@ const imageUploadedIcon = ( <div  className={`alert alert-success `}
 <path fillRule="evenodd" d="M15.354 2.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L8 9.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
 <path fillRule="evenodd" d="M8 2.5A5.5 5.5 0 1 0 13.5 8a.5.5 0 0 1 1 0 6.5 6.5 0 1 1-3.25-5.63.5.5 0 1 1-.5.865A5.472 5.472 0 0 0 8 2.5z"/>
 </svg></div>);
-
 this.state.imagesUploaded.push(imageUploadedIcon);
-
-
-
-
-
-
-
-
-
-
-
 
   };
 
@@ -182,13 +162,14 @@ this.state.imagesUploaded.push(imageUploadedIcon);
   }
   handleCategoryClick=(subCategoryName,categoryName)=>{
     this.setState({categories: categoryName,subCategory:subCategoryName})
-
-   // console.log('subcategories : ',categoryName)
-
+  }
+  handleBrandClick=(brandName)=>{
+    this.setState({brand: brandName})
   }
   handleColorChange=(e)=>{
       var {colors} =this.state;
       if(e.target.checked){
+
       //console.log("color : ",e.target.value);
       //console.log("color arr : ",colors);
       //colors=colors.push(e.target.value)
@@ -214,7 +195,8 @@ else {colors = colors.filter(x=>x!=e.target.value);  this.setState({colors:[...c
 
 
     const {auth,categories} = this.props
-    const {errdescription,errPrice,errName,errImage,subCategory} = this.state;
+    console.log("🚀 ~ file: createProduct.js ~ line 218 ~ CreateProduct ~ render ~ categories", categories)
+    const {errdescription,errPrice,errName,errImage,subCategory,brand,brandBtn} = this.state;
     var subCategoryPath,categoryPath ='';
     const colors = [
         { slug: 'white', color: '#fff' },
@@ -334,10 +316,10 @@ else {colors = colors.filter(x=>x!=e.target.value);  this.setState({colors:[...c
 </div>
 
 
-<div className="form-group">
+{/* <div className="form-group">
         <label htmlFor="input-default">Brand</label>
         <input  type="text" className={"form-control "+(this.state.errBrand ? 'is-invalid': '')} placeholder="Placeholder" id='brand' onChange={this.handleChange}/>
-</div>
+</div> */}
 <div className="form-group">
         <label htmlFor="input-default">CompareAtPrice</label>
         <input  type="text" className="form-control" placeholder="Placeholder" id='compareAtPrice' onChange={this.handleChange}/>
@@ -379,9 +361,21 @@ category.fields.subCategories.arrayValue.values.map((x,index)=>{
 } </SubMenu>)
          })}
 </Menu>
+
+    {/* console.log('subcategories : ',this.props.categories.filter(x=>x.fields.name==this.state.categories))} */}
 <label >{subCategory ? this.state.categories+'>'+subCategory:''}</label>
 </div>
 
+{this.state.categories &&
+    <div className="form-group">
+<Menu  menuButton={<button type="button" className={"btn btn-"+brandBtn+"  btn-lg"}   >Brand</button>} >
+{categories.find(x=>x.fields.name.stringValue==this.state.categories).fields.brands.arrayValue.values.map((brand,index)=>{
+    return ( <MenuItem onClick={e=>{this.handleBrandClick(brand.stringValue)}}  key={index}>{brand.stringValue}</MenuItem>)
+         })}
+</Menu>
+<label >{brand ? brand:''}</label>
+</div>
+}
 
 
      <div className="form-group">
@@ -391,26 +385,19 @@ category.fields.subCategories.arrayValue.values.map((x,index)=>{
          <img id="myImg" src="#" alt="your image" height='200' width='100'></img> */}
          <div >
               <div className="form-group">
-
                                  <div className="form-group" >
-<div className={"row-reverse "}>
+                                 <div className={"row-reverse "}>
                                  {this.state.imagesUploaded.map((icon,i)=>{return <div  key={i}>{icon}</div>})}</div>
                               <button type="button" id="selctImageBtn" className={'btn btn-'+this.state.imageBtn+' btn-lg'}  onClick={() =>{
                                   this.fileInputRef.current.click();this.changeText("add more images")}
                                 }>{this.state.selectImageBtn}</button></div>
                                 {' '} <button type="submit" className={"btn btn-primary  btn-lg"}  onClick={this.onFormSubmit} >Upload</button>
-
-
-
                               <input
                                 type="file"
                                 ref={this.fileInputRef}
                                 onChange={event => this.fileChange(event)}
                                 hidden
                               />
-
-
-
                </div>
 </div>
 
@@ -458,7 +445,7 @@ const mapStateToProps = (state) => {
     return{
       authError: state.auth.authError,
       auth: state.firebase.auth,
-      categories:state.categories.categories
+      categories:state.categories.categories,
     }
   }
 

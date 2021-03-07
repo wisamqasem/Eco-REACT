@@ -28,12 +28,26 @@ function findItemIndex(items, product, options) {
 }
 
 function cartData(state,Products) {
-    if(!Products.data.fields.products.arrayValue.values)return{
-          ...state,
-        cartProducts:[],
-        quantity:0,
-        subtotal:0,
-        total:0}
+    try {
+
+        if(!Products.data.fields.products.arrayValue.values)return{
+            ...state,
+          cartProducts:[],
+          quantity:0,
+          subtotal:0,
+          total:0}
+
+      } catch (err) {
+
+        return{
+            ...state,
+          cartProducts:[],
+          quantity:0,
+          subtotal:0,
+          total:0}
+
+      }
+
     const cartProducts = Products.data.fields.products.arrayValue.values;
     var subtotal=0,extraLines=0;
 cartProducts.map((p)=>{p.total=parseInt(p.mapValue.fields.price.stringValue);subtotal+=parseInt(p.mapValue.fields.price.stringValue)})

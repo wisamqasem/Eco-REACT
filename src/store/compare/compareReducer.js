@@ -3,15 +3,26 @@ import { COMPARE_ADD_ITEM, COMPARE_REMOVE_ITEM,COMPARE_GET_ITEMS } from './compa
 
 function comapreListData(state,Products) {
 console.log("🚀 ~ file: compareReducer.js ~ line 5 ~ comapreListData ~ Products", Products)
+try {
 
     if(!Products.data.fields.products.arrayValue.values)return{
-          ...state,
-        compareListProducts:[],
-    }
-     return{
         ...state,
-        compareListProducts:Products.data.fields.products.arrayValue.values,
-    }
+      compareListProducts:[],
+  }
+   return{
+      ...state,
+      compareListProducts:Products.data.fields.products.arrayValue.values,
+  }
+
+  } catch (err) {
+  console.log("🚀 ~ file: compareReducer.js ~ line 18 ~ comapreListData ~ err", err)
+  return{
+    ...state,
+    compareListProducts:[],
+}
+
+  }
+
 }
 
 

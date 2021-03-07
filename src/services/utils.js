@@ -7,6 +7,8 @@ export const url = {
 
     subCategory: (subCategory,category) => `/shop/catalog/${category}?filter_category=${subCategory}`,
 
+    brand: (subCategory,category,brand) => `/shop/catalog/${category}?filter_category=${subCategory}&filter_check=${brand}`,
+
     product: (product) => `/shop/products/${product.slug['stringValue']}`,
 
     search : (searchQuery,category)=>searchQuery==''?'':`/search/${searchQuery}/${category}`

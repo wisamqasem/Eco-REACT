@@ -31,8 +31,42 @@ class AccountPageLogin extends Component {
         register_confirm:'',
         register_email:'',
         register_password:'',
-        authError : null
+        register_name : '',
+        authError : null,
+        imageUploaded : null,
+        imageBtn : 'primary',
+        errImage:false,
+        errRegister_confirm:false,
+        errRegister_email:false,
+        errRegister_password:false,
+        errRegister_name : false,
+        error:false,
       }
+
+      fileInputRef = React.createRef();
+      fileChange = event => {
+        event.preventDefault();
+
+        this.setState({ file: event.target.files[0] });
+        let imageFile = event.target.files[0];
+        if (imageFile) {
+          const localImageUrl = URL.createObjectURL(imageFile);
+          const imageObject = new window.Image();
+          imageObject.onload = () => {
+            imageFile.width = imageObject.naturalWidth;
+            imageFile.height = imageObject.naturalHeight;
+            URL.revokeObjectURL(imageFile);
+          };
+          imageObject.src = localImageUrl;
+        }
+    const imageUploadedIcon = ( <div  className={`alert alert-success `}
+    ><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="green" className="bi bi-check2-circle green-text" viewBox="0 0 16 16">
+    <path fillRule="evenodd" d="M15.354 2.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L8 9.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+    <path fillRule="evenodd" d="M8 2.5A5.5 5.5 0 1 0 13.5 8a.5.5 0 0 1 1 0 6.5 6.5 0 1 1-3.25-5.63.5.5 0 1 1-.5.865A5.472 5.472 0 0 0 8 2.5z"/>
+    </svg></div>);
+    this.setState({imageUploaded : imageUploadedIcon});
+
+      };
       handleChange = (e) => {
         this.setState({
           [e.target.id]: e.target.value
@@ -44,6 +78,14 @@ class AccountPageLogin extends Component {
       }
       handleSubmitRegister = (e) => {
         e.preventDefault();
+        const {register_email,register_password,register_confirm,register_name,error}=this.state
+        if(register_confirm !== register_password){this.setState({authError : 'the passwords are not match !'}) ; return;}
+        if (!this.state.file) this.setState( {errImage: true,imageBtn:'danger' });else this.setState( {errImage: false,imageBtn:'primary' });
+        if(register_email=='')this.setState( {errRegister_email: true,error:true });else this.setState( {errRegister_email: false });
+        if(register_password=='')this.setState( {errRegister_password: true,error:true });else this.setState( {errRegister_password: false });
+        if(register_confirm=='')this.setState( {errRegister_confirm: true,error:true });else this.setState( {errRegister_confirm: false });
+        if(register_name=='')this.setState( {errRegister_name: true,error:true });else this.setState( {errRegister_name: false });
+       if(error)return;
         this.props.signUp(this.state);
 
       }
@@ -120,22 +162,33 @@ class AccountPageLogin extends Component {
                                 <div className="card-body">
                                     <h3 className="card-title">Register</h3>
                                     <form>
+                                    <div className="form-group">
+                                            <label htmlFor="register-email">User name</label>
+                                            <input
+                                                id="register_name"
+                                                type="text"
+                                                className={"form-control "+(this.state.errRegister_name ? 'is-invalid': '')}
+                                                placeholder="Enter User name"
+                                                onChange={this.handleChange}
+                                            />
+                                        </div>
                                         <div className="form-group">
                                             <label htmlFor="register-email">Email address</label>
                                             <input
                                                 id="register_email"
                                                 type="email"
-                                                className="form-control"
+                                                className={"form-control "+(this.state.errRegister_email ? 'is-invalid': '')}
                                                 placeholder="Enter email"
                                                 onChange={this.handleChange}
                                             />
                                         </div>
+
                                         <div className="form_group">
                                             <label htmlFor="register-password">Password</label>
                                             <input
                                                 id="register_password"
                                                 type="password"
-                                                className="form-control"
+                                                className={"form-control "+(this.state.errRegister_password ? 'is-invalid': '')}
                                                 placeholder="Password"
                                                 onChange={this.handleChange}
                                             />
@@ -145,15 +198,34 @@ class AccountPageLogin extends Component {
                                             <input
                                                 id="register_confirm"
                                                 type="password"
-                                                className="form-control"
+                                                className={"form-control "+(this.state.errRegister_confirm ? 'is-invalid': '')}
                                                 placeholder="Password"
                                                 onChange={this.handleChange}
                                             />
                                         </div>
+                                        { this.state.authError  ? <div   className='alert alert-danger mb-3'>
+                                        <label >{this.state.authError}</label>
+                                        </div> : null}
+
+                           <div className="form-group">
+                           {' '} <button type="button" id="selctImageBtn" className={'btn btn-'+this.state.imageBtn+' btn-lg'}  onClick={() =>{
+                                  this.fileInputRef.current.click()}} >Select image</button>
+                              </div>
+                              {this.state.imageUploaded ? <div  >{this.state.imageUploaded}</div> : null}
+
+                              <input
+                                type="file"
+                                ref={this.fileInputRef}
+                                onChange={event => this.fileChange(event)}
+                                hidden
+                              />
+
+
+
                                         <button type="submit" className="btn btn-primary mt-2 mt-md-3 mt-lg-4" onClick={this.handleSubmitRegister}>
                                             Register
                                         </button>{" "}
-                                       { authError ? <div   className='alert alert-danger mb-3'>
+                                       { authError  ? <div   className='alert alert-danger mb-3'>
                                         <label >{authError}</label>
                                         </div> : null}
                                     </form>

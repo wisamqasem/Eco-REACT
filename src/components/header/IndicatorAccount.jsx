@@ -9,13 +9,14 @@ import Indicator from './Indicator';
 import { Person20Svg } from '../../svg';
 import { signIn } from '../../store/auth/authActions'
 import {signOut} from '../../store/auth/authActions'
+import firebase from '../../config/fbConfig'
 class IndicatorAccount extends Component {
 
 
     handleSubmitLogin = (e) => {
         e.preventDefault();
-        console.log("hi man 2")
         this.props.signIn(this.state)
+
       }
       handleChange = (e) => {
         this.setState({
@@ -73,11 +74,12 @@ state = {
         <div className="account-menu__divider" />
         <Link to="/account/dashboard" className="account-menu__user">
             <div className="account-menu__user-avatar">
-                <img src="images/avatars/avatar-3.jpg" alt="" />
+            {/* "images/avatars/avatar-3.jpg" */}
+                <img src={this.props.auth.photoURL ? this.props.auth.photoURL : "images/avatars/avatar-3.jpg" } alt="" />
             </div>
             <div className="account-menu__user-info">
-                <div className="account-menu__user-name">Helena Garcia</div>
-                <div className="account-menu__user-email">stroyka@example.com</div>
+                <div className="account-menu__user-name">{this.props.auth.displayName}</div>
+                <div className="account-menu__user-email">{this.props.auth.email}</div>
             </div>
         </Link>
         <div className="account-menu__divider" />
@@ -120,7 +122,8 @@ state = {
 
 const mapStateToProps = (state) => {
     return{
-      auth: state.firebase.auth
+      auth: state.firebase.auth ,
+      authError: state.auth.authError,
     }
   }
 

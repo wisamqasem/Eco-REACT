@@ -763,14 +763,17 @@ if(filter_category)items=categoryFilter(filter_category,items);
      *
      * @return {Promise<Array<object>>}
      */
-    getLatestProducts: (options = {}) => {
+    getLatestProducts: (options = {}) => {// NEW ARRIVALS
         return   axios.get('https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents/products/')
         .then(res => {
           console.log(res);
            return new Promise((resolve) => {
+
+
              setTimeout(() => {
-                 resolve(res.data.documents.slice(0,5));
+                 resolve(res.data.documents.sort((a,b) => (a.createTime < b.createTime) ? 1 : ((b.createTime < a.createTime) ? -1 : 0)).slice(0,options.limit));
              }, 500);
+          //   console.log("🚀 ~ file: shop.js ~ line 771 ~ res", res.data.documents)
          });
         })
 
@@ -799,15 +802,14 @@ if(filter_category)items=categoryFilter(filter_category,items);
      * @return {Promise<Array<object>>}
      */
     getTopRatedProducts: (options = {}) => {
-
         return   axios.get('https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents/products/')
         .then(res => {
-          console.log(res);
-
            return new Promise((resolve) => {
              setTimeout(() => {
-                 resolve(res.data.documents.slice(0, 5));
-             }, 500);
+                 resolve(res.data.documents.sort((a,b) => (a.fields.rating.stringValue < b.fields.rating.stringValue) ? 1 : ((b.fields.rating.stringValue < a.fields.rating.stringValue) ? -1 : 0)).slice(0, options.limit));
+               //  console.log("🚀 ~ file: shop.js ~ line 811 ~ res",res.data.documents)
+                }, 500);
+
          });
 
         })
@@ -845,12 +847,16 @@ if(filter_category)items=categoryFilter(filter_category,items);
     getDiscountedProducts: (options = {}) => {
         return   axios.get('https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents/products/')
         .then(res => {
-
-
            return new Promise((resolve) => {
+const getDiscountPercent=(price,orginalPrice)=>{
+ return (orginalPrice-price)/orginalPrice*100;
+}
+
+
              setTimeout(() => {
-                 resolve(res.data.documents.slice(0,5));
-             }, 500);
+                 resolve(res.data.documents.sort((a,b) => (getDiscountPercent(parseInt(a.fields.price.stringValue),parseInt(a.fields.compareAtPrice.stringValue)) < getDiscountPercent(parseInt(a.fields.price.stringValue),parseInt(a.fields.compareAtPrice.stringValue))) ? 1 : (getDiscountPercent(parseInt(b.fields.price.stringValue),parseInt(b.fields.compareAtPrice.stringValue)) < getDiscountPercent(parseInt(a.fields.price.stringValue),parseInt(a.fields.compareAtPrice.stringValue)) ? -1 : 0)).slice(0,options.limit));
+                 console.log("🚀 ~ file: shop.js ~ line 811 ~ res",res.data.documents)
+                }, 500);
          });
 
         })
@@ -965,10 +971,21 @@ if(category!='all')
         });
 
 
+},
+
+getBestSellers : ()=>{
+    return   axios.get('https://firestore.googleapis.com/v1/projects/eco-project-b064f/databases/(default)/documents/products/')
+    .then(()=>{
+
+
+
+        
+    })
+
+
+
+
 }
-
-
-
 
 };
 

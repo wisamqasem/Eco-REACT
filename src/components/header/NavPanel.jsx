@@ -84,8 +84,8 @@ if(auth.uid){
 
                     <div className="nav-panel__indicators">
                         {searchIndicator}
-{ auth.uid ?  <Indicator url="/shop/wishlist" value={wishlist.length} icon={<Heart20Svg />} /> : null}
-{ auth.uid ?  <Indicator url="/shop/compare" value={compare.length} icon={<Compare16Svg />} /> : null}
+{ auth.uid && wishlist ?  <Indicator url="/shop/wishlist" value={wishlist.length} icon={<Heart20Svg />} /> : null}
+{ auth.uid && compare?  <Indicator url="/shop/compare" value={compare.length} icon={<Compare16Svg />} /> : null}
 { auth.uid ?    <CartIndicator />: null}
 
                         <IndicatorAccount />

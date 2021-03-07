@@ -2,14 +2,26 @@ import { cartRemoveItem } from '../cart';
 import { WISHLIST_ADD_ITEM, WISHLIST_REMOVE_ITEM, GET_WISHLISTS_DATA } from './wishlistActionTypes';
 
 function wishListData(state,Products) {
-    if(!Products.data.fields.products.arrayValue.values)return{
+    try {
+
+        if(!Products.data.fields.products.arrayValue.values)return{
+            ...state,
+          wishListProducts:[],
+      }
+       return{
           ...state,
-        wishListProducts:[],
-    }
-     return{
-        ...state,
-        wishListProducts:Products.data.fields.products.arrayValue.values,
-    }
+          wishListProducts:Products.data.fields.products.arrayValue.values,
+      }
+
+      } catch (err) {
+
+        return{
+            ...state,
+            wishListProducts:[],
+        }
+
+      }
+
 }
 
 
@@ -20,8 +32,10 @@ function addItem(state, product) {
         console.log("wow man")
         const newItems= [
             ...state.wishListProducts,
-          {mapValue:{fields:{name:{strinValue:product.name.stringValue},price:{strinValue:product.price.stringValue},rating:{strinValue:product.rating.stringValue},badges:{strinValue:product.badges.stringValue},images:{strinValue:product.images.stringValue},slug:{strinValue:product.slug.stringValue}}}}
+          {mapValue:{fields:{name:{stringValue:product.name.stringValue},price:{stringValue:product.price.stringValue},rating:{stringValue:product.rating.stringValue},badges:{stringValue:product.badges.stringValue},images:{stringValue:product.images.arrayValue.values[0].stringValue},slug:{stringValue:product.slug.stringValue}}}}
         ];
+        console.log("🚀 ~ file: wishlistReducer.js ~ line 25 ~ addItem ~ newItems", product)
+
         return{...state,wishListProducts:newItems}
     }
 

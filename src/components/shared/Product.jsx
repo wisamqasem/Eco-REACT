@@ -167,7 +167,7 @@ class Product extends Component {
                             </li>
                             <li>
                                 Brand :
-                                <Link style={{ color: 'blue' }} to={url.subCategory(product.subCategory.stringValue,product.categories.stringValue)}>{product.brand.stringValue.toUpperCase()}</Link>
+                                <Link style={{ color: 'blue' }} to={url.brand(product.subCategory.stringValue,product.categories.stringValue,product.brand.stringValue)}>{product.brand.stringValue.toUpperCase()}</Link>
                             </li>
                             {/* <li>SKU: 83690/32</li> */}
                         </ul>
