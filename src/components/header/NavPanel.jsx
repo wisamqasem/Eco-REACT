@@ -79,7 +79,7 @@ if(auth.uid){
 
                     {/* make this comment , no need for the nav links ..................................*/}
                     <div className="nav-panel__nav-links nav-links">
-                        <NavLinks />
+                        {/* <NavLinks /> */}
                     </div>
 
                     <div className="nav-panel__indicators">
